@@ -1,18 +1,21 @@
 let cnv = document.getElementById('myCanvas');
+
 let ctx = cnv.getContext('2d');
 ctx.imageSmoothingEnabled = false;
-let all_sprites_event = [];
+let sprites = [];
 
 let xobj = new XMLHttpRequest();
 let new_sp = new Array(4);
 let posX = 0;
 let posY = 0;
 let reachPosX = 0;
-let animation = 0;
 xobj.onload = onload_atlas;
 xobj.overrideMimeType("application/json");
 xobj.open("GET", "./assets/atlas/ken.json", true);
 xobj.send();
+
+
+
 
 class SpriteAtlas {
     constructor(ctx, json) {
@@ -59,7 +62,55 @@ class SpriteAtlas {
         }
     }
 }
+
+
+class Character {
+    constructor(sprites) {
+        this.hp = 10000;
+        this.attacking = false;
+        this.sprites = sprites;
+        this.animation = 0;
+    }
+
+    init(){
+        for(let i = 0;i< this.sprites.length;i++){
+            this.sprites[i].to_draw = 0;
+        }
+    }
+
+    animeChara(event_code){
+        this.init();
+        for (let i = 0; i < this.sprites.length; i += 1) {
+            if (this.sprites[i].event_code == event_code) {
+                this.sprites[i].next_step();
+            }
+        }
+        this.animation = 0;
+    }
+
+    punch(){
+        this.animeChara("Punch");
+    }
+    walk_right(){
+        this.animeChara("WalkRight");
+    }
+    walk_left(){
+        this.animeChara("WalkLeft");
+    }
+    jump(){
+        this.animeChara("Jump");
+    }
+    down(){
+        this.animeChara("Down");
+    }
+}
+
+
+
+let player_1 = new Character(sprites);
+
 function onload_atlas() {
+    
     if (this.status == 200) {
         let json_infos = JSON.parse(this.responseText);
         let spritesheet = new Image();
@@ -75,89 +126,56 @@ function onload_atlas() {
             for(let i = 0;i < 6;i++){
                 new_sp[i] = new SpriteAtlas(context1, json_infos);
             }
-
             new_sp[0].add_anime("pose", 1, 10, "");
-            new_sp[1].add_anime("punch", 1,5, "KeyD");
-            new_sp[2].add_anime("walk-left", 1,11, "ArrowLeft");
-            new_sp[3].add_anime("walk-right", 1,11, "ArrowRight");
-            new_sp[4].add_anime("jump", 1,12, "ArrowUp");
-            new_sp[5].add_anime("down", 1,6, "ArrowDown");
+            new_sp[1].add_anime("punch", 1,5, "Punch");
+            new_sp[2].add_anime("walk-left", 1,11, "WalkLeft");
+            new_sp[3].add_anime("walk-right", 1,11, "WalkRight");
+            new_sp[4].add_anime("jump", 1,12, "Jump");
+            new_sp[5].add_anime("down", 1,6, "Down");
 
-            //let [pose,punch,walk_left,walk_right,jump,down] = all_sprites_event;
+            //let [pose,punch,walk_left,walk_right,jump,down] = player_1.sprites;
 
             //On push nos sprites dans un
             for(let i = 0;i < new_sp.length;i++){
-                all_sprites_event.push(new_sp[i]);
+                player_1.sprites.push(new_sp[i]);
             }
 
+
             //Les sprites changeront de positions
-            all_sprites_event[2].to_goX = - 2;
-            all_sprites_event[3].to_goX = + 2;
-            all_sprites_event[4].to_goY = - 10;
+            player_1.sprites[2].to_goX = - 10;
+            player_1.sprites[3].to_goX = + 10;
+            player_1.sprites[4].to_goY = - 10;
+            
 
         }
     }
 }
 window.addEventListener('keydown', keydown_fun, false);
 
-function init(){
-    for(let i = 0;i< all_sprites_event.length;i++){
-        all_sprites_event[i].to_draw = 0;
-    }
-}
+
 
 function keydown_fun(e) {
     switch (e.code) {
         case "KeyD":
-            init();
-            for (let i = 0; i < all_sprites_event.length; i += 1) {
-                if (all_sprites_event[i].event_code == "KeyD") {
-                    all_sprites_event[i].next_step();
-                }
-            }
-            animation = 0;
+            player_1.punch();
             break;
 
-        case "ArrowLeft":
-            init();
-            for (let i = 0; i < all_sprites_event.length; i += 1) {
-                if (all_sprites_event[i].event_code == "ArrowLeft") {
-                    all_sprites_event[i].next_step();
-                }
-            }
-            animation = 0;
+       case "ArrowLeft":
+            player_1.walk_left();
             break;
         
         case "ArrowRight":
-            init();
-            for (let i = 0; i < all_sprites_event.length; i += 1) {
-                if (all_sprites_event[i].event_code == "ArrowRight") {
-                    all_sprites_event[i].next_step();
-                }
-            }
-
-            animation = 0;
+            player_1.walk_right();
             break;
 
-    case "ArrowUp":
-            init();
-            for (let i = 0; i < all_sprites_event.length; i += 1) {
-                if (all_sprites_event[i].event_code == "ArrowUp") {
-                    all_sprites_event[i].next_step();
-                }
-            }
-            animation = 0;
+        case "ArrowUp":
+            player_1.jump();
             break;
     
-    case "ArrowDown":
-            init();
-            for (let i = 0; i < all_sprites_event.length; i += 1) {
-                if (all_sprites_event[i].event_code == "ArrowDown") {
-                    all_sprites_event[i].next_step();
-                }
-            }
-            animation = 0;
+        case "ArrowDown":
+            player_1.down();
             break;
+            
     }
 }
 
@@ -165,9 +183,9 @@ function keydown_fun(e) {
 
 function kenPose(){
     let zoom = 2;
-    let step_i = all_sprites_event[0].animestep;
-    let cnv_i = all_sprites_event[0].animeseq[step_i];
-    ctx.clearRect(0, 0, 640,860);
+    let step_i = player_1.sprites[0].animestep;
+    let cnv_i = player_1.sprites[0].animeseq[step_i];
+    ctx.clearRect(0, 0, cnv.width,cnv.height);
     ctx.beginPath();
     ctx.strokeFill = "#FF0000";
     //- 30 sur la taille pour la hitbox
@@ -175,8 +193,8 @@ function kenPose(){
     ctx.stroke();
     ctx.closePath();
     ctx.drawImage(cnv_i,-40 + posX, 150 + posY, cnv_i.width * zoom, cnv_i.height * zoom);
-    all_sprites_event[0].to_draw = 0;
-    all_sprites_event[0].next_step();
+    player_1.sprites[0].to_draw = 0;
+    player_1.sprites[0].next_step();
 
 }
 
@@ -186,15 +204,15 @@ function kenPose(){
 // FAIRE EN SORTE QUE LA HITBOX AIT LES MEME COORDONNER QUE LE PERSO
 function update() {
     let zoom = 2;
-    for (let i = 0; i < all_sprites_event.length; i += 1) {
-        if (all_sprites_event[0].to_draw == 1) {
+    for (let i = 0; i < player_1.sprites.length; i += 1) {
+        if (player_1.sprites[0].to_draw == 1) {
             kenPose();
         }
-        else if (all_sprites_event[i].to_draw == 1){
+        else if (player_1.sprites[i].to_draw == 1){
             
             //On recupere les sprites
-            let step_i = all_sprites_event[i].animestep;
-            let cnv_i = all_sprites_event[i].animeseq[step_i];
+            let step_i = player_1.sprites[i].animestep;
+            let cnv_i = player_1.sprites[i].animeseq[step_i];
 
             //On définit la taille et les coordonnée de la hitbox
             let sizeHitBox = [152,100];
@@ -210,32 +228,32 @@ function update() {
             let coord = [posX + coordHitBoxX,posY + coordHitBoxY];
             let [coordX,coordY] = coord;
 
-            let number_of_sprite = all_sprites_event[i].animeseq.length;
-            if(animation == number_of_sprite - 1){
-                all_sprites_event[i].to_draw = 0;
-                all_sprites_event[0].to_draw = 1;
+            let number_of_sprite = player_1.sprites[i].animeseq.length;
+            if(player_1.animation == number_of_sprite - 1){
+                player_1.sprites[i].to_draw = 0;
+                player_1.sprites[0].to_draw = 1;
                 break;
             }
             
 
-            ctx.clearRect(0, 0, 640,860);
+            ctx.clearRect(0, 0, cnv.width,cnv.height);
             ctx.beginPath();
             ctx.strokeFill = "#FF0000";
             //- 30 sur la taille pour la hitbox
             ctx.strokeRect( coordX, coordY, sizeX, sizeY);
             ctx.stroke();
             ctx.closePath();
-            posX  += all_sprites_event[i].to_goX;
-            //posY  += all_sprites_event[i].to_goY;
+            posX  += player_1.sprites[i].to_goX;
+            //posY  += player_1.sprites[i].to_goY;
             ctx.drawImage(cnv_i,-40+ posX,150 + posY, cnv_i.width * zoom, cnv_i.height * zoom);
-            all_sprites_event[i].to_draw = 0;
+            player_1.sprites[i].to_draw = 0;
            
             //Tant que animation ne sera pas égale au nombre de sprite
             //On va jouer toutes les sprites du tableau
-            if(animation < number_of_sprite){
-                all_sprites_event[i].next_step();
+            if(player_1.animation < number_of_sprite){
+                player_1.sprites[i].next_step();
             }
-            animation++;
+            player_1.animation++;
         }
     
     }
