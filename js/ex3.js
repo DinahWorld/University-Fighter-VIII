@@ -76,12 +76,12 @@ function onload_atlas() {
                 new_sp[i] = new SpriteAtlas(context1, json_infos);
             }
 
-            new_sp[0].add_anime("ken-pose", 1, 10, "");
-            new_sp[1].add_anime("ken-punch", 1,5, "KeyD");
-            new_sp[2].add_anime("ken-walk-left", 1,11, "ArrowLeft");
-            new_sp[3].add_anime("ken-walk-right", 1,11, "ArrowRight");
-            new_sp[4].add_anime("ken-jump", 1,12, "ArrowUp");
-            new_sp[5].add_anime("ken-down", 1,6, "ArrowDown");
+            new_sp[0].add_anime("pose", 1, 10, "");
+            new_sp[1].add_anime("punch", 1,5, "KeyD");
+            new_sp[2].add_anime("walk-left", 1,11, "ArrowLeft");
+            new_sp[3].add_anime("walk-right", 1,11, "ArrowRight");
+            new_sp[4].add_anime("jump", 1,12, "ArrowUp");
+            new_sp[5].add_anime("down", 1,6, "ArrowDown");
 
             //let [pose,punch,walk_left,walk_right,jump,down] = all_sprites_event;
 
