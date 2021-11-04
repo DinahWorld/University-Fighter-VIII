@@ -75,6 +75,7 @@ function onload_atlas() {
             for(let i = 0;i < 6;i++){
                 new_sp[i] = new SpriteAtlas(context1, json_infos);
             }
+
             new_sp[0].add_anime("ken-pose", 1, 10, "");
             new_sp[1].add_anime("ken-punch", 1,5, "KeyD");
             new_sp[2].add_anime("ken-walk-left", 1,11, "ArrowLeft");
@@ -82,16 +83,14 @@ function onload_atlas() {
             new_sp[4].add_anime("ken-jump", 1,12, "ArrowUp");
             new_sp[5].add_anime("ken-down", 1,6, "ArrowDown");
 
+            //let [pose,punch,walk_left,walk_right,jump,down] = all_sprites_event;
+
             //On push nos sprites dans un
-            all_sprites_event.push(new_sp[0]);
-            all_sprites_event.push(new_sp[1]);
-            all_sprites_event.push(new_sp[2]);
-            all_sprites_event.push(new_sp[3]);
-            all_sprites_event.push(new_sp[4]);
-            all_sprites_event.push(new_sp[5]);
+            for(let i = 0;i < new_sp.length;i++){
+                all_sprites_event.push(new_sp[i]);
+            }
 
             //Les sprites changeront de positions
-            all_sprites_event[1].to_goX = 0;
             all_sprites_event[2].to_goX = - 2;
             all_sprites_event[3].to_goX = + 2;
             all_sprites_event[4].to_goY = - 10;
@@ -102,11 +101,9 @@ function onload_atlas() {
 window.addEventListener('keydown', keydown_fun, false);
 
 function init(){
-    all_sprites_event[0].to_draw = 0;
-    all_sprites_event[2].to_draw = 0;
-    all_sprites_event[3].to_draw = 0;
-    all_sprites_event[4].to_draw = 0;
-    all_sprites_event[5].to_draw = 0;
+    for(let i = 0;i< all_sprites_event.length;i++){
+        all_sprites_event[i].to_draw = 0;
+    }
 }
 
 function keydown_fun(e) {
@@ -199,17 +196,19 @@ function update() {
             let step_i = all_sprites_event[i].animestep;
             let cnv_i = all_sprites_event[i].animeseq[step_i];
 
-            //On définit la taille de la hitbox
+            //On définit la taille et les coordonnée de la hitbox
             let sizeHitBox = [152,100];
-            let coordHitBox = [90,230];
             let [sizeHitBoxX,sizeHitBoxY] = sizeHitBox;
+
+            let coordHitBox = [90,230];
             let [coordHitBoxX,coordHitBoxY] = coordHitBox;
             
-            //On définit
-            let sizeX = (cnv_i.width - sizeHitBoxX) * zoom;
-            let sizeY = (cnv_i.height - sizeHitBoxY) * zoom
-            let coordX = posX + coordHitBoxX;
-            let coordY = posY + coordHitBoxY;
+            //On définit les coordonnée de la hitbox en fonction du sprite
+            let size = [(cnv_i.width - sizeHitBoxX) * zoom,(cnv_i.height - sizeHitBoxY) * zoom];
+            let [sizeX,sizeY] = size;
+            
+            let coord = [posX + coordHitBoxX,posY + coordHitBoxY];
+            let [coordX,coordY] = coord;
 
             let number_of_sprite = all_sprites_event[i].animeseq.length;
             if(animation == number_of_sprite - 1){
