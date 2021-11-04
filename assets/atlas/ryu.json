@@ -1,0 +1,755 @@
+{
+	"frames": {
+		"ryu-fight.001": {
+			"frame": {
+				"x": 1,
+				"y": 1,
+				"w": 78,
+				"h": 106
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 78,
+				"h": 106
+			},
+			"sourceSize": {
+				"w": 78,
+				"h": 106
+			}
+		},
+		"ryu-fight.002": {
+			"frame": {
+				"x": 81,
+				"y": 1,
+				"w": 78,
+				"h": 107
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 78,
+				"h": 107
+			},
+			"sourceSize": {
+				"w": 78,
+				"h": 107
+			}
+		},
+		"ryu-fight.003": {
+			"frame": {
+				"x": 161,
+				"y": 1,
+				"w": 121,
+				"h": 107
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 121,
+				"h": 107
+			},
+			"sourceSize": {
+				"w": 121,
+				"h": 107
+			}
+		},
+		"ryu-fight.004": {
+			"frame": {
+				"x": 284,
+				"y": 1,
+				"w": 114,
+				"h": 107
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 114,
+				"h": 107
+			},
+			"sourceSize": {
+				"w": 114,
+				"h": 107
+			}
+		},
+		"ryu-fight.005": {
+			"frame": {
+				"x": 400,
+				"y": 1,
+				"w": 93,
+				"h": 107
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 93,
+				"h": 107
+			},
+			"sourceSize": {
+				"w": 93,
+				"h": 107
+			}
+		},
+		"ryu-pose.001": {
+			"frame": {
+				"x": 495,
+				"y": 1,
+				"w": 78,
+				"h": 109
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 78,
+				"h": 109
+			},
+			"sourceSize": {
+				"w": 78,
+				"h": 109
+			}
+		},
+		"ryu-pose.002": {
+			"frame": {
+				"x": 1,
+				"y": 112,
+				"w": 78,
+				"h": 105
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 78,
+				"h": 105
+			},
+			"sourceSize": {
+				"w": 78,
+				"h": 105
+			}
+		},
+		"ryu-pose.003": {
+			"frame": {
+				"x": 81,
+				"y": 112,
+				"w": 78,
+				"h": 103
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 78,
+				"h": 103
+			},
+			"sourceSize": {
+				"w": 78,
+				"h": 103
+			}
+		},
+		"ryu-pose.004": {
+			"frame": {
+				"x": 161,
+				"y": 112,
+				"w": 78,
+				"h": 103
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 78,
+				"h": 103
+			},
+			"sourceSize": {
+				"w": 78,
+				"h": 103
+			}
+		},
+		"ryu-pose.005": {
+			"frame": {
+				"x": 241,
+				"y": 112,
+				"w": 78,
+				"h": 108
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 78,
+				"h": 108
+			},
+			"sourceSize": {
+				"w": 78,
+				"h": 108
+			}
+		},
+		"ryu-pose.006": {
+			"frame": {
+				"x": 321,
+				"y": 112,
+				"w": 78,
+				"h": 110
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 78,
+				"h": 110
+			},
+			"sourceSize": {
+				"w": 78,
+				"h": 110
+			}
+		},
+		"ryu-pose.007": {
+			"frame": {
+				"x": 401,
+				"y": 112,
+				"w": 78,
+				"h": 111
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 78,
+				"h": 111
+			},
+			"sourceSize": {
+				"w": 78,
+				"h": 111
+			}
+		},
+		"ryu-pose.008": {
+			"frame": {
+				"x": 481,
+				"y": 112,
+				"w": 78,
+				"h": 111
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 78,
+				"h": 111
+			},
+			"sourceSize": {
+				"w": 78,
+				"h": 111
+			}
+		},
+		"ryu-pose.009": {
+			"frame": {
+				"x": 1,
+				"y": 225,
+				"w": 78,
+				"h": 111
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 78,
+				"h": 111
+			},
+			"sourceSize": {
+				"w": 78,
+				"h": 111
+			}
+		},
+		"ryu-pose.010": {
+			"frame": {
+				"x": 81,
+				"y": 225,
+				"w": 78,
+				"h": 110
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 78,
+				"h": 110
+			},
+			"sourceSize": {
+				"w": 78,
+				"h": 110
+			}
+		},
+		"ryu-walk-left (10).png": {
+			"frame": {
+				"x": 161,
+				"y": 225,
+				"w": 94,
+				"h": 110
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 94,
+				"h": 110
+			},
+			"sourceSize": {
+				"w": 94,
+				"h": 110
+			}
+		},
+		"ryu-walk-left (11).png": {
+			"frame": {
+				"x": 257,
+				"y": 225,
+				"w": 92,
+				"h": 108
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 92,
+				"h": 108
+			},
+			"sourceSize": {
+				"w": 92,
+				"h": 108
+			}
+		},
+		"ryu-walk-left (1).png": {
+			"frame": {
+				"x": 351,
+				"y": 225,
+				"w": 92,
+				"h": 108
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 92,
+				"h": 108
+			},
+			"sourceSize": {
+				"w": 92,
+				"h": 108
+			}
+		},
+		"ryu-walk-left (2).png": {
+			"frame": {
+				"x": 445,
+				"y": 225,
+				"w": 92,
+				"h": 107
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 92,
+				"h": 107
+			},
+			"sourceSize": {
+				"w": 92,
+				"h": 107
+			}
+		},
+		"ryu-walk-left (3).png": {
+			"frame": {
+				"x": 445,
+				"y": 334,
+				"w": 82,
+				"h": 107
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 82,
+				"h": 107
+			},
+			"sourceSize": {
+				"w": 82,
+				"h": 107
+			}
+		},
+		"ryu-walk-left (4).png": {
+			"frame": {
+				"x": 1,
+				"y": 443,
+				"w": 66,
+				"h": 108
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 66,
+				"h": 108
+			},
+			"sourceSize": {
+				"w": 66,
+				"h": 108
+			}
+		},
+		"ryu-walk-left (5).png": {
+			"frame": {
+				"x": 69,
+				"y": 443,
+				"w": 66,
+				"h": 108
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 66,
+				"h": 108
+			},
+			"sourceSize": {
+				"w": 66,
+				"h": 108
+			}
+		},
+		"ryu-walk-left (6).png": {
+			"frame": {
+				"x": 137,
+				"y": 443,
+				"w": 65,
+				"h": 110
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 65,
+				"h": 110
+			},
+			"sourceSize": {
+				"w": 65,
+				"h": 110
+			}
+		},
+		"ryu-walk-left (7).png": {
+			"frame": {
+				"x": 204,
+				"y": 443,
+				"w": 71,
+				"h": 112
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 71,
+				"h": 112
+			},
+			"sourceSize": {
+				"w": 71,
+				"h": 112
+			}
+		},
+		"ryu-walk-left (8).png": {
+			"frame": {
+				"x": 277,
+				"y": 443,
+				"w": 74,
+				"h": 112
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 74,
+				"h": 112
+			},
+			"sourceSize": {
+				"w": 74,
+				"h": 112
+			}
+		},
+		"ryu-walk-left (9).png": {
+			"frame": {
+				"x": 353,
+				"y": 443,
+				"w": 89,
+				"h": 112
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 89,
+				"h": 112
+			},
+			"sourceSize": {
+				"w": 89,
+				"h": 112
+			}
+		},
+		"ryu-walk-right (10).png": {
+			"frame": {
+				"x": 444,
+				"y": 443,
+				"w": 91,
+				"h": 110
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 91,
+				"h": 110
+			},
+			"sourceSize": {
+				"w": 91,
+				"h": 110
+			}
+		},
+		"ryu-walk-right (11).png": {
+			"frame": {
+				"x": 575,
+				"y": 1,
+				"w": 92,
+				"h": 108
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 92,
+				"h": 108
+			},
+			"sourceSize": {
+				"w": 92,
+				"h": 108
+			}
+		},
+		"ryu-walk-right (1).png": {
+			"frame": {
+				"x": 575,
+				"y": 111,
+				"w": 92,
+				"h": 107
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 92,
+				"h": 107
+			},
+			"sourceSize": {
+				"w": 92,
+				"h": 107
+			}
+		},
+		"ryu-walk-right (2).png": {
+			"frame": {
+				"x": 561,
+				"y": 220,
+				"w": 93,
+				"h": 106
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 93,
+				"h": 106
+			},
+			"sourceSize": {
+				"w": 93,
+				"h": 106
+			}
+		},
+		"ryu-walk-right (3).png": {
+			"frame": {
+				"x": 539,
+				"y": 328,
+				"w": 93,
+				"h": 106
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 93,
+				"h": 106
+			},
+			"sourceSize": {
+				"w": 93,
+				"h": 106
+			}
+		},
+		"ryu-walk-right (4).png": {
+			"frame": {
+				"x": 537,
+				"y": 436,
+				"w": 74,
+				"h": 108
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 74,
+				"h": 108
+			},
+			"sourceSize": {
+				"w": 74,
+				"h": 108
+			}
+		},
+		"ryu-walk-right (5).png": {
+			"frame": {
+				"x": 537,
+				"y": 546,
+				"w": 70,
+				"h": 106
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 70,
+				"h": 106
+			},
+			"sourceSize": {
+				"w": 70,
+				"h": 106
+			}
+		},
+		"ryu-walk-right (6).png": {
+			"frame": {
+				"x": 609,
+				"y": 546,
+				"w": 67,
+				"h": 109
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 67,
+				"h": 109
+			},
+			"sourceSize": {
+				"w": 67,
+				"h": 109
+			}
+		},
+		"ryu-walk-right (7).png": {
+			"frame": {
+				"x": 669,
+				"y": 1,
+				"w": 60,
+				"h": 112
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 60,
+				"h": 112
+			},
+			"sourceSize": {
+				"w": 60,
+				"h": 112
+			}
+		},
+		"ryu-walk-right (8).png": {
+			"frame": {
+				"x": 669,
+				"y": 115,
+				"w": 63,
+				"h": 112
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 63,
+				"h": 112
+			},
+			"sourceSize": {
+				"w": 63,
+				"h": 112
+			}
+		},
+		"ryu-walk-right (9).png": {
+			"frame": {
+				"x": 656,
+				"y": 229,
+				"w": 81,
+				"h": 112
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 81,
+				"h": 112
+			},
+			"sourceSize": {
+				"w": 81,
+				"h": 112
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "ryu.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 738,
+			"h": 656
+		},
+		"scale": "1"
+	}
+}
