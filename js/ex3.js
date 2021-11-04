@@ -246,8 +246,9 @@ function update() {
             posX  += player_1.sprites[i].to_goX;
             //posY  += player_1.sprites[i].to_goY;
             ctx.drawImage(cnv_i,-40+ posX,150 + posY, cnv_i.width * zoom, cnv_i.height * zoom);
+            //Cette image a été animé, met là a 0
             player_1.sprites[i].to_draw = 0;
-           
+
             //Tant que animation ne sera pas égale au nombre de sprite
             //On va jouer toutes les sprites du tableau
             if(player_1.animation < number_of_sprite){
