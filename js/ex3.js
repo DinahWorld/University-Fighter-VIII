@@ -8,7 +8,7 @@ let new_sp = new Array(4);
 let posX = 0;
 let posY = 0;
 let reachPosX = 0;
-let rightAnimation = 0;
+let animation = 0;
 xobj.onload = onload_atlas;
 xobj.overrideMimeType("application/json");
 xobj.open("GET", "./assets/atlas/ken.json", true);
@@ -59,10 +59,6 @@ class SpriteAtlas {
         }
     }
 }
-function init(){
-    
-    
-}
 function onload_atlas() {
     if (this.status == 200) {
         let json_infos = JSON.parse(this.responseText);
@@ -85,17 +81,16 @@ function onload_atlas() {
             new_sp[3].add_anime("ken-walk-right", 1,11, "ArrowRight");
             new_sp[4].add_anime("ken-jump", 1,12, "ArrowUp");
             new_sp[5].add_anime("ken-down", 1,6, "ArrowDown");
-//            new_sp[1].add_anime("ken-walk-right", 1,11, "ArrowRight");
-//            new_sp[2].add_anime("ken-walk-left", 1, 11, "ArrowLeft");
-            //new_sp[3].add_anime("dinah-front-walk", 0, 3, "ArrowDown");
+
+            //On push nos sprites dans un
             all_sprites_event.push(new_sp[0]);
             all_sprites_event.push(new_sp[1]);
             all_sprites_event.push(new_sp[2]);
             all_sprites_event.push(new_sp[3]);
             all_sprites_event.push(new_sp[4]);
             all_sprites_event.push(new_sp[5]);
-            //all_sprites_event.push(new_sp[2]);
-            //all_sprites_event.push(new_sp[3]);
+
+            //Les sprites changeront de positions
             all_sprites_event[1].to_goX = 0;
             all_sprites_event[2].to_goX = - 2;
             all_sprites_event[3].to_goX = + 2;
@@ -106,105 +101,73 @@ function onload_atlas() {
 }
 window.addEventListener('keydown', keydown_fun, false);
 
+function init(){
+    all_sprites_event[0].to_draw = 0;
+    all_sprites_event[2].to_draw = 0;
+    all_sprites_event[3].to_draw = 0;
+    all_sprites_event[4].to_draw = 0;
+    all_sprites_event[5].to_draw = 0;
+}
+
 function keydown_fun(e) {
     switch (e.code) {
         case "KeyD":
+            init();
             for (let i = 0; i < all_sprites_event.length; i += 1) {
                 if (all_sprites_event[i].event_code == "KeyD") {
                     all_sprites_event[i].next_step();
                 }
             }
-            all_sprites_event[0].to_draw = 0;
-            all_sprites_event[2].to_draw = 0;
-            all_sprites_event[3].to_draw = 0;
-            all_sprites_event[4].to_draw = 0;
-            all_sprites_event[5].to_draw = 0;
-            rightAnimation = 0;
+            animation = 0;
             break;
 
         case "ArrowLeft":
+            init();
             for (let i = 0; i < all_sprites_event.length; i += 1) {
                 if (all_sprites_event[i].event_code == "ArrowLeft") {
                     all_sprites_event[i].next_step();
                 }
             }
-            all_sprites_event[0].to_draw = 0;
-            all_sprites_event[1].to_draw = 0;
-            all_sprites_event[3].to_draw = 0;
-            all_sprites_event[4].to_draw = 0;
-            all_sprites_event[5].to_draw = 0;
-            rightAnimation = 0;
+            animation = 0;
             break;
         
         case "ArrowRight":
+            init();
             for (let i = 0; i < all_sprites_event.length; i += 1) {
                 if (all_sprites_event[i].event_code == "ArrowRight") {
                     all_sprites_event[i].next_step();
                 }
             }
-            all_sprites_event[0].to_draw = 0;
-            all_sprites_event[1].to_draw = 0;
-            all_sprites_event[2].to_draw = 0;
-            all_sprites_event[4].to_draw = 0;
-            all_sprites_event[5].to_draw = 0;
 
-            rightAnimation = 0;
+            animation = 0;
             break;
 
     case "ArrowUp":
+            init();
             for (let i = 0; i < all_sprites_event.length; i += 1) {
                 if (all_sprites_event[i].event_code == "ArrowUp") {
                     all_sprites_event[i].next_step();
                 }
             }
-            all_sprites_event[0].to_draw = 0;
-            all_sprites_event[1].to_draw = 0;
-            all_sprites_event[2].to_draw = 0;
-            all_sprites_event[3].to_draw = 0;
-            all_sprites_event[5].to_draw = 0;
-
-            rightAnimation = 0;
+            animation = 0;
             break;
     
     case "ArrowDown":
+            init();
             for (let i = 0; i < all_sprites_event.length; i += 1) {
                 if (all_sprites_event[i].event_code == "ArrowDown") {
                     all_sprites_event[i].next_step();
                 }
             }
-            all_sprites_event[0].to_draw = 0;
-            all_sprites_event[1].to_draw = 0;
-            all_sprites_event[2].to_draw = 0;
-            all_sprites_event[3].to_draw = 0;
-            all_sprites_event[4].to_draw = 0;
-            rightAnimation = 0;
+            animation = 0;
             break;
-//
-        //case "ArrowDown":
-        //    for (let i = 0; i < all_sprites_event.length; i += 1) {
-        //        if (all_sprites_event[i].event_code == "ArrowDown") {
-        //            all_sprites_event[i].next_step();
-        //        }
-        //    }
-        //    posY +=10;
-        //    break;
-//
-        //case "ArrowUp":
-        //    for (let i = 0; i < all_sprites_event.length; i += 1) {
-        //        if (all_sprites_event[i].event_code == "ArrowUp") {
-        //            all_sprites_event[i].next_step();
-        //        }
-        //    }
-        //    posY -=10;
-        //    
-        //    break;
-
     }
 }
 
+
+
 function kenPose(){
     let zoom = 2;
-
     let step_i = all_sprites_event[0].animestep;
     let cnv_i = all_sprites_event[0].animeseq[step_i];
     ctx.clearRect(0, 0, 640,860);
@@ -231,33 +194,52 @@ function update() {
             kenPose();
         }
         else if (all_sprites_event[i].to_draw == 1){
+            
+            //On recupere les sprites
+            let step_i = all_sprites_event[i].animestep;
+            let cnv_i = all_sprites_event[i].animeseq[step_i];
+
+            //On définit la taille de la hitbox
+            let sizeHitBox = [152,100];
+            let coordHitBox = [90,230];
+            let [sizeHitBoxX,sizeHitBoxY] = sizeHitBox;
+            let [coordHitBoxX,coordHitBoxY] = coordHitBox;
+            
+            //On définit
+            let sizeX = (cnv_i.width - sizeHitBoxX) * zoom;
+            let sizeY = (cnv_i.height - sizeHitBoxY) * zoom
+            let coordX = posX + coordHitBoxX;
+            let coordY = posY + coordHitBoxY;
 
             let number_of_sprite = all_sprites_event[i].animeseq.length;
-            if(rightAnimation == number_of_sprite - 1){
+            if(animation == number_of_sprite - 1){
                 all_sprites_event[i].to_draw = 0;
                 all_sprites_event[0].to_draw = 1;
                 break;
             }
-            let step_i = all_sprites_event[i].animestep;
-            let cnv_i = all_sprites_event[i].animeseq[step_i];
+            
+
             ctx.clearRect(0, 0, 640,860);
             ctx.beginPath();
             ctx.strokeFill = "#FF0000";
             //- 30 sur la taille pour la hitbox
-            ctx.strokeRect( 35+ posX, 230 + posY, (cnv_i.width - 73) * zoom, (cnv_i.height - 80) * zoom);
+            ctx.strokeRect( coordX, coordY, sizeX, sizeY);
             ctx.stroke();
             ctx.closePath();
             posX  += all_sprites_event[i].to_goX;
             //posY  += all_sprites_event[i].to_goY;
             ctx.drawImage(cnv_i,-40+ posX,150 + posY, cnv_i.width * zoom, cnv_i.height * zoom);
             all_sprites_event[i].to_draw = 0;
-            if(rightAnimation < number_of_sprite){
+           
+            //Tant que animation ne sera pas égale au nombre de sprite
+            //On va jouer toutes les sprites du tableau
+            if(animation < number_of_sprite){
                 all_sprites_event[i].next_step();
             }
-            rightAnimation++;
+            animation++;
         }
-        //all_sprites_event[0].to_draw = 1;
     
     }
 }
 setInterval(update, 60);
+
