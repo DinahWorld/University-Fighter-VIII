@@ -70,6 +70,9 @@ class Character {
         this.attacking = false;
         this.sprites = sprites;
         this.animation = 0;
+        this.posXX = 0;
+        this.posYY = 0;
+        this.zoom = 2;
     }
 
     init(){
@@ -102,6 +105,80 @@ class Character {
     }
     down(){
         this.animeChara("Down");
+    }
+
+    pos() {
+        //let zoom = 2;
+        let step_i = this.sprites[0].animestep;
+        let cnv_i = this.sprites[0].animeseq[step_i];
+        ctx.clearRect(0, 0, cnv.width,cnv.height);
+        ctx.beginPath();
+        ctx.strokeFill = "#FF0000";
+        //- 30 sur la taille pour la hitbox
+        ctx.strokeRect( 90+ this.posXX, 230 + this.posYY, (cnv_i.width - 152) * this.zoom, (cnv_i.height - 100) * this.zoom);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.drawImage(cnv_i,-40 + this.posXX, 150 + this.posYY, cnv_i.width * this.zoom, cnv_i.height * this.zoom);
+        this.sprites[0].to_draw = 0;
+        this.sprites[0].next_step();
+    }
+
+    drawPlayer() {
+        //let zoom = 2;
+        for (let i = 0; i < this.sprites.length; i += 1) {
+            if (this.sprites[0].to_draw == 1) {
+                //kenPose();
+                this.pos();
+            }
+            else if (this.sprites[i].to_draw == 1){
+                
+                //On recupere les sprites
+                let step_i = this.sprites[i].animestep;
+                let cnv_i = this.sprites[i].animeseq[step_i];
+    
+                //On définit la taille et les coordonnée de la hitbox
+                let sizeHitBox = [152,100];
+                let [sizeHitBoxX,sizeHitBoxY] = sizeHitBox;
+    
+                let coordHitBox = [90,230];
+                let [coordHitBoxX,coordHitBoxY] = coordHitBox;
+                
+                //On définit les coordonnée de la hitbox en fonction du sprite
+                let size = [(cnv_i.width - sizeHitBoxX) * this.zoom,(cnv_i.height - sizeHitBoxY) * this.zoom];
+                let [sizeX,sizeY] = size;
+                
+                let coord = [this.posXX + coordHitBoxX,this.posYY + coordHitBoxY];
+                let [coordX,coordY] = coord;
+    
+                let number_of_sprite = this.sprites[i].animeseq.length;
+                if(this.animation == number_of_sprite - 1){
+                    this.sprites[i].to_draw = 0;
+                    this.sprites[0].to_draw = 1;
+                    break;
+                }
+                
+    
+                ctx.clearRect(0, 0, cnv.width,cnv.height);
+                ctx.beginPath();
+                ctx.strokeFill = "#FF0000";
+                //- 30 sur la taille pour la hitbox
+                ctx.strokeRect( coordX, coordY, sizeX, sizeY);
+                ctx.stroke();
+                ctx.closePath();
+                this.posXX  += this.sprites[i].to_goX;
+                //posY  += player_1.sprites[i].to_goY;
+                ctx.drawImage(cnv_i,-40+ this.posXX,150 + this.posYY, cnv_i.width * this.zoom, cnv_i.height * this.zoom);
+                this.sprites[i].to_draw = 0;
+               
+                //Tant que animation ne sera pas égale au nombre de sprite
+                //On va jouer toutes les sprites du tableau
+                if(this.animation < number_of_sprite){
+                    this.sprites[i].next_step();
+                }
+                this.animation++;
+            }
+        
+        }
     }
 }
 
@@ -181,83 +258,15 @@ function keydown_fun(e) {
 
 
 
-function kenPose(){
-    let zoom = 2;
-    let step_i = player_1.sprites[0].animestep;
-    let cnv_i = player_1.sprites[0].animeseq[step_i];
-    ctx.clearRect(0, 0, cnv.width,cnv.height);
-    ctx.beginPath();
-    ctx.strokeFill = "#FF0000";
-    //- 30 sur la taille pour la hitbox
-    ctx.strokeRect( 90+ posX, 230 + posY, (cnv_i.width - 152) * zoom, (cnv_i.height - 100) * zoom);
-    ctx.stroke();
-    ctx.closePath();
-    ctx.drawImage(cnv_i,-40 + posX, 150 + posY, cnv_i.width * zoom, cnv_i.height * zoom);
-    player_1.sprites[0].to_draw = 0;
-    player_1.sprites[0].next_step();
 
-}
 
 // TODO :
 //
 // OPTIMISEZ CE MERDIER
 // FAIRE EN SORTE QUE LA HITBOX AIT LES MEME COORDONNER QUE LE PERSO
 function update() {
-    let zoom = 2;
-    for (let i = 0; i < player_1.sprites.length; i += 1) {
-        if (player_1.sprites[0].to_draw == 1) {
-            kenPose();
-        }
-        else if (player_1.sprites[i].to_draw == 1){
-            
-            //On recupere les sprites
-            let step_i = player_1.sprites[i].animestep;
-            let cnv_i = player_1.sprites[i].animeseq[step_i];
-
-            //On définit la taille et les coordonnée de la hitbox
-            let sizeHitBox = [152,100];
-            let [sizeHitBoxX,sizeHitBoxY] = sizeHitBox;
-
-            let coordHitBox = [90,230];
-            let [coordHitBoxX,coordHitBoxY] = coordHitBox;
-            
-            //On définit les coordonnée de la hitbox en fonction du sprite
-            let size = [(cnv_i.width - sizeHitBoxX) * zoom,(cnv_i.height - sizeHitBoxY) * zoom];
-            let [sizeX,sizeY] = size;
-            
-            let coord = [posX + coordHitBoxX,posY + coordHitBoxY];
-            let [coordX,coordY] = coord;
-
-            let number_of_sprite = player_1.sprites[i].animeseq.length;
-            if(player_1.animation == number_of_sprite - 1){
-                player_1.sprites[i].to_draw = 0;
-                player_1.sprites[0].to_draw = 1;
-                break;
-            }
-            
-
-            ctx.clearRect(0, 0, cnv.width,cnv.height);
-            ctx.beginPath();
-            ctx.strokeFill = "#FF0000";
-            //- 30 sur la taille pour la hitbox
-            ctx.strokeRect( coordX, coordY, sizeX, sizeY);
-            ctx.stroke();
-            ctx.closePath();
-            posX  += player_1.sprites[i].to_goX;
-            //posY  += player_1.sprites[i].to_goY;
-            ctx.drawImage(cnv_i,-40+ posX,150 + posY, cnv_i.width * zoom, cnv_i.height * zoom);
-            //Cette image a été animé, met là a 0
-            player_1.sprites[i].to_draw = 0;
-
-            //Tant que animation ne sera pas égale au nombre de sprite
-            //On va jouer toutes les sprites du tableau
-            if(player_1.animation < number_of_sprite){
-                player_1.sprites[i].next_step();
-            }
-            player_1.animation++;
-        }
-    
-    }
+  
+    player_1.drawPlayer();
 }
 setInterval(update, 60);
 
