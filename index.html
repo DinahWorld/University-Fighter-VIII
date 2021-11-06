@@ -6,6 +6,15 @@
         <title>TP2</title>
         <style>
             body {margin: 0px; padding: 0px;background-color: black;}
+            .logo{
+                text-align: center;
+                display: block;
+            }
+            img {
+                max-width: 20%;
+                max-height: 20%;
+
+            }
             canvas {
                 background-image: url("assets/bg.gif");
                 background-size: cover;
@@ -14,17 +23,16 @@
                 padding: 0;
                 margin: auto;
                 display: block;
-                width: 800px;
-                position: absolute;
-                top : 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
             }
         </style>
     </head>
     <body>
-        <canvas id="myCanvas" width="1600" height="640"></canvas>
+        <div class="logo">
+            <img src = "./assets/logo/logo.png">
+        </div>
+        <div>
+            <canvas id="myCanvas" width="1600" height="640"></canvas>
+        </div>
         <script type="module" src="./js/Game.js"></script>
     </body>
 </html>

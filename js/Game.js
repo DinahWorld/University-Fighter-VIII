@@ -1,3 +1,18 @@
+/*
+
+    TODO
+    Refaire le découpage des sprites (AAAAAAAAAAAAAAH)
+    Collision
+    Gravité pour le saut
+    Menu
+    Affichage de points de vie (on commence par mettre un gros score sur le dessin et je ferai le design)
+    Les combo = Si on enchaine les coups on incrémente notre variable combo
+
+
+
+*/
+
+
 let cnv = document.getElementById('myCanvas');
 
 let ctx = cnv.getContext('2d');
@@ -12,6 +27,8 @@ let posX = 0;
 let posY = 0;
 let reachPosX = 0;
 let number_of_player = 2;
+let audio = new Audio('assets/music/battle_music.mp3');
+let go = false;
 
 xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
@@ -81,8 +98,11 @@ class Character {
 	}
 
 	init() {
+        //On initialise nos animations
 		for (let i = 0; i < this.sprites.length; i++) {
 			this.sprites[i].to_draw = 0;
+            //On revient à la premiere image de l'animation
+            this.sprites[i].animestep = 1;
 		}
 	}
 
@@ -145,13 +165,13 @@ class Character {
 				if (this.sprites[i].to_draw == 1) {
 					let number_of_sprite = this.sprites[i].animeseq.length;
 					let step_i = this.sprites[i].animestep;
-
 					this.draw(i);
 
 					//Tant que animation ne sera pas égale au nombre de sprite
 					//On va jouer toutes les sprites du tableau
 					if (step_i == number_of_sprite - 1) {
-						this.sprites[0].to_draw = 1;
+						//On décide de lancer l'animation normal du perso
+                        this.sprites[0].to_draw = 1;
 					} else {
 						this.sprites[i].next_step();
 					}
@@ -229,14 +249,22 @@ function keydown_fun(e) {
 			player_1.down();
 			player_2.down();
 			break;
+        
+        case 'Enter':
+            go = true;
+            break;
 	}
 }
-
+audio.play()
 function update() {
-	ctx.beginPath();
-	ctx.clearRect(0, 0, cnv.width, cnv.height);
+	//Le go c'est juste car quand le programme se lance il execute le update avant meme
+    //que player_1 reçoit les sprites du coup on a des error dans la console
+    if(go == true){
+        ctx.beginPath();
+        ctx.clearRect(0, 0, cnv.width, cnv.height);
 	player_1.drawPlayer();
 	player_2.drawPlayer();
 	ctx.closePath();
+    }
 }
 setInterval(update, 40);
