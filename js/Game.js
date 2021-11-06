@@ -1,20 +1,21 @@
 /*
+ *
+ *     TODO
+ *     Changer cette musique dégeulasse
+ *     Refaire le découpage des sprites (AAAAAAAAAAAAAAH)
+ *     Collision
+ *     Gravité pour le saut
+ *     Menu
+ *     Affichage de points de vie (on commence par mettre un gros score sur le dessin et je ferai le design)
+ *     Les combo = Si on enchaine les coups on incrémente notre variable combo
+ *
+ */
 
-    TODO
-    Refaire le découpage des sprites (AAAAAAAAAAAAAAH)
-    Collision
-    Gravité pour le saut
-    Menu
-    Affichage de points de vie (on commence par mettre un gros score sur le dessin et je ferai le design)
-    Les combo = Si on enchaine les coups on incrémente notre variable combo
-
-
-
-*/
-
+import Character from './Character.js';
+import SpriteAtlas from './SpriteAtlas.js';
 
 let cnv = document.getElementById('myCanvas');
-
+cnv.width = window.innerWidth - 10;
 let ctx = cnv.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 let sprites = [];
@@ -35,154 +36,21 @@ xobj.overrideMimeType('application/json');
 xobj.open('GET', './assets/atlas/ken.json', true);
 xobj.send();
 
-class SpriteAtlas {
-	constructor(ctx, json) {
-		this.ctx = ctx;
-		this.json = json;
-		this.event_code = 0;
-		this.animestep = 1;
-		this.to_draw = 0;
-		this.to_goX = 0;
-		this.to_goY = 0;
-		this.animeseq = [];
-	}
-	next_step() {
-		if (this.to_draw == 0) {
-			this.animestep += 1;
-			if (this.animestep >= this.animeseq.length) {
-				this.animestep = 0;
-			}
-			this.to_draw = 1;
-		}
-	}
-	add_anime(prefix, first_id, last_id, event_code) {
-		this.event_code = event_code;
-		for (let i = first_id; i < last_id + 1; i += 1) {
-			let filename = prefix;
-			if (i < 10) {
-				filename += '.00' + i;
-			} else if (i < 100) {
-				filename += '.0' + i;
-			} else {
-				filename += '.' + i;
-			}
-			let x = this.json['frames'][filename]['frame']['x'];
-			let y = this.json['frames'][filename]['frame']['y'];
-			let w = this.json['frames'][filename]['frame']['w'];
-			let h = this.json['frames'][filename]['frame']['h'];
-			let canvasImageData1 = this.ctx.getImageData(x, y, w, h);
-			let canvas2 = document.createElement('canvas');
-			canvas2.width = w;
-			canvas2.height = h;
-			let context2 = canvas2.getContext('2d');
-			context2.putImageData(canvasImageData1, 0, 0);
-			this.animeseq.push(canvas2);
-		}
-	}
-}
-
-/* Une idée */
-//class Animation extends Character{
-//
-//}
-
-class Character {
-	constructor(posXX, posYY, ctx) {
-		this.hp = 10000;
-		this.attacking = false;
-		this.sprites = [];
-		this.posXX = posXX;
-		this.posYY = posYY;
-		this.zoom = 4;
-		this.ctx = ctx;
-	}
-
-	init() {
-        //On initialise nos animations
-		for (let i = 0; i < this.sprites.length; i++) {
-			this.sprites[i].to_draw = 0;
-            //On revient à la premiere image de l'animation
-            this.sprites[i].animestep = 1;
-		}
-	}
-
-	animeChara(event_code) {
-		this.init();
-		for (let i = 0; i < this.sprites.length; i += 1) {
-			if (this.sprites[i].event_code == event_code) {
-				this.sprites[i].next_step();
-			}
-		}
-	}
-
-	punch() {
-		this.animeChara('Punch');
-	}
-	walk_right() {
-		this.animeChara('WalkRight');
-	}
-	walk_left() {
-		this.animeChara('WalkLeft');
-	}
-	jump() {
-		this.animeChara('Jump');
-	}
-	down() {
-		this.animeChara('Down');
-	}
-
-	draw(index) {
-		ctx.beginPath();
-
-		let step_i = this.sprites[index].animestep;
-		let cnv_i = this.sprites[index].animeseq[step_i];
-		//- 30 sur la taille pour la hitbox
-		this.ctx.strokeRect(
-			60 + this.posXX,
-			this.posYY + 180,
-			(cnv_i.width - 15) * this.zoom,
-			(cnv_i.height - 55) * this.zoom
-		);
-		this.ctx.stroke();
-		this.posXX += this.sprites[index].to_goX;
-		this.ctx.drawImage(
-			cnv_i,
-			this.posXX,
-			this.posYY,
-			cnv_i.width * this.zoom,
-			cnv_i.height * this.zoom
-		);
-		this.sprites[index].to_draw = 0;
-		ctx.closePath();
-	}
-
-	drawPlayer() {
-		if (this.sprites[0].to_draw == 1) {
-			this.draw(0);
-			this.sprites[0].next_step();
-		} else {
-			for (let i = 1; i < this.sprites.length; i += 1) {
-				if (this.sprites[i].to_draw == 1) {
-					let number_of_sprite = this.sprites[i].animeseq.length;
-					let step_i = this.sprites[i].animestep;
-					this.draw(i);
-
-					//Tant que animation ne sera pas égale au nombre de sprite
-					//On va jouer toutes les sprites du tableau
-					if (step_i == number_of_sprite - 1) {
-						//On décide de lancer l'animation normal du perso
-                        this.sprites[0].to_draw = 1;
-					} else {
-						this.sprites[i].next_step();
-					}
-				}
-			}
-		}
-	}
-}
-
 let player_1 = new Character(50, 0, ctx);
 let player_2 = new Character(500, 0, ctx);
+
+audio.play();
+function update() {
+	//Le go c'est juste car quand le programme se lance il execute le update avant meme
+	//que player_1 reçoit les sprites du coup on a des error dans la console
+	if (go == true) {
+		ctx.beginPath();
+		ctx.clearRect(0, 0, cnv.width, cnv.height);
+		player_1.drawPlayer();
+		player_2.drawPlayer();
+		ctx.closePath();
+	}
+}
 
 function onload_atlas() {
 	console.log(this.status);
@@ -214,13 +82,14 @@ function onload_atlas() {
 				players[i].sprites[4].add_anime('jump', 1, 11, 'Jump');
 				players[i].sprites[5].add_anime('down', 1, 6, 'Down');
 				players[i].sprites[0].to_draw = 1;
-				players[i].sprites[2].to_goX = -10;
-				players[i].sprites[3].to_goX = +10;
+				players[i].sprites[2].to_goX = -20;
+				players[i].sprites[3].to_goX = +20;
 				players[i].sprites[4].to_goY = -20;
 			}
 		};
 	}
 }
+
 window.addEventListener('keydown', keydown_fun, false);
 
 function keydown_fun(e) {
@@ -249,22 +118,11 @@ function keydown_fun(e) {
 			player_1.down();
 			player_2.down();
 			break;
-        
-        case 'Enter':
-            go = true;
-            break;
+
+		case 'Enter':
+			go = true;
+			break;
 	}
 }
-audio.play()
-function update() {
-	//Le go c'est juste car quand le programme se lance il execute le update avant meme
-    //que player_1 reçoit les sprites du coup on a des error dans la console
-    if(go == true){
-        ctx.beginPath();
-        ctx.clearRect(0, 0, cnv.width, cnv.height);
-	player_1.drawPlayer();
-	player_2.drawPlayer();
-	ctx.closePath();
-    }
-}
+
 setInterval(update, 40);
