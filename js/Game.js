@@ -18,15 +18,7 @@ let cnv = document.getElementById('myCanvas');
 cnv.width = window.innerWidth - 10;
 let ctx = cnv.getContext('2d');
 ctx.imageSmoothingEnabled = false;
-let sprites = [];
-let sprites_2 = [];
-
 let xobj = new XMLHttpRequest();
-let new_sp = new Array(6);
-let new_sp_2 = new Array(6);
-let posX = 0;
-let posY = 0;
-let reachPosX = 0;
 let number_of_player = 2;
 let audio = new Audio('assets/music/battle_music.mp3');
 let go = false;
