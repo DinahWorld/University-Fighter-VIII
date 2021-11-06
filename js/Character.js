@@ -8,6 +8,8 @@ export default class Character {
 		this.zoom = 4;
 		this.ctx = ctx;
 		this.sens = sens;
+		this.lastX = posXX;
+		this.lastX = posYY;
 	}
 
 	init() {
@@ -60,7 +62,7 @@ export default class Character {
 		}
 		else {
 			let n = Math.abs(this.posXX);
-			console.log(n);
+			//console.log(n);
 			if(n - w * this.zoom <= posOPX + w * this.zoom && n >= posOPX) {
 				return true;
 			}
@@ -68,6 +70,10 @@ export default class Character {
 				return false;
 			}
 		}
+	}
+
+	backLastCord() {
+		this.posXX = this.lastX;
 	}
 
 	draw(index, posOPX, posOPY) {
@@ -87,10 +93,17 @@ export default class Character {
 
 		//Changement de position
 		if(this.collisionCheck(posOPX,posOPY) == true) {
+			this.backLastCord();
+		//if(this.posXX + this.sprites[index].to_goX == this.collisionCheck == true) {
+
+			/*if(this.sens == 1) {this.posXX -= 20;}
+			else {console.log(this.posXX);
+				this.posXX -= 20};*/
 			//this.posXX += this.sprites[index].to_goX;
 		}
 		else {
-		this.posXX += this.sprites[index].to_goX;
+			this.lastX = this.posXX;
+			this.posXX += this.sprites[index].to_goX;
 		}
 
 		
