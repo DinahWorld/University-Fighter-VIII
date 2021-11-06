@@ -4,11 +4,10 @@ export default class Animation {
 		this.zoom = 4;
 		this.ctx = ctx;
 		this.sens = sens;
-
 		this.posXX = posXX;
 		this.posYY = posYY;
-		this.lastX = posXX;
-		this.lastY = posYY;
+        
+        this.posHYY = posYY
 	}
 	init() {
 		//On initialise nos animations
@@ -59,10 +58,6 @@ export default class Animation {
 		}
 	}
 
-	backLastCord() {
-		this.posXX = this.lastX;
-	}
-
 	draw(index, posOPX, posOPY) {
 		this.ctx.beginPath();
 
@@ -80,13 +75,9 @@ export default class Animation {
 
 		//Changement de position
 		//check des collision
-		if (this.collisionCheck(posOPX, posOPY, 80) != true) {
-			//si il y a collision alors il faut revenir à une position précédente car sinon on ne peut plus se déplacer
-			this.backLastCord();
-		} else {
-			//sauvegarde de la pos précédente
-			this.lastX = this.posXX;
-			this.posXX += this.sprites[index].to_goX;
+        this.posXX += this.sprites[index].to_goX;
+		if (this.collisionCheck(posOPX, posOPY, 82) != false) {
+            this.posXX -= this.sprites[index].to_goX;
 		}
 
 		//On dessine notre sprite
