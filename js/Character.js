@@ -1,5 +1,5 @@
 export default class Character {
-	constructor(posXX, posYY, ctx) {
+	constructor(posXX, posYY, ctx, sens) {
 		this.hp = 10000;
 		this.attacking = false;
 		this.sprites = [];
@@ -7,6 +7,7 @@ export default class Character {
 		this.posYY = posYY;
 		this.zoom = 4;
 		this.ctx = ctx;
+		this.sens = sens;
 	}
 
 	init() {
@@ -43,7 +44,33 @@ export default class Character {
 		this.animeChara('Down');
 	}
 
-	draw(index) {
+	collisionCheck(posOPX, posOPY) {
+
+		//console.log(posOPX);
+		let w = 80;
+		if(this.sens == 1) {
+			posOPX = Math.abs(posOPX);
+			//console.log(posOPX)
+			if(this.posXX + w * this.zoom >= posOPX -w * this.zoom && this.posXX <= posOPX) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			let n = Math.abs(this.posXX);
+			console.log(n);
+			if(n - w * this.zoom <= posOPX + w * this.zoom && n >= posOPX) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+
+	draw(index, posOPX, posOPY) {
 		this.ctx.beginPath();
 
 		let step_i = this.sprites[index].animestep;
@@ -59,7 +86,12 @@ export default class Character {
 		this.ctx.stroke();
 
 		//Changement de position
+		if(this.collisionCheck(posOPX,posOPY) == true) {
+			//this.posXX += this.sprites[index].to_goX;
+		}
+		else {
 		this.posXX += this.sprites[index].to_goX;
+		}
 
 		
 		//On dessine notre sprite
@@ -76,12 +108,12 @@ export default class Character {
 		this.ctx.closePath();
 	}
 
-	drawPlayer() {
+	drawPlayer(posOPX, posOPY) {
         //Si this.sprites[0].to_draw == 1
         //Alors sa veut dire le joueur ne fait aucune action
         //donc on joue l'animation du perso 
 		if (this.sprites[0].to_draw == 1) {
-			this.draw(0);
+			this.draw(0, posOPX, posOPY);
 
             //On passe à l'image suivante de l'animation
 			this.sprites[0].next_step();
@@ -94,7 +126,7 @@ export default class Character {
 				if (this.sprites[i].to_draw == 1) {
 
                     //On dessine l'image de l'animation
-                    this.draw(i);
+                    this.draw(i, posOPX, posOPY);
 
                     //On récupere la valeur du nombre d'images de l'animation
 					let number_of_sprite = this.sprites[i].animeseq.length;
