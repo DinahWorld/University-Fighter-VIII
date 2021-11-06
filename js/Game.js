@@ -28,8 +28,8 @@ xobj.overrideMimeType('application/json');
 xobj.open('GET', './assets/atlas/ken.json', true);
 xobj.send();
 
-let player_1 = new Character(50, 0, ctx);
-let player_2 = new Character(500, 0, ctx);
+let player_1 = new Character(0, 0, ctx);
+let player_2 = new Character(- cnv.width, 0, ctx);
 
 audio.play();
 function update() {
@@ -39,7 +39,10 @@ function update() {
 		ctx.beginPath();
 		ctx.clearRect(0, 0, cnv.width, cnv.height);
 		player_1.drawPlayer();
+		player_2.ctx.save();
+		player_2.ctx.scale(-1,1);
 		player_2.drawPlayer();
+		player_2.ctx.restore();
 		ctx.closePath();
 	}
 }

@@ -48,7 +48,7 @@ export default class Character {
 
 		let step_i = this.sprites[index].animestep;
 		let cnv_i = this.sprites[index].animeseq[step_i];
-
+		
 		//Notre hitbox
 		this.ctx.strokeRect(
 			60 + this.posXX,
@@ -61,6 +61,7 @@ export default class Character {
 		//Changement de position
 		this.posXX += this.sprites[index].to_goX;
 
+		
 		//On dessine notre sprite
 		this.ctx.drawImage(
 			cnv_i,
@@ -69,7 +70,7 @@ export default class Character {
 			cnv_i.width * this.zoom,
 			cnv_i.height * this.zoom
 		);
-
+		this.ctx.restore();
 		//Une fois dessiné on dit au programme qu'on a finit de dessiner cette image
 		this.sprites[index].to_draw = 0;
 		this.ctx.closePath();
