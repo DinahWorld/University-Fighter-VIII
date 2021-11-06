@@ -2,6 +2,7 @@ export default class Character {
 	constructor(posXX, posYY, ctx, sens) {
 		this.hp = 10000;
 		this.attacking = false;
+		this.jumping = false;
 		this.sprites = [];
 		this.posXX = posXX;
 		this.posYY = posYY;
@@ -9,7 +10,7 @@ export default class Character {
 		this.ctx = ctx;
 		this.sens = sens;
 		this.lastX = posXX;
-		this.lastX = posYY;
+		this.lastY = posYY;
 	}
 
 	init() {
@@ -26,6 +27,13 @@ export default class Character {
 		for (let i = 0; i < this.sprites.length; i += 1) {
 			if (this.sprites[i].event_code == event_code) {
 				this.sprites[i].next_step();
+				/*if(event_code == 'Jump' && i != this.sprites.length-1) {
+					this.posYY -= 20;
+				}
+				if(event_code == 'Jump' && i == this.sprites.length-1 && this.posYY != lastY) {
+					i-=1;
+					this.posYY += 20;
+				}*/
 			}
 		}
 	}
@@ -45,7 +53,10 @@ export default class Character {
 		this.animeChara('WalkLeft');
 	}
 	jump() {
+		this.jumping = true;
 		this.animeChara('Jump');
+		//this.posYY -= 100;
+		this.jumping = false;
 	}
 	down() {
 		this.animeChara('Down');
