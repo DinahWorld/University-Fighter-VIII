@@ -51,7 +51,7 @@ export default class Character {
 		
 		//Notre hitbox
 		this.ctx.strokeRect(
-			60 + this.posXX,
+			this.posXX,
 			this.posYY + 180,
 			(cnv_i.width - 15) * this.zoom,
 			(cnv_i.height - 55) * this.zoom
@@ -65,7 +65,7 @@ export default class Character {
 		//On dessine notre sprite
 		this.ctx.drawImage(
 			cnv_i,
-			this.posXX,
+			this.posXX - 80,
 			this.posYY,
 			cnv_i.width * this.zoom,
 			cnv_i.height * this.zoom

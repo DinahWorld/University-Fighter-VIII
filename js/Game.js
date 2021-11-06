@@ -20,7 +20,7 @@ let ctx = cnv.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 let xobj = new XMLHttpRequest();
 let number_of_player = 2;
-let audio = new Audio('assets/music/battle_music.mp3');
+let audio = new Audio('./assets/music/battle_music.mp3');
 let go = false;
 
 xobj.onload = onload_atlas;
@@ -33,6 +33,8 @@ let player_2 = new Character(- cnv.width, 0, ctx);
 
 audio.play();
 function update() {
+	console.log(player_1.posXX);
+	console.log(player_2.posXX);
 	//Le go c'est juste car quand le programme se lance il execute le update avant meme
 	//que player_1 reçoit les sprites du coup on a des error dans la console
 	if (go == true) {
