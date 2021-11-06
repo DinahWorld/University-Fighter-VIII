@@ -28,29 +28,30 @@ xobj.overrideMimeType('application/json');
 xobj.open('GET', './assets/atlas/ken.json', true);
 xobj.send();
 
-let player_1 = new Character(0, 0, ctx);
-let player_2 = new Character(- cnv.width, 0, ctx);
+
+let player_1 = new Character(0, 0, ctx, 1);
+let player_2 = new Character(- cnv.width, 0, ctx, 2);
 
 audio.play();
 function update() {
-	console.log(player_1.posXX);
-	console.log(player_2.posXX);
+	//console.log(player_1.posXX);
+	//console.log(player_2.posXX);
 	//Le go c'est juste car quand le programme se lance il execute le update avant meme
 	//que player_1 reçoit les sprites du coup on a des error dans la console
 	if (go == true) {
 		ctx.beginPath();
 		ctx.clearRect(0, 0, cnv.width, cnv.height);
-		player_1.drawPlayer();
+		player_1.drawPlayer(player_2.posXX, player_2.posYY);
 		player_2.ctx.save();
 		player_2.ctx.scale(-1,1);
-		player_2.drawPlayer();
+		player_2.drawPlayer(player_1.posXX, player_1.posYY);
 		player_2.ctx.restore();
 		ctx.closePath();
 	}
 }
 
 function onload_atlas() {
-	console.log(this.status);
+	//console.log(this.status);
 
 	if (this.status == 200) {
 		
@@ -93,8 +94,8 @@ window.addEventListener('keydown', keydown_fun, false);
 function keydown_fun(e) {
 	switch (e.code) {
 		case 'KeyD':
-			player_1.punch();
-			player_2.punch();
+			player_1.punch(player_2.posXX, player_2.posYY, player_2.attacking);
+			player_2.punch(player_1.posXX, player_1.posYY, player_1.attacking);
 			break;
 
 		case 'ArrowLeft':
