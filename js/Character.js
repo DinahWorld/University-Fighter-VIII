@@ -30,9 +30,12 @@ export default class Character {
 		}
 	}
 
-	punch() {
+	punch(posOPX, posOPY, attackOP) {
 		this.attacking = true;
 		this.animeChara('Punch');
+		if(this.collisionCheck(posOPX, posOPY, 120) == true) {
+			console.log("ca tape par ici");
+		}
 		this.attacking = false;
 	}
 	walk_right() {
@@ -48,9 +51,9 @@ export default class Character {
 		this.animeChara('Down');
 	}
 
-	collisionCheck(posOPX, posOPY) {
+	collisionCheck(posOPX, posOPY, w) {
 
-		let w = 80;
+		//let w = 80;
 		if(this.sens == 1) {
 			posOPX = Math.abs(posOPX);
 
@@ -94,7 +97,7 @@ export default class Character {
 
 		//Changement de position
 		//check des collision
-		if(this.collisionCheck(posOPX,posOPY) == true) {
+		if(this.collisionCheck(posOPX,posOPY, 80) == true) {
 			//si il y a collision alors il faut revenir à une position précédente car sinon on ne peut plus se déplacer
 			this.backLastCord();
 		}

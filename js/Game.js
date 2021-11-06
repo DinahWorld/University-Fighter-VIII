@@ -93,8 +93,8 @@ window.addEventListener('keydown', keydown_fun, false);
 function keydown_fun(e) {
 	switch (e.code) {
 		case 'KeyD':
-			player_1.punch();
-			player_2.punch();
+			player_1.punch(player_2.posXX, player_2.posYY, player_2.attacking);
+			player_2.punch(player_1.posXX, player_1.posYY, player_1.attacking);
 			break;
 
 		case 'ArrowLeft':
