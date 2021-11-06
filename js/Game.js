@@ -53,6 +53,7 @@ function onload_atlas() {
 	console.log(this.status);
 
 	if (this.status == 200) {
+		
 		let players = [player_1, player_2];
 
 		let json_infos = JSON.parse(this.responseText);
