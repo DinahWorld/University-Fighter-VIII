@@ -6,8 +6,12 @@ export default class Animation {
 		this.sens = sens;
 		this.posXX = posXX;
 		this.posYY = posYY;
-        
         this.posHYY = posYY
+
+		this.hitboxX = this.posXX + 20;
+		this.hitboxY = this.posYY + 170;
+		this.sizeW = 0;
+		this.sizeH = 0; 
 	}
 	init() {
 		//On initialise nos animations
@@ -24,12 +28,13 @@ export default class Animation {
 			if (this.sprites[i].event_code == event_code) {
 				this.sprites[i].next_step();
 				
-				if(event_code == 'Jump' && i != this.sprites.length-1) {
-					this.posYY -= 300;
-				}
+				//if(event_code == 'Jump' && i != this.sprites.length-1) {
+				//	this.posYY -= 300;
+				//}
 			}
 		}
 	}
+	
 
 	collisionCheck(posOPX, posOPY, w) {
 		//let w = 80;
@@ -58,40 +63,73 @@ export default class Animation {
 	prioCheck() {
 
 	}
+	
+	collision(player) {
+		///si on est le joueur a gauche alors on fait la valeur absolue du joueur a droite
+		///car il est sur une échelle négative
+		
+		if(this.sens == 1){
 
-	//quand on a sauté on doit revenir au sol petit à petit
-	jumpFallDown() {
-		if(this.posYY != 0) {
-			this.posYY += 30;
-			if(this.posYY > 0) {
-				this.posYY = 0;
+			let playerX = Math.abs(player.hitboxX);
+			///si ma position + la width de ma hitbox est supérieur ou égale (on peut enlever le égale peut etre) à la position du joueur opposé moins la width de hitbox alors il y a contact
+			/// && sert a vérifier si on est passer derriere le joueur adversaire 
+			if (
+				this.hitboxX + this.sizeW > playerX - player.sizeW&&
+				this.hitboxX <= playerX
+			) {
+			///contact donc on renvoit true
+			//console.log("sa se touche")
+				return true;
+			} else {
+				return false;
+			}
+		}
+		else{
+			let playerX = Math.abs(this.hitboxX);
+			if (
+				playerX - this.sizeW < player.hitboxX + player.sizeW&&
+				playerX >= player.hitboxX
+			) {
+			///contact donc on renvoit true
+			//console.log("sa se touche")
+
+				return true;
+			} else {
+				return false;
 			}
 		}
 	}
 
-	draw(index, posOPX, posOPY) {
+
+	draw(index,player) {
 		this.ctx.beginPath();
 
 		let step_i = this.sprites[index].animestep;
 		let cnv_i = this.sprites[index].animeseq[step_i];
 
-		this.jumpFallDown();
+		//this.jumpFallDown();
 
 		//Notre hitbox
 		this.ctx.strokeRect(
-			this.posXX,
-			this.posYY + 180,
-			(cnv_i.width - 15) * this.zoom,
-			(cnv_i.height - 55) * this.zoom
+			this.posXX + 20,
+			this.posYY + 170,
+			(cnv_i.width - 28) * this.zoom,
+			(cnv_i.height - 50) * this.zoom
 		);
 		this.ctx.stroke();
+		this.sizeW = (cnv_i.width - 32) * this.zoom;
 
 		//Changement de position
 		//check des collision
-        this.posXX += this.sprites[index].to_goX;
-		if (this.collisionCheck(posOPX, posOPY, 82) != false) {
-            this.posXX -= this.sprites[index].to_goX;
+		this.posXX += this.sprites[index].to_goX;
+		this.hitboxX = this.posXX + 20;
+		if(this.collision(player) == true){
+			this.posXX -= this.sprites[index].to_goX;
 		}
+
+		//if (this.collisionCheck(posOPX, posOPY, 82) != false) {
+        //    this.posXX -= this.sprites[index].to_goX;
+		//}
 
 		//On dessine notre sprite
 		this.ctx.drawImage(
@@ -107,12 +145,12 @@ export default class Animation {
 		this.ctx.closePath();
 	}
 
-	drawPlayer(posOPX, posOPY) {
+	drawPlayer(player) {
 		//Si this.sprites[0].to_draw == 1
 		//Alors sa veut dire le joueur ne fait aucune action
 		//donc on joue l'animation du perso
 		if (this.sprites[0].to_draw == 1) {
-			this.draw(0, posOPX, posOPY);
+			this.draw(0,player);
 
 			//On passe à l'image suivante de l'animation
 			this.sprites[0].next_step();
@@ -123,7 +161,7 @@ export default class Animation {
 			for (let i = 1; i < this.sprites.length; i += 1) {
 				if (this.sprites[i].to_draw == 1) {
 					//On dessine l'image de l'animation
-					this.draw(i, posOPX, posOPY);
+					this.draw(i,player);
 
 					//On récupere la valeur du nombre d'images de l'animation
 					let number_of_sprite = this.sprites[i].animeseq.length;

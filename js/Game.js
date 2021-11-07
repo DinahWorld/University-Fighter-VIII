@@ -30,7 +30,6 @@ xobj.send();
 
 let player_1 = new Character(0, 0, ctx, 1);
 let player_2 = new Character(-cnv.width, 0, ctx, 2);
-
 audio.play();
 function update() {
 	//console.log(player_1.posXX);
@@ -42,12 +41,25 @@ function update() {
 		//console.log(player_2.hp);
 		ctx.beginPath();
 		ctx.clearRect(0, 0, cnv.width, cnv.height);
-		player_1.drawPlayer(player_2.posXX, player_2.posYY);
+
+		ctx.font = '48px serif';
+		ctx.fillText(player_1.hp.toString(),50,50);
+		
+		ctx.font = '48px serif';
+		ctx.fillText(player_2.hp.toString(),cnv.width - 150,50);
+		
+		player_1.jumpingMove();
+		player_2.jumpingMove();
+
+		player_1.drawPlayer(player_2);
 		player_2.ctx.save();
 		player_2.ctx.scale(-1, 1);
-		player_2.drawPlayer(player_1.posXX, player_1.posYY);
+		player_2.drawPlayer(player_1);
 		player_2.ctx.restore();
 		ctx.closePath();
+
+		player_1.punchingMove(player_2);
+		player_2.punchingMove(player_1);
 	}
 }
 
@@ -83,7 +95,9 @@ function onload_atlas() {
 				players[i].sprites[0].to_draw = 1;
 				players[i].sprites[2].to_goX = -20;
 				players[i].sprites[3].to_goX = +20;
-				players[i].sprites[4].to_goY = -20;
+				players[i].length_of_walk = players[i].sprites[3].animeseq.length;
+
+
 			}
 		};
 	}
@@ -93,11 +107,11 @@ window.addEventListener('keydown', keydown_fun, false);
 
 function keydown_fun(e) {
 	switch (e.code) {
-		case 'KeyD':
+		case 'Space':
 			//player_1.punch(player_2.posXX, player_2.posYY, player_2.attacking, player_2.hp);
 			//player_2.punch(player_1.posXX, player_1.posYY, player_1.attacking, player_1.hp);
 			player_1.punch(player_2);
-			player_2.punch(player_1);
+			//player_2.punch(player_1);
 			break;
 
 		case 'ArrowLeft':
@@ -122,6 +136,10 @@ function keydown_fun(e) {
 
 		case 'Enter':
 			go = true;
+			break;
+
+		case 'KeyD':
+			player_2.punch(player_1);
 			break;
 	}
 }
