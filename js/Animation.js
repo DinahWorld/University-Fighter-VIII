@@ -55,18 +55,23 @@ export default class Animation {
 		}
 	}
 
-	draw(index, posOPX, posOPY) {
-		this.ctx.beginPath();
-
-		let step_i = this.sprites[index].animestep;
-		let cnv_i = this.sprites[index].animeseq[step_i];
-
+	jumpFallDown() {
 		if(this.posYY != 0) {
 			this.posYY += 30;
 			if(this.posYY > 0) {
 				this.posYY = 0;
 			}
 		}
+	}
+
+	draw(index, posOPX, posOPY) {
+		this.ctx.beginPath();
+
+		let step_i = this.sprites[index].animestep;
+		let cnv_i = this.sprites[index].animeseq[step_i];
+
+		this.jumpFallDown();
+
 		//Notre hitbox
 		this.ctx.strokeRect(
 			this.posXX,
