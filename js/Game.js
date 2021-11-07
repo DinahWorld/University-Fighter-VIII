@@ -38,6 +38,8 @@ function update() {
 	//Le go c'est juste car quand le programme se lance il execute le update avant meme
 	//que player_1 reçoit les sprites du coup on a des error dans la console
 	if (go == true) {
+		console.log(player_1.hp);
+		console.log(player_2.hp);
 		ctx.beginPath();
 		ctx.clearRect(0, 0, cnv.width, cnv.height);
 		player_1.drawPlayer(player_2.posXX, player_2.posYY);
@@ -92,8 +94,10 @@ window.addEventListener('keydown', keydown_fun, false);
 function keydown_fun(e) {
 	switch (e.code) {
 		case 'KeyD':
-			player_1.punch(player_2.posXX, player_2.posYY, player_2.attacking);
-			player_2.punch(player_1.posXX, player_1.posYY, player_1.attacking);
+			//player_1.punch(player_2.posXX, player_2.posYY, player_2.attacking, player_2.hp);
+			//player_2.punch(player_1.posXX, player_1.posYY, player_1.attacking, player_1.hp);
+			player_1.punch(player_2);
+			player_2.punch(player_1);
 			break;
 
 		case 'ArrowLeft':

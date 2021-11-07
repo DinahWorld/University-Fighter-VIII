@@ -55,6 +55,10 @@ export default class Animation {
 		}
 	}
 
+	prioCheck() {
+		
+	}
+
 	jumpFallDown() {
 		if(this.posYY != 0) {
 			this.posYY += 30;
