@@ -26,7 +26,7 @@ export default class Character extends Animation {
 	jump() {
 		this.jumping = true;
 		super.animeChara('Jump');
-		//this.posYY -= 100;
+		//this.posYY -= 400;
 		this.jumping = false;
 	}
 	down() {

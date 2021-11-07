@@ -23,10 +23,12 @@ export default class Animation {
 		for (let i = 0; i < this.sprites.length; i += 1) {
 			if (this.sprites[i].event_code == event_code) {
 				this.sprites[i].next_step();
-				/*if(event_code == 'Jump' && i != this.sprites.length-1) {
-					this.posYY -= 20;
+				
+				if(event_code == 'Jump' && i != this.sprites.length-1) {
+					//i-=1;
+					this.posYY -= 300;
 				}
-				if(event_code == 'Jump' && i == this.sprites.length-1 && this.posYY != lastY) {
+				/*if(event_code == 'Jump' && i == this.sprites.length-1 && this.posYY != 0) {
 					i-=1;
 					this.posYY += 20;
 				}*/
