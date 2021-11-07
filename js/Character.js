@@ -23,11 +23,8 @@ export default class Character extends Animation {
 	walk_left() {
 		super.animeChara('WalkLeft');
 	}
-	jump() {
-		this.jumping = true;
+	jump() {		
 		super.animeChara('Jump');
-		//this.posYY -= 400;
-		this.jumping = false;
 	}
 	down() {
 		super.animeChara('Down');

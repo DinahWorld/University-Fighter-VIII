@@ -46,19 +46,6 @@ function update() {
 		player_2.drawPlayer(player_1.posXX, player_1.posYY);
 		player_2.ctx.restore();
 		ctx.closePath();
-
-		if(player_1.posYY != 0) {
-			player_1.posYY += 30;
-			if(player_1.posYY > 0) {
-				player_1.posYY = 0;
-			}
-		}
-		if(player_2.posYY != 0) {
-			player_2.posYY += 30;
-			if(player_2.posYY > 0) {
-				player_2.posYY = 0;
-			}
-		}
 	}
 }
 

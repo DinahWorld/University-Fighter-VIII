@@ -25,13 +25,8 @@ export default class Animation {
 				this.sprites[i].next_step();
 				
 				if(event_code == 'Jump' && i != this.sprites.length-1) {
-					//i-=1;
 					this.posYY -= 300;
 				}
-				/*if(event_code == 'Jump' && i == this.sprites.length-1 && this.posYY != 0) {
-					i-=1;
-					this.posYY += 20;
-				}*/
 			}
 		}
 	}
@@ -66,6 +61,12 @@ export default class Animation {
 		let step_i = this.sprites[index].animestep;
 		let cnv_i = this.sprites[index].animeseq[step_i];
 
+		if(this.posYY != 0) {
+			this.posYY += 30;
+			if(this.posYY > 0) {
+				this.posYY = 0;
+			}
+		}
 		//Notre hitbox
 		this.ctx.strokeRect(
 			this.posXX,
