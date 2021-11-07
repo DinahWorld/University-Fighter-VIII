@@ -95,7 +95,6 @@ function onload_atlas() {
 				players[i].sprites[0].to_draw = 1;
 				players[i].sprites[2].to_goX = -20;
 				players[i].sprites[3].to_goX = +20;
-				players[i].length_of_walk = players[i].sprites[3].animeseq.length;
 
 
 			}
