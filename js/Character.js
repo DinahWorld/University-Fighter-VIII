@@ -5,7 +5,6 @@ export default class Character extends Animation {
 		super(ctx, posXX, posYY, sens);
 		this.hp = 10000;
 		this.attacking = false;
-		this.jumping = false;
 	}
 
 	//besoin d'un pseudo setter sinon l'objet adversaire ne comptabilise pas les dommages
@@ -41,6 +40,7 @@ export default class Character extends Animation {
 		super.animeChara('WalkLeft');
 	}
 	jump() {		
+		super.jumping = true;
 		super.animeChara('Jump');
 	}
 	down() {

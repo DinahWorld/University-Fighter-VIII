@@ -111,8 +111,12 @@ function keydown_fun(e) {
 			break;
 
 		case 'ArrowUp':
+			if(player_1.jumping == false) {
 			player_1.jump();
+			}
+			if(player_2.jumping == false) {
 			player_2.jump();
+			}
 			break;
 
 		case 'ArrowDown':

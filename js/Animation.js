@@ -5,9 +5,9 @@ export default class Animation {
 		this.ctx = ctx;
 		this.sens = sens;
 		this.posXX = posXX;
-		this.posYY = posYY;
-        
-        this.posHYY = posYY
+		this.posYY = posYY;     
+        this.posHYY = posYY;
+		this.jumping = false;
 	}
 	init() {
 		//On initialise nos animations
@@ -66,6 +66,9 @@ export default class Animation {
 			if(this.posYY > 0) {
 				this.posYY = 0;
 			}
+		}
+		if(this.posYY == 0) {
+			this.jumping = false;
 		}
 	}
 
