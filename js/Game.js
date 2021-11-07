@@ -28,9 +28,8 @@ xobj.overrideMimeType('application/json');
 xobj.open('GET', './assets/atlas/ken.json', true);
 xobj.send();
 
-
 let player_1 = new Character(0, 0, ctx, 1);
-let player_2 = new Character(- cnv.width, 0, ctx, 2);
+let player_2 = new Character(-cnv.width, 0, ctx, 2);
 
 audio.play();
 function update() {
@@ -43,7 +42,7 @@ function update() {
 		ctx.clearRect(0, 0, cnv.width, cnv.height);
 		player_1.drawPlayer(player_2.posXX, player_2.posYY);
 		player_2.ctx.save();
-		player_2.ctx.scale(-1,1);
+		player_2.ctx.scale(-1, 1);
 		player_2.drawPlayer(player_1.posXX, player_1.posYY);
 		player_2.ctx.restore();
 		ctx.closePath();
@@ -54,7 +53,6 @@ function onload_atlas() {
 	//console.log(this.status);
 
 	if (this.status == 200) {
-		
 		let players = [player_1, player_2];
 
 		let json_infos = JSON.parse(this.responseText);
