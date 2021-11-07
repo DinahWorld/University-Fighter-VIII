@@ -38,8 +38,8 @@ function update() {
 	//Le go c'est juste car quand le programme se lance il execute le update avant meme
 	//que player_1 reçoit les sprites du coup on a des error dans la console
 	if (go == true) {
-		console.log(player_1.hp);
-		console.log(player_2.hp);
+		//console.log(player_1.hp);
+		//console.log(player_2.hp);
 		ctx.beginPath();
 		ctx.clearRect(0, 0, cnv.width, cnv.height);
 		player_1.drawPlayer(player_2.posXX, player_2.posYY);

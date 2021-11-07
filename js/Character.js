@@ -8,6 +8,8 @@ export default class Character extends Animation {
 		this.jumping = false;
 	}
 
+	//besoin d'un pseudo setter sinon l'objet adversaire ne comptabilise pas les dommages
+	//avec amout on pourra changer le nombre de dégat selon l'attack
 	takeDamage(amount) {
 		this.hp -= amount;
 	}
@@ -22,6 +24,8 @@ export default class Character extends Animation {
 			console.log('ca tape par ici');
 			if(OP.attacking == true) {
 				//on vérifie qui à la priorité
+				//pas sur que la prio soit nécessaire pour avoir le meme timing c'est difficile
+				//mais toujours mieux de l'avoir
 			}
 			else {
 				OP.takeDamage(1000);

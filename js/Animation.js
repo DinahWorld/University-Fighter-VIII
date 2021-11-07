@@ -56,9 +56,10 @@ export default class Animation {
 	}
 
 	prioCheck() {
-		
+
 	}
 
+	//quand on a sauté on doit revenir au sol petit à petit
 	jumpFallDown() {
 		if(this.posYY != 0) {
 			this.posYY += 30;
