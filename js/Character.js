@@ -77,7 +77,34 @@ export default class Character extends Animation {
 		this.attacking = false;
 		super.animeChara('Down');
 	}
-
+	block(){
+		this.attacking = false;
+		super.animeChara('Block')
+	}
+	damaged(){
+		this.attacking = false;
+		super.animeChara('Hit')
+	}
+	punch2(){
+		this.attacking = true;
+		super.animeChara('Punch2')
+	}
+	punch3(){
+		this.attacking = true;
+		super.animeChara('Punch3')
+	}
+	kick(){
+		this.attacking = true;
+		super.animeChara('Kick')
+	}
+	run_left(){
+		this.attacking = false;
+		super.animeChara('RunLeft')
+	}
+	run_left(){
+		this.attacking = false;
+		super.animeChara('RunLeft')
+	}
 	punchingMove(player){
 		if(this.attacking == true){
 			if(super.collision(player) == true){

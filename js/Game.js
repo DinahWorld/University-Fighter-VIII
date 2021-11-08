@@ -15,7 +15,6 @@ import Character from './Character.js';
 import SpriteAtlas from './SpriteAtlas.js';
 
 let cnv = document.getElementById('myCanvas');
-cnv.width = window.innerWidth - 10;
 let ctx = cnv.getContext('2d');
 ctx.imageSmoothingEnabled = false;
 let xobj = new XMLHttpRequest();
@@ -25,7 +24,7 @@ let go = false;
 
 xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
-xobj.open('GET', './assets/atlas/chunli.json', true);
+xobj.open('GET', './assets/atlas/ryu.json', true);
 xobj.send();
 
 let player_1 = new Character(0, 0, ctx, 1);
@@ -80,7 +79,7 @@ function onload_atlas() {
 			let context1 = canvas1.getContext('2d');
 			context1.drawImage(spritesheet, 0, 0, canvas1.width, canvas1.height);
 
-			for (let i = 0; i < 6; i++) {
+			for (let i = 0; i < 13; i++) {
 				players[0].sprites[i] = new SpriteAtlas(context1, json_infos);
 				players[1].sprites[i] = new SpriteAtlas(context1, json_infos);
 			}
@@ -92,6 +91,13 @@ function onload_atlas() {
 				players[i].sprites[3].add_anime('walk-right', 1, 11, 'WalkRight');
 				players[i].sprites[4].add_anime('jump', 1, 21, 'Jump');
 				players[i].sprites[5].add_anime('down', 1, 6, 'Down');
+				players[i].sprites[6].add_anime('punch-2', 1, 8, 'Punch2');
+				players[i].sprites[7].add_anime('punch-3', 1, 9, 'Punch3');
+				players[i].sprites[8].add_anime('damaged', 1, 3, 'Hit');
+				players[i].sprites[9].add_anime('block', 1, 4, 'Block');
+				players[i].sprites[10].add_anime('run-left', 1, 6, 'RunLeft');
+				players[i].sprites[11].add_anime('run-right', 1, 6, 'RunRight');
+				players[i].sprites[12].add_anime('kick', 1, 7, 'Kick');
 				players[i].sprites[0].to_draw = 1;
 				players[i].sprites[2].to_goX = -20;
 				players[i].sprites[3].to_goX = +20;
@@ -140,6 +146,34 @@ function keydown_fun(e) {
 		case 'KeyD':
 			player_2.punch(player_1);
 			break;
+
+		case 'KeyA':
+			player_2.block();
+			break;
+		
+		case 'KeyE':
+			player_2.kick();
+			break;
+		
+		case 'KeyX':
+			player_2.punch2();
+			break;
+		
+		
+		case 'KeyC':
+			player_2.punch3();
+			break;
+		
+		case 'KeyQ':
+			player_2.run_left();
+			break;
+
+		case 'KeyD':
+			player_2.run_right();
+			break;
+		
+		case 'KeyF':
+			player_2.damaged()
 	}
 }
 
