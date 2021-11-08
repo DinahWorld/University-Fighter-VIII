@@ -173,9 +173,7 @@ function keydown_fun(e) {
 		case 'KeyE':
 			player_2.run_right();
 			break;
-		
-		case 'KeyF':
-			player_2.damaged()
+	
 	}
 }
 

@@ -114,7 +114,7 @@ export default class Animation {
 			this.posXX - 60,
 			this.posYY + 170,
 			(cnv_i.width - 155) * this.zoom,
-			(cnv_i.height - 50) * this.zoom
+			(cnv_i.height - 100) * this.zoom
 		);
 		this.ctx.stroke();
 		this.sizeW = (cnv_i.width  - 155) * this.zoom;

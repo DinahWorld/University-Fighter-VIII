@@ -39,9 +39,10 @@ export default class Character extends Animation {
     
 	//punch(posOPX, posOPY, attackOP, HPOP) {
 	punch(OP) {
-		this.attacking = true;
-		super.animeChara('Punch');
-		
+		//if(this.attacking == false){
+			this.attacking = true;
+			super.animeChara('Punch')	
+		//}
 		//if (super.collisionCheck(posOPX, posOPY, 120) == true) {
 		//if(super.collisionCheck(OP.posXX, OP.posYY, 120) == true) {
 		//	console.log('ca tape par ici');
@@ -86,16 +87,22 @@ export default class Character extends Animation {
 		super.animeChara('Hit')
 	}
 	punch2(){
-		this.attacking = true;
-		super.animeChara('Punch2')
+		//if(this.attacking == false){
+			this.attacking = true;
+			super.animeChara('Punch2')	
+		//}
 	}
 	punch3(){
-		this.attacking = true;
-		super.animeChara('Punch3')
+		//if(this.attacking == false){
+			this.attacking = true;
+			super.animeChara('Punch3')	
+		//}
 	}
 	kick(){
-		this.attacking = true;
-		super.animeChara('Kick')
+		//if(this.attacking == false){
+			this.attacking = true;
+			super.animeChara('Kick')	
+		//}
 	}
 	run_left(){
 		this.attacking = false;
@@ -110,6 +117,7 @@ export default class Character extends Animation {
 			if(super.collision(player) == true){
 				console.log("sa tape")
 				player.takeDamage(1000);
+				player.damaged();
 				this.attacking = false;
 			}
 		}
