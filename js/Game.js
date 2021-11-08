@@ -101,6 +101,8 @@ function onload_atlas() {
 				players[i].sprites[0].to_draw = 1;
 				players[i].sprites[2].to_goX = -20;
 				players[i].sprites[3].to_goX = +20;
+				players[i].sprites[10].to_goX = -50;
+				players[i].sprites[11].to_goX = +50;
 
 
 			}
@@ -151,7 +153,7 @@ function keydown_fun(e) {
 			player_2.block();
 			break;
 		
-		case 'KeyE':
+		case 'KeyS':
 			player_2.kick();
 			break;
 		
@@ -168,7 +170,7 @@ function keydown_fun(e) {
 			player_2.run_left();
 			break;
 
-		case 'KeyD':
+		case 'KeyE':
 			player_2.run_right();
 			break;
 		

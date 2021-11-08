@@ -101,9 +101,9 @@ export default class Character extends Animation {
 		this.attacking = false;
 		super.animeChara('RunLeft')
 	}
-	run_left(){
+	run_right(){
 		this.attacking = false;
-		super.animeChara('RunLeft')
+		super.animeChara('RunRight')
 	}
 	punchingMove(player){
 		if(this.attacking == true){
