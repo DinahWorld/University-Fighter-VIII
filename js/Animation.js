@@ -1,7 +1,7 @@
 export default class Animation {
 	constructor(ctx, posXX, posYY, sens) {
 		this.sprites = [];
-		this.zoom = 4;
+		this.zoom = 3;
 		this.ctx = ctx;
 		this.sens = sens;
 		this.posXX = posXX;
@@ -111,18 +111,18 @@ export default class Animation {
 
 		//Notre hitbox
 		this.ctx.strokeRect(
-			this.posXX + 20,
+			this.posXX - 60,
 			this.posYY + 170,
-			(cnv_i.width - 28) * this.zoom,
+			(cnv_i.width - 155) * this.zoom,
 			(cnv_i.height - 50) * this.zoom
 		);
 		this.ctx.stroke();
-		this.sizeW = (cnv_i.width - 32) * this.zoom;
+		this.sizeW = (cnv_i.width  - 155) * this.zoom;
 
 		//Changement de position
 		//check des collision
 		this.posXX += this.sprites[index].to_goX;
-		this.hitboxX = this.posXX + 20;
+		this.hitboxX = this.posXX - 60;
 		if(this.collision(player) == true){
 			this.posXX -= this.sprites[index].to_goX;
 		}
@@ -134,7 +134,7 @@ export default class Animation {
 		//On dessine notre sprite
 		this.ctx.drawImage(
 			cnv_i,
-			this.posXX - 80,
+			this.posXX - 500,
 			this.posYY,
 			cnv_i.width * this.zoom,
 			cnv_i.height * this.zoom

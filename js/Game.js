@@ -25,7 +25,7 @@ let go = false;
 
 xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
-xobj.open('GET', './assets/atlas/ken.json', true);
+xobj.open('GET', './assets/atlas/chunli.json', true);
 xobj.send();
 
 let player_1 = new Character(0, 0, ctx, 1);
@@ -87,10 +87,10 @@ function onload_atlas() {
 
 			for (let i = 0; i < number_of_player; i++) {
 				players[i].sprites[0].add_anime('normal', 1, 10, '');
-				players[i].sprites[1].add_anime('punch', 1, 5, 'Punch');
+				players[i].sprites[1].add_anime('punch-1', 1, 4, 'Punch');
 				players[i].sprites[2].add_anime('walk-left', 1, 11, 'WalkLeft');
 				players[i].sprites[3].add_anime('walk-right', 1, 11, 'WalkRight');
-				players[i].sprites[4].add_anime('jump', 1, 11, 'Jump');
+				players[i].sprites[4].add_anime('jump', 1, 21, 'Jump');
 				players[i].sprites[5].add_anime('down', 1, 6, 'Down');
 				players[i].sprites[0].to_draw = 1;
 				players[i].sprites[2].to_goX = -20;

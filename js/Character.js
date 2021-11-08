@@ -91,7 +91,7 @@ export default class Character extends Animation {
 	//quand on a sauté on doit revenir au sol petit à petit
 	jumpingMove(){
 		if(this.jumping == true){
-			if(this.posYY != -(this.jump_value) * 4){
+			if(this.posYY != -(this.jump_value) * 9){
 				this.posYY -= this.jump_value;
 			}else{
 				this.jumping = false;
