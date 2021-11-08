@@ -1,6 +1,8 @@
 /*
  *
  *     TODO
+ * 		Changement de map
+ * 		Changement de perso
  *     Changer cette musique dégeulasse
  *     Refaire le découpage des sprites (AAAAAAAAAAAAAAH)
  *     Collision
@@ -24,7 +26,7 @@ let go = false;
 
 xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
-xobj.open('GET', './assets/atlas/ryu.json', true);
+xobj.open('GET', './assets/atlas/chunli.json', true);
 xobj.send();
 
 let player_1 = new Character(0, 0, ctx, 1);
@@ -177,4 +179,4 @@ function keydown_fun(e) {
 	}
 }
 
-setInterval(update, 40);
+setInterval(update, 45);

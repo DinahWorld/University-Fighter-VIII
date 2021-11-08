@@ -113,11 +113,11 @@ export default class Animation {
 		this.ctx.strokeRect(
 			this.posXX - 60,
 			this.posYY + 170,
-			(cnv_i.width - 155) * this.zoom,
+			(cnv_i.width - 160) * this.zoom,
 			(cnv_i.height - 100) * this.zoom
 		);
 		this.ctx.stroke();
-		this.sizeW = (cnv_i.width  - 155) * this.zoom;
+		this.sizeW = (cnv_i.width  - 160) * this.zoom;
 
 		//Changement de position
 		//check des collision
