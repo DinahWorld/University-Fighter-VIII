@@ -27,7 +27,7 @@ let hp_1 = 500;
 let hp_2 = 500;
 xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
-xobj.open('GET', './assets/atlas/ken.json', true);
+xobj.open('GET', './assets/atlas/akuma.json', true);
 xobj.send();
 
 let player_1 = new Character(0, 0, ctx, 1);
@@ -94,6 +94,7 @@ function onload_atlas() {
 				players[1].sprites[i] = new SpriteAtlas(context1, json_infos);
 			}
 
+			//TODO : Les perso n'ont pas le meme nombre de sprite
 			for (let i = 0; i < number_of_player; i++) {
 				players[i].sprites[0].add_anime('normal', 1, 10, '');
 				players[i].sprites[1].add_anime('punch-1', 1, 4, 'Punch');
@@ -103,7 +104,7 @@ function onload_atlas() {
 				players[i].sprites[5].add_anime('down', 1, 6, 'Down');
 				players[i].sprites[6].add_anime('punch-2', 1, 8, 'Punch2');
 				players[i].sprites[7].add_anime('punch-3', 1, 9, 'Punch3');
-				players[i].sprites[8].add_anime('damaged', 1, 3, 'Hit');
+				players[i].sprites[8].add_anime('damaged', 1, 7, 'Hit');
 				players[i].sprites[9].add_anime('block', 1, 4, 'Block');
 				players[i].sprites[10].add_anime('run-left', 1, 6, 'RunLeft');
 				players[i].sprites[11].add_anime('run-right', 1, 6, 'RunRight');
