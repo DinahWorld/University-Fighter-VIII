@@ -2,8 +2,8 @@ import Animation from './Animation.js';
 
 export default class Character extends Animation {
 	constructor(posXX, posYY, ctx, sens) {
-		super(ctx, posXX, posYY, sens);
-		this.hp = 10000;
+		super(ctx, posXX+100, posYY, sens);
+		this.hp = 500;
 		this.attacking = false;
 		this.jumping = false;
 		this.falling = false;
@@ -15,6 +15,8 @@ export default class Character extends Animation {
 	//avec amout on pourra changer le nombre de dégat selon l'attack
 	takeDamage(amount) {
 		this.hp -= amount;
+		if(this.hp <= 0)
+			this.hp = 0;
 	}
 
 	//collision(player) {
@@ -116,7 +118,7 @@ export default class Character extends Animation {
 		if(this.attacking == true){
 			if(super.collision(player) == true){
 				console.log("sa tape")
-				player.takeDamage(1000);
+				player.takeDamage(10);
 				player.damaged();
 				this.attacking = false;
 			}

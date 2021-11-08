@@ -23,10 +23,11 @@ let xobj = new XMLHttpRequest();
 let number_of_player = 2;
 let audio = new Audio('./assets/music/battle_music.mp3');
 let go = false;
-
+let hp_1 = 500;
+let hp_2 = 500;
 xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
-xobj.open('GET', './assets/atlas/chunli.json', true);
+xobj.open('GET', './assets/atlas/ken.json', true);
 xobj.send();
 
 let player_1 = new Character(0, 0, ctx, 1);
@@ -40,21 +41,28 @@ function update() {
 	if (go == true) {
 		//console.log(player_1.hp);
 		//console.log(player_2.hp);
+		if(hp_1 != player_1.hp)
+			hp_1 -= 5;
+		if(hp_2 != player_2.hp)
+			hp_2 -= 5;
+		
 		ctx.beginPath();
+
 		ctx.clearRect(0, 0, cnv.width, cnv.height);
 
-		ctx.font = '48px serif';
-		ctx.fillText(player_1.hp.toString(),50,50);
-		
-		ctx.font = '48px serif';
-		ctx.fillText(player_2.hp.toString(),cnv.width - 150,50);
-		
+		ctx.fillStyle = 'red';
+		ctx.fillRect(20,20,hp_1,50);
+
 		player_1.jumpingMove();
 		player_2.jumpingMove();
 
 		player_1.drawPlayer(player_2);
 		player_2.ctx.save();
 		player_2.ctx.scale(-1, 1);
+
+		ctx.fillStyle = 'red';
+		ctx.fillRect(-cnv.width + 20,20,hp_2,50);
+		
 		player_2.drawPlayer(player_1);
 		player_2.ctx.restore();
 		ctx.closePath();
