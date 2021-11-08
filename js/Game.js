@@ -25,6 +25,8 @@ let audio = new Audio('./assets/music/battle_music.mp3');
 let go = false;
 let hp_1 = 500;
 let hp_2 = 500;
+let action = true;
+
 xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
 xobj.open('GET', './assets/atlas/akuma.json', true);
@@ -41,6 +43,12 @@ function update() {
 	if (go == true) {
 		//console.log(player_1.hp);
 		//console.log(player_2.hp);
+		if(player_1.combo != 0){
+			player_1.combo -= 1;
+		}
+		if(player_2.combo != 0){
+			player_2.combo -= 1;
+		}
 		if(hp_1 != player_1.hp)
 			hp_1 -= 5;
 		if(hp_2 != player_2.hp)
@@ -121,69 +129,92 @@ function onload_atlas() {
 	}
 }
 
+//Permet de ne pas rester appuyer sur une touche
 window.addEventListener('keydown', keydown_fun, false);
+window.addEventListener('keyup', keyup_fun, false);
 
+function keyup_fun(){
+	action = true;
+}
 function keydown_fun(e) {
-	switch (e.code) {
-		case 'Space':
-			//player_1.punch(player_2.posXX, player_2.posYY, player_2.attacking, player_2.hp);
-			//player_2.punch(player_1.posXX, player_1.posYY, player_1.attacking, player_1.hp);
-			player_1.punch(player_2);
-			//player_2.punch(player_1);
-			break;
-
-		case 'ArrowLeft':
-			player_1.walk_left();
-			player_2.walk_left();
-			break;
-
-		case 'ArrowRight':
-			player_1.walk_right();
-			player_2.walk_right();
-			break;
-
-		case 'ArrowUp':
-			player_1.jump();
-			player_2.jump();
-			break;
-
-		case 'ArrowDown':
-			player_1.down();
-			player_2.down();
-			break;
-
-		case 'Enter':
-			go = true;
-			break;
-
-		case 'KeyD':
-			player_2.punch(player_1);
-			break;
-
-		case 'KeyA':
-			player_2.block();
-			break;
+	if(action == true){
+		action = false;
+		switch (e.code) {
+			case 'Space':
+				if(player_1.combo == 0){
+					player_1.combo += 5;
+					player_1.punch();
+				}
+				else if(player_1.combo <= 5){
+					player_1.combo += 10;
+					player_1.punch3();
+	
+				}
+				else if(player_1.combo >= 5){
+					player_1.combo = 0;
+					player_1.punch2();
+				}
+				console.log(player_2.combo)
+				break;
+	
+			case 'ArrowLeft':
+				player_1.walk_left();
+				player_2.walk_left();
+				break;
+	
+			case 'ArrowRight':
+				player_1.walk_right();
+				player_2.walk_right();
+				break;
+	
+			case 'ArrowUp':
+				player_1.jump();
+				player_2.jump();
+				break;
+	
+			case 'ArrowDown':
+				player_1.down();
+				player_2.down();
+				break;
+	
+			case 'Enter':
+				go = true;
+				break;
+	
+			case 'KeyD':
+				if(player_2.combo == 0){
+					player_2.combo += 5;
+					player_2.punch();
+				}
+				else if(player_2.combo <= 5){
+					player_2.combo += 10;
+					player_2.punch3();
+	
+				}
+				else if(player_2.combo >= 5){
+					player_2.combo = 0;
+					player_2.punch2();
+				}
+				console.log(player_2.combo)
+				break;
+	
+			case 'KeyA':
+				player_2.block();
+				break;
+			
+			case 'KeyS':
+				player_2.kick();
+				break;
+			
+			case 'KeyQ':
+				player_2.run_left();
+				break;
+	
+			case 'KeyE':
+				player_2.run_right();
+				break;
 		
-		case 'KeyS':
-			player_2.kick();
-			break;
-		
-		case 'KeyX':
-			player_2.punch2();
-			break;
-		
-		
-		case 'KeyC':
-			player_2.punch3();
-			break;
-		
-		case 'KeyQ':
-			player_2.run_left();
-			break;
-
-		case 'KeyE':
-			player_2.run_right();
-			break;
+		}
 	
 	}
 }

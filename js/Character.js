@@ -4,6 +4,7 @@ export default class Character extends Animation {
 	constructor(posXX, posYY, ctx, sens) {
 		super(ctx, posXX+100, posYY, sens);
 		this.hp = 500;
+		this.combo = 0;
 		this.attacking = false;
 		this.jumping = false;
 		this.falling = false;
@@ -40,7 +41,7 @@ export default class Character extends Animation {
         
     
 	//punch(posOPX, posOPY, attackOP, HPOP) {
-	punch(OP) {
+	punch() {
 		//if(this.attacking == false){
 			this.attacking = true;
 			super.animeChara('Punch')	
