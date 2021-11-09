@@ -131,7 +131,7 @@ export default class Character extends Animation {
 			}
 		}
 		if(super.getrange() != 0) {
-			console.log(super.collisionRange(player));
+			//console.log(super.collisionRange(player));
 			if(super.collisionRange(player) == true) {
 				console.log("je ne rate jamais ma cible");
 				player.takeDamage(20);

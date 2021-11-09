@@ -81,11 +81,14 @@ export default class Animation {
 			if(this.sens == 1){
 
 				let playerX = Math.abs(player.hitboxX);
+				let playerY = Math.abs(player.hitboxY);
 				///si ma position + la width de ma hitbox est supérieur ou égale (on peut enlever le égale peut etre) à la position du joueur opposé moins la width de hitbox alors il y a contact
 				/// && sert a vérifier si on est passer derriere le joueur adversaire 
 				if (
-					this.range_attack[i][0] + this.range_attack[i][2] > playerX - player.sizeW&&
-					this.range_attack[i][0] <= playerX
+					this.range_attack[i][0] + this.range_attack[i][2] > playerX - player.sizeW &&
+					this.range_attack[i][0] <= playerX &&
+					this.range_attack[i][1] + this.range_attack[i][3] > playerY &&
+					this.range_attack[i][1] < playerY + player.sizeH
 				) {
 				///contact donc on renvoit true
 				//console.log("sa se touche")
@@ -97,9 +100,12 @@ export default class Animation {
 			}
 			else{
 				let attackX = Math.abs(this.range_attack[i][0]);
+				let attackY = Math.abs(this.range_attack[i][1]);
 				if (
-					playerX - this.range_attack[i][2] < player.hitboxX + player.sizeW&&
-					playerX >= this.range_attack[i][0]
+					attackX - this.range_attack[i][2] < player.hitboxX + player.sizeW &&
+					attackX >= this.range_attack[i][0] &&
+					attackY + this.range_attack[i][3] > player.hitboxY &&
+					attackY < player.hitboxY + player.sizeH
 				) {
 				///contact donc on renvoit true
 				//console.log("sa se touche")
@@ -178,12 +184,13 @@ export default class Animation {
 					//(cnv_i.width - 80) * this.zoom,
 					//(cnv_i.height - 40) * this.zoom
 				);
-				this.range_attack[i][0] += 10;
-				console.log(this.range_attack[i]);
+				this.range_attack[i][0] += 30;
+				//console.log(this.range_attack[i]);
 			}
 		}
 		this.ctx.stroke();
 		this.sizeW = (cnv_i.width  - 160) * this.zoom;
+		this.sizeH = (cnv_i.height - 100) * this.zoom;
 
 		//Changement de position
 		//check des collision
