@@ -108,11 +108,22 @@ export default class Animation {
 
 			}
 			else{
+
+				if(this.range_attack[i][0] > 0) {
+					this.range_attack.splice(i, 1);
+					continue;
+				}
 				let attackX = Math.abs(this.range_attack[i][0]);
 				let attackY = Math.abs(this.range_attack[i][1]);
+
+				/*if(attackX  < 0) {
+					this.range_attack.splice(i, 1);
+					continue;
+				}*/
+				console.log(attackX);
 				if (
 					attackX - this.range_attack[i][2] < player.hitboxX + player.sizeW &&
-					attackX >= this.range_attack[i][0] &&
+					attackX > player.hitboxX/*this.range_attack[i][0]*/ &&
 					attackY + this.range_attack[i][3] > player.hitboxY &&
 					attackY < player.hitboxY + player.sizeH
 				) {

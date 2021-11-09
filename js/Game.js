@@ -187,7 +187,7 @@ function keydown_fun(e) {
 			player_2.run_right();
 			break;
 		case 'KeyH':
-			player_1.hadouken();
+			player_2.hadouken();
 			break;
 	}
 }
