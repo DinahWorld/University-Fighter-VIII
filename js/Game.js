@@ -53,6 +53,8 @@ function update() {
 		ctx.fillStyle = 'red';
 		ctx.fillRect(20,20,hp_1,50);
 
+		//player_1.punchingMove(player_2);
+		//player_2.punchingMove(player_1);
 		player_1.jumpingMove();
 		player_2.jumpingMove();
 
@@ -68,6 +70,7 @@ function update() {
 		ctx.closePath();
 
 		player_1.punchingMove(player_2);
+		//console.log(player_2.posYY);
 		player_2.punchingMove(player_1);
 	}
 }

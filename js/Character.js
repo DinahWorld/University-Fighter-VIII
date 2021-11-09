@@ -7,7 +7,7 @@ export default class Character extends Animation {
 		this.attacking = false;
 		this.jumping = false;
 		this.falling = false;
-		this.jump_value = 50;
+		this.jump_value = 100;
 		//this.range_attack = [];
 	}
 
@@ -22,28 +22,8 @@ export default class Character extends Animation {
 	hadouken() {
 		super.animeChara('Punch');
 		super.addrange([this.posXX - 60 +this.sizeW, this.posYY + 270, 60, 40]);
-		//super.range_attack.push([super.posXX - 60, super.posYY + 170, 40, 20]);
-
 	}
 
-	//collision(player) {
-    //        ///si on est le joueur a gauche alors on fait la valeur absolue du joueur a droite
-    //        ///car il est sur une échelle négative
-//
-	//		let playerX = Math.abs(player.hitboxX) - player.sizeW;
-	//		///si ma position + la width de ma hitbox est supérieur ou égale (on peut enlever le égale peut etre) à la position du joueur opposé moins la width de hitbox alors il y a contact
-    //        /// && sert a vérifier si on est passer derriere le joueur adversaire 
-    //        if (
-    //            this.hitboxX + this.sizeW > playerX &&
-    //            this.hitboxX <= playerX
-    //        ) {
-    //          ///contact donc on renvoit true
-	//		  console.log("sa se touche")
-//
-	//		} else {
-    //            ///sinon false
-    //        }
-    //    }
         
     
 	//punch(posOPX, posOPY, attackOP, HPOP) {

@@ -78,15 +78,21 @@ export default class Animation {
 	collisionRange(player) {
 
 		for(let i = 0; i < this.range_attack.length; i++) {
-			if(this.sens == 1){
+			//if(this.sens == 1){
 
 				let playerX = Math.abs(player.hitboxX);
-				let playerY = Math.abs(player.hitboxY);
+				//let playerY = Math.abs(player.hitboxY);
+				let playerY = Math.abs(player.posYY);
+				//console.log(playerY);
+				
 				///si ma position + la width de ma hitbox est supérieur ou égale (on peut enlever le égale peut etre) à la position du joueur opposé moins la width de hitbox alors il y a contact
 				/// && sert a vérifier si on est passer derriere le joueur adversaire 
+				///playerY ne change pas
+				//console.log(this.range_attack[i][1]);
+				console.log(playerY);
 				if (
 					this.range_attack[i][0] + this.range_attack[i][2] > playerX - player.sizeW &&
-					this.range_attack[i][0] <= playerX &&
+					this.range_attack[i][0] < playerX &&
 					this.range_attack[i][1] + this.range_attack[i][3] > playerY &&
 					this.range_attack[i][1] < playerY + player.sizeH
 				) {
@@ -95,9 +101,10 @@ export default class Animation {
 					this.range_attack.splice(i, 1);
 					return true;
 				} else {
+					//console.log("nop");
 					return false;
 				}
-			}
+			/*}
 			else{
 				let attackX = Math.abs(this.range_attack[i][0]);
 				let attackY = Math.abs(this.range_attack[i][1]);
@@ -114,7 +121,7 @@ export default class Animation {
 				} else {
 					return false;
 				}
-			}
+			}*/
 		}
 	}
 	
@@ -196,6 +203,7 @@ export default class Animation {
 		//check des collision
 		this.posXX += this.sprites[index].to_goX;
 		this.hitboxX = this.posXX - 60;
+		this.hitboxY = this.posYY + 170;
 		if(this.collision(player) == true){
 			this.posXX -= this.sprites[index].to_goX;
 		}
