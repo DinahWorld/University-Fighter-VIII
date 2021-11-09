@@ -8,7 +8,7 @@ export default class Character extends Animation {
 		this.jumping = false;
 		this.falling = false;
 		this.jump_value = 50;
-
+		//this.range_attack = [];
 	}
 
 	//besoin d'un pseudo setter sinon l'objet adversaire ne comptabilise pas les dommages
@@ -17,6 +17,13 @@ export default class Character extends Animation {
 		this.hp -= amount;
 		if(this.hp <= 0)
 			this.hp = 0;
+	}
+
+	hadouken() {
+		super.animeChara('Punch');
+		super.addrange([this.posXX - 60 +this.sizeW, this.posYY + 270, 60, 40]);
+		//super.range_attack.push([super.posXX - 60, super.posYY + 170, 40, 20]);
+
 	}
 
 	//collision(player) {
@@ -122,6 +129,14 @@ export default class Character extends Animation {
 				player.damaged();
 				this.attacking = false;
 			}
+		}
+		if(super.getrange() != 0) {
+			console.log(super.collisionRange(player));
+			if(super.collisionRange(player) == true) {
+				console.log("je ne rate jamais ma cible");
+				player.takeDamage(20);
+				player.damaged();
+			} 
 		}
 	}
 

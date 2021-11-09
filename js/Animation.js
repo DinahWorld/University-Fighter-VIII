@@ -12,6 +12,10 @@ export default class Animation {
 		this.hitboxY = this.posYY + 170;
 		this.sizeW = 0;
 		this.sizeH = 0; 
+
+		this.rangehitboxX = this.posXX + 20;
+		this.rangehitboxY = this.posYY + 170;
+		this.range_attack = [];
 	}
 	init() {
 		//On initialise nos animations
@@ -62,6 +66,50 @@ export default class Animation {
 
 	prioCheck() {
 
+	}
+
+	addrange(l) {
+		this.range_attack.push(l);
+	}
+	getrange() {
+		return this.range_attack.length;
+	}
+	
+	collisionRange(player) {
+
+		for(let i = 0; i < this.range_attack.length; i++) {
+			if(this.sens == 1){
+
+				let playerX = Math.abs(player.hitboxX);
+				///si ma position + la width de ma hitbox est supérieur ou égale (on peut enlever le égale peut etre) à la position du joueur opposé moins la width de hitbox alors il y a contact
+				/// && sert a vérifier si on est passer derriere le joueur adversaire 
+				if (
+					this.range_attack[i][0] + this.range_attack[i][2] > playerX - player.sizeW&&
+					this.range_attack[i][0] <= playerX
+				) {
+				///contact donc on renvoit true
+				//console.log("sa se touche")
+					this.range_attack.splice(i, 1);
+					return true;
+				} else {
+					return false;
+				}
+			}
+			else{
+				let attackX = Math.abs(this.range_attack[i][0]);
+				if (
+					playerX - this.range_attack[i][2] < player.hitboxX + player.sizeW&&
+					playerX >= this.range_attack[i][0]
+				) {
+				///contact donc on renvoit true
+				//console.log("sa se touche")
+					this.range_attack.splice(i, 1);
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
 	}
 	
 	collision(player) {
@@ -116,6 +164,24 @@ export default class Animation {
 			(cnv_i.width - 160) * this.zoom,
 			(cnv_i.height - 100) * this.zoom
 		);
+		
+		
+		this.ctx.fillStyle = "blue";
+		if(this.range_attack.length >= 1) {
+			//console.log(this.range_attack.length);
+			for(let i = 0; i < this.range_attack.length; i++) {
+				this.ctx.fillRect(
+					this.range_attack[i][0] ,
+					this.range_attack[i][1] ,
+					this.range_attack[i][2] ,
+					this.range_attack[i][3]
+					//(cnv_i.width - 80) * this.zoom,
+					//(cnv_i.height - 40) * this.zoom
+				);
+				this.range_attack[i][0] += 10;
+				console.log(this.range_attack[i]);
+			}
+		}
 		this.ctx.stroke();
 		this.sizeW = (cnv_i.width  - 160) * this.zoom;
 
