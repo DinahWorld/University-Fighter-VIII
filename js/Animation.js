@@ -112,9 +112,9 @@ export default class Animation {
 		//Notre hitbox
 		this.ctx.strokeRect(
 			this.posXX - 60,
-			this.posYY + 170,
+			this.posYY + 240,
 			(cnv_i.width - 160) * this.zoom,
-			(cnv_i.height - 100) * this.zoom
+			(cnv_i.height - 120) * this.zoom
 		);
 		this.ctx.stroke();
 		this.sizeW = (cnv_i.width  - 160) * this.zoom;

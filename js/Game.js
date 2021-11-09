@@ -26,7 +26,7 @@ let go = false;
 let hp_1 = 500;
 let hp_2 = 500;
 let action = true;
-
+let game_map = true;
 xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
 xobj.open('GET', './assets/atlas/akuma.json', true);
@@ -35,12 +35,22 @@ xobj.send();
 let player_1 = new Character(0, 0, ctx, 1);
 let player_2 = new Character(-cnv.width, 0, ctx, 2);
 audio.play();
+
+//Comme ça il ne charge qu'une fois la map et non plusieurs fois en boucle
+function mapSelect(){
+	if(game_map == true){
+		cnv.style.backgroundImage = "url(assets/background/bg_7.gif)";
+		game_map = false;
+	}
+}
 function update() {
+	
 	//console.log(player_1.posXX);
 	//console.log(player_2.posXX);
 	//Le go c'est juste car quand le programme se lance il execute le update avant meme
 	//que player_1 reçoit les sprites du coup on a des error dans la console
 	if (go == true) {
+		mapSelect();
 		//console.log(player_1.hp);
 		//console.log(player_2.hp);
 		if(player_1.combo != 0){
@@ -77,6 +87,18 @@ function update() {
 
 		player_1.punchingMove(player_2);
 		player_2.punchingMove(player_1);
+		if(player_1.sprites[0].to_draw == 1){
+			//player_1.moving = false;
+			player_1.attacking = false;
+			player_1.jumping = false;
+			player_1.falling = false;
+		}
+		if(player_2.sprites[0].to_draw == 1){
+			//player_2.moving = true;
+			player_2.attacking = false;
+			player_2.jumping = false;
+			player_2.falling = false;
+		}
 	}
 }
 
@@ -141,18 +163,15 @@ function keydown_fun(e) {
 		action = false;
 		switch (e.code) {
 			case 'Space':
-				if(player_1.combo == 0){
-					player_1.combo += 5;
-					player_1.punch();
-				}
-				else if(player_1.combo <= 5){
-					player_1.combo += 10;
-					player_1.punch3();
-	
-				}
-				else if(player_1.combo >= 5){
-					player_1.combo = 0;
-					player_1.punch2();
+				if(player_1.attacking == false){
+					if(player_1.combo == 0){
+						player_1.combo += 5;
+						player_1.punch();
+					}
+					else {
+						player_1.combo = 0;
+						player_1.punch2();
+					}
 				}
 				console.log(player_2.combo)
 				break;
@@ -182,20 +201,16 @@ function keydown_fun(e) {
 				break;
 	
 			case 'KeyD':
-				if(player_2.combo == 0){
-					player_2.combo += 5;
-					player_2.punch();
+				if(player_2.attacking == false){
+					if(player_2.combo == 0){
+						player_2.combo += 5;
+						player_2.punch();
+					}
+					else {
+						player_2.combo = 0;
+						player_2.punch2();
+					}
 				}
-				else if(player_2.combo <= 5){
-					player_2.combo += 10;
-					player_2.punch3();
-	
-				}
-				else if(player_2.combo >= 5){
-					player_2.combo = 0;
-					player_2.punch2();
-				}
-				console.log(player_2.combo)
 				break;
 	
 			case 'KeyA':
@@ -207,13 +222,20 @@ function keydown_fun(e) {
 				break;
 			
 			case 'KeyQ':
-				player_2.run_left();
+				player_2.run_right();
 				break;
 	
 			case 'KeyE':
-				player_2.run_right();
+				player_2.run_left();
 				break;
-		
+			
+			case 'KeyF':
+				//Le probleme avec sa c'est que lorsque le joueur blesse l'autre
+				//sa désactive le attacking reset donc le joueur pourra spam le coup
+				if(player_2.attacking == false){
+				player_2.punch3();
+				}
+				break;
 		}
 	
 	}

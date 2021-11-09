@@ -5,6 +5,7 @@ export default class Character extends Animation {
 		super(ctx, posXX+100, posYY, sens);
 		this.hp = 500;
 		this.combo = 0;
+		//this.moving = false;
 		this.attacking = false;
 		this.jumping = false;
 		this.falling = false;
@@ -44,6 +45,7 @@ export default class Character extends Animation {
 	punch() {
 		//if(this.attacking == false){
 			this.attacking = true;
+			//this.moving = false;
 			super.animeChara('Punch')	
 		//}
 		//if (super.collisionCheck(posOPX, posOPY, 120) == true) {
@@ -61,12 +63,18 @@ export default class Character extends Animation {
 		//}
 	}
 	walk_right() {
+		//console.log(this.moving)
+		if(this.attacking == false){
 		this.attacking = false;
 		super.animeChara('WalkRight');
+		}
 	}
 	walk_left() {
+		if(this.attacking == false){
+		//this.moving = true;
 		this.attacking = false;
 		super.animeChara('WalkLeft');
+		}
 	}
 	jump() {
 		this.attacking = false;		
@@ -78,42 +86,54 @@ export default class Character extends Animation {
 		}
 	}
 	down() {
+		//this.moving = false;
 		this.attacking = false;
 		super.animeChara('Down');
 	}
 	block(){
+		//this.moving = false;
 		this.attacking = false;
 		super.animeChara('Block')
 	}
 	damaged(){
+		//this.moving = false;
 		this.attacking = false;
 		super.animeChara('Hit')
 	}
 	punch2(){
+		//this.moving = false;
 		//if(this.attacking == false){
 			this.attacking = true;
 			super.animeChara('Punch2')	
 		//}
 	}
 	punch3(){
+		//this.moving = false;
 		//if(this.attacking == false){
 			this.attacking = true;
 			super.animeChara('Punch3')	
 		//}
 	}
 	kick(){
+		//this.moving = false;
 		//if(this.attacking == false){
 			this.attacking = true;
 			super.animeChara('Kick')	
 		//}
 	}
 	run_left(){
+		//if(this.moving == false){
+		//this.moving = true;
 		this.attacking = false;
 		super.animeChara('RunLeft')
+		//}
 	}
 	run_right(){
-		this.attacking = false;
-		super.animeChara('RunRight')
+		//if(this.moving == false){
+			//this.moving = true;
+			this.attacking = false;
+			super.animeChara('RunRight')
+		//}
 	}
 	punchingMove(player){
 		if(this.attacking == true){
