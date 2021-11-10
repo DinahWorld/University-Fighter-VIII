@@ -1,164 +1,170 @@
 import Animation from './Animation.js';
 
 export default class Character extends Animation {
-	constructor(posXX, posYY, ctx, sens) {
-		super(ctx, posXX+100, posYY, sens);
+	constructor(name, posXX, posYY, ctx, sens) {
+		super(ctx, posXX + 100, posYY, sens);
+		this.name = name;
 		this.hp = 500;
 		this.combo = 0;
-		//this.moving = false;
 		this.attacking = false;
+		//a frappé
+		this.attacked = false;
 		this.jumping = false;
 		this.falling = false;
+		this.hit = false;
 		this.jump_value = 50;
-
+		this.animation_number = 0;
+		this.move = 0;
+		this.count = 0;
+		this.wait = 0;
 	}
-
-	//besoin d'un pseudo setter sinon l'objet adversaire ne comptabilise pas les dommages
-	//avec amout on pourra changer le nombre de dégat selon l'attack
-	takeDamage(amount) {
-		this.hp -= amount;
-		if(this.hp <= 0)
-			this.hp = 0;
-	}
-
-	//collision(player) {
-    //        ///si on est le joueur a gauche alors on fait la valeur absolue du joueur a droite
-    //        ///car il est sur une échelle négative
-//
-	//		let playerX = Math.abs(player.hitboxX) - player.sizeW;
-	//		///si ma position + la width de ma hitbox est supérieur ou égale (on peut enlever le égale peut etre) à la position du joueur opposé moins la width de hitbox alors il y a contact
-    //        /// && sert a vérifier si on est passer derriere le joueur adversaire 
-    //        if (
-    //            this.hitboxX + this.sizeW > playerX &&
-    //            this.hitboxX <= playerX
-    //        ) {
-    //          ///contact donc on renvoit true
-	//		  console.log("sa se touche")
-//
-	//		} else {
-    //            ///sinon false
-    //        }
-    //    }
-        
-    
-	//punch(posOPX, posOPY, attackOP, HPOP) {
-	punch() {
-		//if(this.attacking == false){
-			this.attacking = true;
-			//this.moving = false;
-			super.animeChara('Punch')	
-		//}
-		//if (super.collisionCheck(posOPX, posOPY, 120) == true) {
-		//if(super.collisionCheck(OP.posXX, OP.posYY, 120) == true) {
-		//	console.log('ca tape par ici');
-		//	if(OP.attacking == true) {
-		//		//on vérifie qui à la priorité
-		//		//pas sur que la prio soit nécessaire pour avoir le meme timing c'est difficile
-		//		//mais toujours mieux de l'avoir
-		//	}
-		//	else {
-		//		OP.takeDamage(1000);
-		//		//l'adversaire prends des dégats
-		//	}
-		//}
-	}
-	walk_right() {
-		//console.log(this.moving)
-		if(this.attacking == false){
-		this.attacking = false;
-		super.animeChara('WalkRight');
+	
+	
+	drawing() {
+		if (this.wait == 0) {
+			this.hit = false;
+		} else {
+			this.wait--;
+		}
+		if (this.count != 0) {
+			this.count--;
+		}
+		//Nous renvoi true lorsque on aura joué toutes nos frames
+		//Sinon, ça voudra dire qu'on est entrain de jouer une animation en boucle
+		let finished = this.drawPlayerV2(this.animation_number, this.move);
+		if (finished == true) {
+			this.animation_number = 0;
+			this.move = 0;
+			this.attacking = false;
+			this.attacked = false;
+			this.jumping = false;
+			this.falling = false;
 		}
 	}
+		
+	takeDamage(amount) {
+		this.hp -= amount;
+		if (this.hp <= 0) this.hp = 0;
+	}
 	walk_left() {
-		if(this.attacking == false){
-		//this.moving = true;
-		this.attacking = false;
-		super.animeChara('WalkLeft');
+		if (this.hit == false) {
+			this.reset();
+			this.animation_number = 2;
+			this.move = -20;
+		}
+	}
+	walk_right() {
+		if (this.hit == false) {
+			this.reset();
+			this.animation_number = 3;
+			this.move = +20;
 		}
 	}
 	jump() {
-		this.attacking = false;		
-		if(this.jumping == false && this.falling == false){
-			
-				super.animeChara('Jump');
+		if (this.hit == false) {
+			if (this.jumping == false && this.falling == false) {
 				this.jumping = true;
-			
+				this.animation_number = 4;
+			}
 		}
 	}
 	down() {
-		//this.moving = false;
+		if (this.hit == false) {
+			this.reset();
+			this.animation_number = 5;
+		}
+	}
+	damaged() {
+		this.reset();
+		this.animation_number = 8;
+	}
+
+	block() {
+		if (this.hit == false) {
+			this.reset();
+			this.animation_number = 9;
+		}
+	}
+	run_left() {
+		if (this.hit == false) {
+			this.reset();
+			this.animation_number = 10;
+			this.move = -50;
+		}
+	}
+	run_right() {
+		if (this.hit == false) {
+			this.reset();
+			this.animation_number = 11;
+			this.move = +50;
+		}
+	}
+	kick() {
+		if (this.hit == false) {
+			if (this.attacking == false) {
+				this.reset();
+				this.animation_number = 12;
+				this.attacking = true;
+			}
+		}
+	}
+
+	punch() {
+		if (this.hit == false) {
+			if (this.attacking == false && this.count == 0) {
+				this.resetAnimation();
+
+				if (this.combo == 0) this.animation_number = 1;
+				else if (this.combo == 1) this.animation_number = 6;
+				else if (this.combo == 2) this.animation_number = 7;
+
+				this.combo += 1;
+				this.attacking = true;
+
+				//pause
+				if (this.combo >= 3) {
+					this.combo = 0;
+					this.count = 15;
+				}
+			}
+		}
+	}
+
+	reset() {
+		this.combo = 0;
+		this.animation_number = 0;
+		this.move = 0;
 		this.attacking = false;
-		super.animeChara('Down');
+		this.attacked = false;
+		this.jumping = false;
+		this.falling = false;
+		this.resetAnimation();
 	}
-	block(){
-		//this.moving = false;
-		this.attacking = false;
-		super.animeChara('Block')
-	}
-	damaged(){
-		//this.moving = false;
-		this.attacking = false;
-		super.animeChara('Hit')
-	}
-	punch2(){
-		//this.moving = false;
-		//if(this.attacking == false){
-			this.attacking = true;
-			super.animeChara('Punch2')	
-		//}
-	}
-	punch3(){
-		//this.moving = false;
-		//if(this.attacking == false){
-			this.attacking = true;
-			super.animeChara('Punch3')	
-		//}
-	}
-	kick(){
-		//this.moving = false;
-		//if(this.attacking == false){
-			this.attacking = true;
-			super.animeChara('Kick')	
-		//}
-	}
-	run_left(){
-		//if(this.moving == false){
-		//this.moving = true;
-		this.attacking = false;
-		super.animeChara('RunLeft')
-		//}
-	}
-	run_right(){
-		//if(this.moving == false){
-			//this.moving = true;
-			this.attacking = false;
-			super.animeChara('RunRight')
-		//}
-	}
-	punchingMove(player){
-		if(this.attacking == true){
-			if(super.collision(player) == true){
-				console.log("sa tape")
+
+	damage(player) {
+		if (this.attacking == true && this.attacked == false) {
+			if (super.collision(player) == true) {
 				player.takeDamage(10);
 				player.damaged();
-				this.attacking = false;
+				this.attacked = true;
+				player.hit = true;
+				player.wait = 8;
 			}
 		}
 	}
 
 	//quand on a sauté on doit revenir au sol petit à petit
-	jumpingMove(){
-		if(this.jumping == true){
-			if(this.posYY != -(this.jump_value) * 9){
+	jumpingMove() {
+		if (this.jumping == true) {
+			if (this.posYY != -this.jump_value * 9) {
 				this.posYY -= this.jump_value;
-			}else{
+			} else {
 				this.jumping = false;
 			}
-		}
-		else{
+		} else {
 			this.falling = true;
 			this.posYY += this.jump_value;
-			if(this.posYY > 0) {
+			if (this.posYY > 0) {
 				this.falling = false;
 				this.posYY = 0;
 			}

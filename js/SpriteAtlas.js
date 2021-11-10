@@ -4,10 +4,11 @@ export default class SpriteAtlas {
 		this.json = json;
 		this.event_code = 0;
 		this.animestep = 1;
-		this.to_draw = 0;
+		this.to_draw = 1;
 		this.to_goX = 0;
 		this.to_goY = 0;
 		this.animeseq = [];
+		this.loop = false;
 	}
 	next_step() {
 		if (this.to_draw == 0) {
