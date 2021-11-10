@@ -74,31 +74,39 @@ function update() {
 		mapSelect();
 	}
 	if (transition_done == true) {
-		if (hp_1 != player_1.hp) hp_1 -= 2;
-		if (hp_2 != player_2.hp) hp_2 -= 2;
-
-		ctx.fillStyle = 'red';
-		ctx.fillRect(20, 20, hp_1, 50);
-
-		player_1.jumpingMove();
-		player_2.jumpingMove();
-
-		player_1.drawing();
-
-		player_2.ctx.save();
-		player_2.ctx.scale(-1, 1);
-
-		ctx.fillStyle = 'red';
-		ctx.fillRect(-cnv.width + 20, 20, hp_2, 50);
-
-		player_2.drawing();
-		player_2.ctx.restore();
-		ctx.closePath();
-
-		player_1.damage(player_2);
-		player_2.damage(player_1);
+		game();
 	}
 }
+
+
+function game(){
+	if (hp_1 != player_1.hp) hp_1 -= 2;
+	if (hp_2 != player_2.hp) hp_2 -= 2;
+
+	ctx.fillStyle = 'red';
+	ctx.fillRect(20, 20, hp_1, 50);
+
+	player_1.jumpingMove();
+	player_2.jumpingMove();
+
+	player_1.drawing();
+	
+	player_2.ctx.save();
+	player_2.ctx.scale(-1, 1);
+
+	ctx.fillStyle = 'red';
+	ctx.fillRect(-cnv.width + 20, 20, hp_2, 50);
+
+	player_2.drawing();
+	player_2.ctx.restore();
+	ctx.closePath();
+
+	player_1.collisionCheck(player_2);
+	player_2.collisionCheck(player_1);
+}
+
+
+
 
 function onload_atlas() {
 	//console.log(this.status);

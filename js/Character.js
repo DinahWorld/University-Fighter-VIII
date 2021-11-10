@@ -141,14 +141,16 @@ export default class Character extends Animation {
 		this.resetAnimation();
 	}
 
-	damage(player) {
-		if (this.attacking == true && this.attacked == false) {
-			if (super.collision(player) == true) {
+	collisionCheck(player) {
+		if (super.collision(player) == true) {
+			if (this.attacking == true && this.attacked == false) {
 				player.takeDamage(10);
 				player.damaged();
 				this.attacked = true;
 				player.hit = true;
 				player.wait = 8;
+			}else{
+				this.posXX += -this.move
 			}
 		}
 	}
