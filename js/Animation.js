@@ -1,56 +1,53 @@
 export default class Animation {
 	constructor(ctx, posXX, posYY, sens) {
 		this.sprites = [];
-		this.zoom = 4;
-		this.ctx = ctx;
+		this.zoom = 3;
 		this.sens = sens;
+		this.ctx = ctx;
 		this.posXX = posXX;
 		this.posYY = posYY;
-        
-        this.posHYY = posYY
+		this.posHYY = posYY;
+
+		this.hitboxX = this.posXX + 20;
+		this.hitboxY = this.posYY + 170;
+		this.sizeW = 0;
+		this.sizeH = 0;
 	}
-	init() {
-		//On initialise nos animations
+
+	resetAnimation() {
 		for (let i = 0; i < this.sprites.length; i++) {
-			this.sprites[i].to_draw = 0;
 			//On revient à la premiere image de l'animation
 			this.sprites[i].animestep = 1;
 		}
 	}
 
-	animeChara(event_code) {
-		this.init();
-		for (let i = 0; i < this.sprites.length; i += 1) {
-			if (this.sprites[i].event_code == event_code) {
-				this.sprites[i].next_step();
-				/*if(event_code == 'Jump' && i != this.sprites.length-1) {
-					this.posYY -= 20;
-				}
-				if(event_code == 'Jump' && i == this.sprites.length-1 && this.posYY != lastY) {
-					i-=1;
-					this.posYY += 20;
-				}*/
-			}
-		}
-	}
+	collision(player) {
+		///si on est le joueur a gauche alors on fait la valeur absolue du joueur a droite
+		///car il est sur une échelle négative
 
-	collisionCheck(posOPX, posOPY, w) {
-		//let w = 80;
 		if (this.sens == 1) {
-			posOPX = Math.abs(posOPX);
-
+			let playerX = Math.abs(player.hitboxX);
+			///si ma position + la width de ma hitbox est supérieur ou égale (on peut enlever le égale peut etre) à la position du joueur opposé moins la width de hitbox alors il y a contact
+			/// && sert a vérifier si on est passer derriere le joueur adversaire
 			if (
-				this.posXX + w * this.zoom >= posOPX - w * this.zoom &&
-				this.posXX <= posOPX
+				this.hitboxX + this.sizeW > playerX - player.sizeW &&
+				this.hitboxX <= playerX
 			) {
+				///contact donc on renvoit true
+				//console.log("sa se touche")
 				return true;
 			} else {
 				return false;
 			}
 		} else {
-			let n = Math.abs(this.posXX);
+			let playerX = Math.abs(this.hitboxX);
+			if (
+				playerX - this.sizeW < player.hitboxX + player.sizeW &&
+				playerX >= player.hitboxX
+			) {
+				///contact donc on renvoit true
+				//console.log("sa se touche")
 
-			if (n - w * this.zoom <= posOPX + w * this.zoom && n >= posOPX) {
 				return true;
 			} else {
 				return false;
@@ -58,32 +55,28 @@ export default class Animation {
 		}
 	}
 
-	draw(index, posOPX, posOPY) {
+	drawV2(index) {
 		this.ctx.beginPath();
 
 		let step_i = this.sprites[index].animestep;
 		let cnv_i = this.sprites[index].animeseq[step_i];
 
+		//this.jumpFallDown();
+		this.sizeW = (cnv_i.width - 160) * this.zoom;
+
 		//Notre hitbox
 		this.ctx.strokeRect(
-			this.posXX,
-			this.posYY + 180,
-			(cnv_i.width - 15) * this.zoom,
-			(cnv_i.height - 55) * this.zoom
+			this.posXX - 60,
+			this.posYY + 240,
+			this.sizeW,
+			(cnv_i.height - 120) * this.zoom
 		);
 		this.ctx.stroke();
-
-		//Changement de position
-		//check des collision
-        this.posXX += this.sprites[index].to_goX;
-		if (this.collisionCheck(posOPX, posOPY, 82) != false) {
-            this.posXX -= this.sprites[index].to_goX;
-		}
 
 		//On dessine notre sprite
 		this.ctx.drawImage(
 			cnv_i,
-			this.posXX - 80,
+			this.posXX - 500,
 			this.posYY,
 			cnv_i.width * this.zoom,
 			cnv_i.height * this.zoom
@@ -94,42 +87,32 @@ export default class Animation {
 		this.ctx.closePath();
 	}
 
-	drawPlayer(posOPX, posOPY) {
-		//Si this.sprites[0].to_draw == 1
-		//Alors sa veut dire le joueur ne fait aucune action
-		//donc on joue l'animation du perso
-		if (this.sprites[0].to_draw == 1) {
-			this.draw(0, posOPX, posOPY);
+	//Au lieu que le programme cherche quelle animation est activé
+	//je lui demande direct d'animer telle image
+	//On aurait alors une complexité en O(1)
 
-			//On passe à l'image suivante de l'animation
-			this.sprites[0].next_step();
+	drawPlayerV2(i, move) {
+		this.drawV2(i);
+		//On récupere la valeur du nombre d'images de l'animation
+		let number_of_sprite = this.sprites[i].animeseq.length;
 
-			//Sinon sa voudra dire que le joueur fait une action
-		} else {
-			//On regarde quelle action le joueur a utilisé
-			for (let i = 1; i < this.sprites.length; i += 1) {
-				if (this.sprites[i].to_draw == 1) {
-					//On dessine l'image de l'animation
-					this.draw(i, posOPX, posOPY);
+		//La variable step_i va pouvoir récuperer à quel image
+		//de l'animation on est
+		let step_i = this.sprites[i].animestep;
 
-					//On récupere la valeur du nombre d'images de l'animation
-					let number_of_sprite = this.sprites[i].animeseq.length;
+		this.posXX += move;
+		this.hitboxX = this.posXX - 60;
 
-					//La variable step_i va pouvoir récuperer à quel image
-					//de l'animation on est
-					let step_i = this.sprites[i].animestep;
-
-					//Tant qu'on est pas à la derniere image de l'animation
-					//on continuera à passer à l'image suivante
-					if (step_i != number_of_sprite - 1) {
-						this.sprites[i].next_step();
-					} else {
-						//On dit au programme de dessiner maintenant
-						//l'animation normal du personnage
-						this.sprites[0].to_draw = 1;
-					}
-				}
+		if (this.sprites[i].loop == false) {
+			if (step_i != number_of_sprite - 1) {
+				this.sprites[i].next_step();
+			} else {
+				this.sprites[i].animestep = 1;
+				return true;
 			}
+		} else {
+			this.sprites[i].next_step();
+			return false;
 		}
 	}
 }

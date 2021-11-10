@@ -5,7 +5,12 @@
         <link rel="icon" href="data:;base64,=">
         <title>TP2</title>
         <style>
-            body {margin: 0px; padding: 0px;background-color: black;}
+            body {
+                margin: 0px; 
+                padding: 0px;
+                background-color: black;
+                color:crimson;
+            }
             .logo{
                 text-align: center;
                 display: block;
@@ -16,15 +21,13 @@
 
             }
             canvas {
-                background-image: url("assets/background/bg_1.gif");
+                background-image: url("assets/menu_start/menu_1_beta.gif");
                 background-size: cover;
                 background-position: center center;
-                border: 1px solid black;
-                padding: 0;
-                margin: 0;
-                top: 0;
-                left: 0;
+                padding: auto;
+                margin: auto;
                 display: block;
+                opacity: 1.0;
             }
         </style>
     </head>
@@ -34,6 +37,15 @@
         </div>
         <div>
             <canvas id="myCanvas" width="1600" height="640"></canvas>
+        </div>
+        <div>
+            <li>Changement de map</li>
+            <li>Changement de perso</li>
+            <li>Changer cette musique dégeulasse</li>
+            <li>Refaire le découpage des sprites (AAAAAAAAAAAAAAH)</li>
+            <li>Refaire l'hud de hp bar</li>
+            <li>Menu</li>
+            <li>Les combo </li>
         </div>
         <script type="module" src="./js/Game.js"></script>
     </body>
