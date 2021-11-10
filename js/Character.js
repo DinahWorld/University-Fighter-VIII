@@ -8,6 +8,7 @@ export default class Character extends Animation {
 		this.jumping = false;
 		this.falling = false;
 		this.jump_value = 100;
+		this.blocking = false;
 		//this.range_attack = [];
 	}
 
@@ -69,7 +70,9 @@ export default class Character extends Animation {
 	}
 	block(){
 		this.attacking = false;
+		this.blocking = true;
 		super.animeChara('Block')
+		this.blocking = false;
 	}
 	damaged(){
 		this.attacking = false;
@@ -103,7 +106,7 @@ export default class Character extends Animation {
 	}
 	punchingMove(player){
 		if(this.attacking == true){
-			if(super.collision(player) == true){
+			if(super.collision(player) == true && player.blocking == false){
 				console.log("sa tape")
 				player.takeDamage(10);
 				player.damaged();
@@ -112,7 +115,7 @@ export default class Character extends Animation {
 		}
 		if(super.getrange() != 0) {
 			//console.log(super.collisionRange(player));
-			if(super.collisionRange(player) == true) {
+			if(super.collisionRange(player) == true && player.blocking == false) {
 				console.log("je ne rate jamais ma cible");
 				player.takeDamage(20);
 				player.damaged();

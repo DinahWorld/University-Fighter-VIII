@@ -124,6 +124,13 @@ function onload_atlas() {
 }
 
 window.addEventListener('keydown', keydown_fun, false);
+/*window.addEventListener('keyup', keyup_fun, false);
+
+function keyup_fun(e) {
+	switch (e.code) {
+		case:
+	}
+}*/
 
 function keydown_fun(e) {
 	switch (e.code) {
@@ -187,7 +194,7 @@ function keydown_fun(e) {
 			player_2.run_right();
 			break;
 		case 'KeyH':
-			player_2.hadouken();
+			player_1.hadouken();
 			break;
 	}
 }
