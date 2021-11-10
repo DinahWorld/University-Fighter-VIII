@@ -55,7 +55,7 @@ export default class Animation {
 		}
 	}
 
-	drawV2(index) {
+	drawV2(player,index) {
 		this.ctx.beginPath();
 
 		let step_i = this.sprites[index].animestep;
@@ -73,6 +73,12 @@ export default class Animation {
 		);
 		this.ctx.stroke();
 
+		this.posXX += this.move;
+		this.hitboxX = this.posXX - 60;
+		if(this.collisionCheck(player) == true){
+			this.posXX -= this.move;
+		}
+		
 		//On dessine notre sprite
 		this.ctx.drawImage(
 			cnv_i,
@@ -91,17 +97,14 @@ export default class Animation {
 	//je lui demande direct d'animer telle image
 	//On aurait alors une complexité en O(1)
 
-	drawPlayerV2(i, move) {
-		this.drawV2(i);
+	drawPlayerV2(player,i, move) {
+		this.drawV2(player,i);
 		//On récupere la valeur du nombre d'images de l'animation
 		let number_of_sprite = this.sprites[i].animeseq.length;
 
 		//La variable step_i va pouvoir récuperer à quel image
 		//de l'animation on est
 		let step_i = this.sprites[i].animestep;
-
-		this.posXX += move;
-		this.hitboxX = this.posXX - 60;
 
 		if (this.sprites[i].loop == false) {
 			if (step_i != number_of_sprite - 1) {

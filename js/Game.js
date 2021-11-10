@@ -89,20 +89,19 @@ function game(){
 	player_1.jumpingMove();
 	player_2.jumpingMove();
 
-	player_1.drawing();
 	
+	player_1.drawing(player_2);	
 	player_2.ctx.save();
 	player_2.ctx.scale(-1, 1);
 
 	ctx.fillStyle = 'red';
 	ctx.fillRect(-cnv.width + 20, 20, hp_2, 50);
 
-	player_2.drawing();
+	player_2.drawing(player_1);
+	
 	player_2.ctx.restore();
 	ctx.closePath();
 
-	player_1.collisionCheck(player_2);
-	player_2.collisionCheck(player_1);
 }
 
 

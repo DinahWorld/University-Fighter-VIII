@@ -20,7 +20,7 @@ export default class Character extends Animation {
 	}
 	
 	
-	drawing() {
+	drawing(player) {
 		if (this.wait == 0) {
 			this.hit = false;
 		} else {
@@ -31,7 +31,7 @@ export default class Character extends Animation {
 		}
 		//Nous renvoi true lorsque on aura joué toutes nos frames
 		//Sinon, ça voudra dire qu'on est entrain de jouer une animation en boucle
-		let finished = this.drawPlayerV2(this.animation_number, this.move);
+		let finished = this.drawPlayerV2(player,this.animation_number, this.move);
 		if (finished == true) {
 			this.animation_number = 0;
 			this.move = 0;
@@ -150,7 +150,8 @@ export default class Character extends Animation {
 				player.hit = true;
 				player.wait = 8;
 			}else{
-				this.posXX += -this.move
+				return true;
+
 			}
 		}
 	}
