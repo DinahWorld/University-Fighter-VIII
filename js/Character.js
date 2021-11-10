@@ -70,8 +70,10 @@ export default class Character extends Animation {
 	}
 	down() {
 		if (this.hit == false) {
-			this.reset();
-			this.animation_number = 5;
+			if (this.jumping == false && this.falling == false) {
+				this.reset();
+				this.animation_number = 5;
+			}
 		}
 	}
 	damaged() {

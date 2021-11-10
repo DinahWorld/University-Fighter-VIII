@@ -1,16 +1,7 @@
 /*
- *
- *     TODO
- * 		Changement de map
- * 		Changement de perso
- *     Changer cette musique dégeulasse
- *     Refaire le découpage des sprites (AAAAAAAAAAAAAAH)
- *     Collision
- *     Gravité pour le saut
- *     Menu
- *     Affichage de points de vie (on commence par mettre un gros score sur le dessin et je ferai le design)
- *     Les combo = Si on enchaine les coups on incrémente notre variable combo
- *
+*			BUG !
+* 		Virer les reset pour lorsqu'on saut on 
+		puise se déplacer sur l'axe X
  */
 
 import Character from './Character.js';
@@ -161,7 +152,7 @@ function keydown_fun(e) {
 	if (action == true) {
 		action = false;
 		switch (e.code) {
-			case 'KeyM':
+			case 'KeyK':
 				player_2.punch();
 				break;
 			case 'KeyL':
@@ -179,10 +170,10 @@ function keydown_fun(e) {
 			case 'Numpad2':
 				player_2.down();
 				break;
-			case 'Numpad4':
+			case 'Numpad6':
 				player_2.run_left();
 				break;
-			case 'Numpad6':
+			case 'Numpad4':
 				player_2.run_right();
 				break;
 
@@ -199,7 +190,7 @@ function keydown_fun(e) {
 			case 'KeyA':
 				player_1.walk_left();
 				break;
-			case 'KeyZ':
+			case 'KeyW':
 				player_1.jump();
 				break;
 			case 'KeyQ':
