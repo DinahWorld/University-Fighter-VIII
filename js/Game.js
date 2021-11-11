@@ -2,6 +2,8 @@
 *			BUG !
 * 		Virer les reset pour lorsqu'on saut on 
 		puise se déplacer sur l'axe X
+
+		
  */
 
 import Character from './Character.js';
@@ -24,13 +26,46 @@ let black_screen = false;
 let opacity = 0;
 let opacity_value = 0.05;
 
-xobj.onload = onload_atlas;
-xobj.overrideMimeType('application/json');
-xobj.open('GET', './assets/atlas/chunli.json', true);
-xobj.send();
+let spritesPL = ['./assets/atlas/ken.json', './assets/atlas/chunli.json'];
 
+let spriteP1 = './assets/atlas/ken.json';
+let spriteP2 = './assets/atlas/chunli.json';
+
+let loadFile = function (filePath, done) {
+    let xhr = new XMLHttpRequest();//new XMLHTTPRequest();
+    xhr.onload = function () { return done(this.responseText) }
+    xhr.open("GET", filePath, true);
+    xhr.send();
+}
+let json_datas = [];
 let player_1 = new Character('Dinath', 0, 0, ctx, 1);
 let player_2 = new Character('Fayçal', -cnv.width, 0, ctx, 2);
+for(let i = 0; i < spritesPL.length; i++) {
+	loadFile(spritesPL[i], function (responseText) {
+		json_datas[i] = JSON.parse(responseText);
+		onload_atlas3(i);
+	})
+}
+/*for(let i = 0; i < spritesPL.length; i++) {
+	//if(i==0){xobj.onload = onload_atlas2(player_1);}
+	//else{xobj.onload = onload_atlas2(player_2);}
+	//xobj.onload = onload_atlas2(i);
+	xobj.onload = function () { onload_atlas2(i)}
+	xobj.overrideMimeType('application/json');
+	xobj.open('GET', spritesPL[i], true);
+	//xobj.open('GET', spriteP2, true);
+	xobj.send();
+}*/
+
+
+/*xobj.onload = onload_atlas;
+xobj.overrideMimeType('application/json');
+xobj.open('GET', spriteP1, true);
+//xobj.open('GET', spriteP2, true);
+xobj.send();*/
+
+//let player_1 = new Character('Dinath', 0, 0, ctx, 1);
+//let player_2 = new Character('Fayçal', -cnv.width, 0, ctx, 2);
 audio.play();
 
 //Comme ça il ne charge qu'une fois la map et non plusieurs fois en boucle
@@ -95,8 +130,90 @@ function game(){
 
 }
 
+function onload_atlas3(n) {
+	let player;
+	if(n == 0) {player = player_1;}
+	else{player = player_2;}
+
+	//if(this.status == 200) {
+		let spritesheet = new Image();
+		spritesheet.src = './assets/atlas/' + json_datas[n]['meta']['image'];
+
+		spritesheet.onload = function () {
+			let canvas1 = document.createElement('canvas');
+			canvas1.width = json_datas[n]['meta']['size']['w'];
+			canvas1.height = json_datas[n]['meta']['size']['h'];
+			let context1 = canvas1.getContext('2d');
+			context1.drawImage(spritesheet, 0, 0, canvas1.width, canvas1.height);
+
+			/*for (let i = 0; i < 13; i++) {
+				players[0].sprites[i] = new SpriteAtlas(context1, json_infos);
+				players[1].sprites[i] = new SpriteAtlas(context1, json_infos);
+			}*/
+
+			for(let i = 0; i < 13; i++) {
+				player.sprites[i] = new SpriteAtlas(context1, json_datas[n]);
+			}
+			
+
+			player.sprites[0].add_anime('normal', 1, 10, '');
+			player.sprites[1].add_anime('punch-1', 1, 4, 'Punch');
+			player.sprites[2].add_anime('walk-left', 1, 11, 'WalkLeft');
+			player.sprites[3].add_anime('walk-right', 1, 11, 'WalkRight');
+			player.sprites[4].add_anime('jump', 1, 21, 'Jump');
+			player.sprites[5].add_anime('down', 1, 6, 'Down');
+			player.sprites[6].add_anime('punch-2', 1, 8, 'Punch2');
+			player.sprites[7].add_anime('punch-3', 1, 9, 'Punch3');
+			player.sprites[8].add_anime('damaged', 1, 7, 'Hit');
+			player.sprites[9].add_anime('block', 1, 4, 'Block');
+			player.sprites[10].add_anime('run-left', 1, 6, 'RunLeft');
+			player.sprites[11].add_anime('run-right', 1, 6, 'RunRight');
+			player.sprites[12].add_anime('kick', 1, 7, 'Kick');
+			player.sprites[0].loop = true;
+		};
+	//}
+}
 
 
+function onload_atlas2(player) {
+
+	if(player == 0) {player = player_1;}
+	else{player = player_2;}
+	if(this.status == 200) {
+		let json_infos = JSON.parse(this.responseText);
+		//console.log(json_infos);
+		let spritesheet = new Image();
+		spritesheet.src = './assets/atlas/' + json_infos['meta']['image'];
+
+		spritesheet.onload = function () {
+			let canvas1 = document.createElement('canvas');
+			canvas1.width = json_infos['meta']['size']['w'];
+			canvas1.height = json_infos['meta']['size']['h'];
+			let context1 = canvas1.getContext('2d');
+			context1.drawImage(spritesheet, 0, 0, canvas1.width, canvas1.height);
+
+			for(let i = 0; i < 13; i++) {
+				player.sprites[i] = new SpriteAtlas(context1, json_infos);
+			}
+			
+			player.sprites[0].add_anime('normal', 1, 10, '');
+			player.sprites[1].add_anime('punch-1', 1, 4, 'Punch');
+			player.sprites[2].add_anime('walk-left', 1, 11, 'WalkLeft');
+			player.sprites[3].add_anime('walk-right', 1, 11, 'WalkRight');
+			player.sprites[4].add_anime('jump', 1, 21, 'Jump');
+			player.sprites[5].add_anime('down', 1, 6, 'Down');
+			player.sprites[6].add_anime('punch-2', 1, 8, 'Punch2');
+			player.sprites[7].add_anime('punch-3', 1, 9, 'Punch3');
+			player.sprites[8].add_anime('damaged', 1, 7, 'Hit');
+			player.sprites[9].add_anime('block', 1, 4, 'Block');
+			player.sprites[10].add_anime('run-left', 1, 6, 'RunLeft');
+			player.sprites[11].add_anime('run-right', 1, 6, 'RunRight');
+			player.sprites[12].add_anime('kick', 1, 7, 'Kick');
+			player.sprites[0].loop = true;
+		};
+
+	}
+}
 
 function onload_atlas() {
 	//console.log(this.status);
@@ -105,6 +222,7 @@ function onload_atlas() {
 		let players = [player_1, player_2];
 
 		let json_infos = JSON.parse(this.responseText);
+		//console.log(json_infos);
 		let spritesheet = new Image();
 		spritesheet.src = './assets/atlas/' + json_infos['meta']['image'];
 
