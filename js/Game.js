@@ -26,12 +26,12 @@ let opacity_value = 0.05;
 
 xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
-xobj.open('GET', './assets/atlas/akuma.json', true);
+xobj.open('GET', './assets/atlas/chunli.json', true);
 xobj.send();
 
 let player_1 = new Character('Dinath', 0, 0, ctx, 1);
 let player_2 = new Character('Fayçal', -cnv.width, 0, ctx, 2);
-//audio.play();
+audio.play();
 
 //Comme ça il ne charge qu'une fois la map et non plusieurs fois en boucle
 function mapSelect() {

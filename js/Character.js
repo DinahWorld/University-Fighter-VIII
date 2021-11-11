@@ -138,8 +138,6 @@ export default class Character extends Animation {
 		this.move = 0;
 		this.attacking = false;
 		this.attacked = false;
-		this.jumping = false;
-		this.falling = false;
 		this.resetAnimation();
 	}
 
