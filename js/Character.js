@@ -2,7 +2,7 @@ import Animation from './Animation.js';
 
 export default class Character extends Animation {
 	constructor(name, posXX, posYY, ctx, direction) {
-		super(ctx, posXX + 100, posYY, direction);
+		super(ctx, posXX, posYY, direction);
 		this.name = name;
 		this.hp = 500;
 		this.combo = 0;
@@ -54,6 +54,7 @@ export default class Character extends Animation {
 		}
 	}
 	down() {
+		super.addRange([this.posXX - 60 + this.sizeW, this.posYY + 270, 60, 40]);
 		if (this.hit == false) {
 			if (this.jumping == false && this.falling == false) {
 				this.reset();
@@ -100,8 +101,6 @@ export default class Character extends Animation {
 	}
 
 	punch() {
-		super.addRange([this.posXX - 60 + this.sizeW, this.posYY + 270, 60, 40]);
-
 		if (this.hit == false) {
 			if (this.attacking == false && this.count == 0) {
 				this.resetAnimation();
@@ -146,7 +145,6 @@ export default class Character extends Animation {
 			}
 		}
 		if (super.getRange() != 0) {
-			//console.log(super.collisionRange(player));
 			if (super.collisionRange(player) == true && player.blocking == false) {
 				console.log('je ne rate jamais ma cible');
 				player.takeDamage(20);
@@ -183,13 +181,14 @@ export default class Character extends Animation {
 			this.count--;
 		}
 
-		if (this.attacking == true) this.modifiedhsizeW = 142;
+		//On modifie la taille de notre hitbox
+		if (this.attacking == true) this.modifiedhsizeW = 135;
 		else this.modifiedhsizeW = 170;
 
 		if (this.is_down == true) this.modifiedhY = 340;
 		else this.modifiedhY = 240;
 
-		this.collisionCheck(player);
+
 		if (this.direction == true) {
 			this.posXX += this.move;
 		} else {
@@ -208,11 +207,13 @@ export default class Character extends Animation {
 			this.jumping = false;
 			this.falling = false;
 		}
+		this.collisionCheck(player);
 	}
 
 	changeDirection(player) {
 		//Pour qu'il ne change pas de direction en boucle
 		if (this.changedDirection == false) {
+			player.changedDirection = true;
 			if (this.direction == true) {
 				this.compareDirection(this, player);
 			} else {
@@ -223,12 +224,13 @@ export default class Character extends Animation {
 	compareDirection(player_1, player_2) {
 		//SI les coordonnées du joueur1 sont plus grand que celle du joueur2
 		//alors on inverse les sens
-		if (player_1.posXX >= Math.abs(player_2.posXX) - player_2.sizeW / 2) {
+		if (player_1.posXX >= Math.abs(player_2.posXX)) {
 			player_1.direction = false;
 			player_2.direction = true;
 			player_2.posXX = Math.abs(player_2.posXX);
 			player_1.posXX = -player_1.posXX;
 			player_2.changedDirection = true;
+			player_1.changedDirection = true;
 		}else{
 
 		}

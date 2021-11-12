@@ -141,7 +141,7 @@ export default class Animation {
 
 		let step_i = this.sprites[index].animestep;
 		let cnv_i = this.sprites[index].animeseq[step_i];
-
+		this.current_width = cnv_i.width;
 		this.hitboxX = this.posXX - 60;
 		this.hitboxY = this.posYY + this.modifiedhY;
 		this.sizeW = (cnv_i.width - this.modifiedhsizeW) * this.zoom;
@@ -149,7 +149,8 @@ export default class Animation {
 
 		//Notre hitbox
 		this.ctx.strokeRect(this.hitboxX, this.hitboxY, this.sizeW, this.sizeH);
-
+		//On regarde les collisions
+		
 		this.ctx.fillStyle = 'blue';
 		if (this.range_attack.length >= 1) {
 			for (let i = 0; i < this.range_attack.length; i++) {

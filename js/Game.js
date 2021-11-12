@@ -34,7 +34,7 @@
 		xobj.send();
 		
 		let player_1 = new Character('Dinath', 0, 0, ctx, true);
-		let player_2 = new Character('Fayçal', 1000, 0, ctx, false);
+		let player_2 = new Character('Fayçal', 1600, 0, ctx, false);
 		let players = [player_1, player_2];
 		
 		//audio.play();
@@ -93,7 +93,7 @@
 			ctx.fillRect(20, 20, hp_1, 50);
 			if(player.direction == false){
 				player.ctx.save();
-				player.ctx.translate(player.sizeW / 2, 0);
+				player.ctx.translate(0, 0);
 				player.ctx.scale(-1, 1);
 				player.drawing(ennemy);
 				player.ctx.restore();
@@ -175,10 +175,10 @@
 						player_2.down();
 						break;
 					case 'Numpad6':
-						player_2.run_left();
-						break;
-					case 'Numpad4':
 						player_2.run_right();
+						break;
+						case 'Numpad4':
+						player_2.run_left();
 						break;
 		
 					case 'Enter':
