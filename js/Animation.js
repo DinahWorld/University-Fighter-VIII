@@ -1,14 +1,12 @@
 export default class Animation {
-	constructor(ctx, posXX, posYY, sens) {
+	constructor(ctx, posXX, posYY, direction) {
 		this.sprites = [];
 		this.zoom = 3;
-		this.sens = sens;
+		this.direction = direction;
 		this.ctx = ctx;
-		if(sens == 1)
-			this.posXX = posXX;
-		else
-			this.posXX = -posXX;
-			
+		if (direction == true) this.posXX = posXX;
+		else this.posXX = -posXX;
+
 		this.posYY = posYY;
 		this.posHYY = posYY;
 
@@ -25,7 +23,6 @@ export default class Animation {
 		this.range_attack = [];
 	}
 
-	
 	addRange(l) {
 		this.range_attack.push(l);
 	}
@@ -40,7 +37,7 @@ export default class Animation {
 		}
 	}
 	collisionRange(player) {
-		if (this.sens == 1) {
+		if (this.direction == true) {
 			for (let i = 0; i < this.range_attack.length; i++) {
 				if (this.range_attack[i][0] + this.range_attack[i][2] > 1920) {
 					this.range_attack.splice(i, 1);
@@ -51,11 +48,12 @@ export default class Animation {
 				let playerY = Math.abs(player.hitboxY);
 
 				///si ma position + la width de ma hitbox est supérieur ou égale (on peut enlever le égale peut etre) à la position du joueur opposé moins la width de hitbox alors il y a contact
-				/// && sert a vérifier si on est passer derriere le joueur adversaire 
+				/// && sert a vérifier si on est passer derriere le joueur adversaire
 				///playerY ne change pas
 				//console.log(playerY);
 				if (
-					this.range_attack[i][0] + this.range_attack[i][2] > playerX - player.sizeW &&
+					this.range_attack[i][0] + this.range_attack[i][2] >
+						playerX - player.sizeW &&
 					this.range_attack[i][0] < playerX &&
 					this.range_attack[i][1] + this.range_attack[i][3] > playerY &&
 					this.range_attack[i][1] < playerY + player.sizeH
@@ -64,14 +62,11 @@ export default class Animation {
 					this.range_attack.splice(i, 1);
 					return true;
 				} else {
-
 					return false;
 				}
-
 			}
 		} else {
 			for (let i = 0; i < this.range_attack.length; i++) {
-
 				if (this.range_attack[i][0] > 0) {
 					this.range_attack.splice(i, 1);
 					continue;
@@ -83,7 +78,6 @@ export default class Animation {
 					this.range_attack.splice(i, 1);
 					continue;
 				}*/
-				console.log(attackX);
 				if (
 					attackX - this.range_attack[i][2] < player.hitboxX + player.sizeW &&
 					attackX > player.hitboxX /*this.range_attack[i][0]*/ &&
@@ -104,7 +98,7 @@ export default class Animation {
 		///si on est le joueur a gauche alors on fait la valeur absolue du joueur a droite
 		///car il est sur une échelle négative
 
-		if (this.sens == 1) {
+		if (this.direction == true) {
 			let playerX = Math.abs(player.hitboxX);
 			let playerY = Math.abs(player.hitboxY);
 
@@ -124,9 +118,13 @@ export default class Animation {
 			}
 		} else {
 			let playerX = Math.abs(this.hitboxX);
+			let playerY = Math.abs(this.hitboxY);
+
 			if (
 				playerX - this.sizeW < player.hitboxX + player.sizeW &&
-				playerX > player.hitboxX
+				playerX > player.hitboxX &&
+				playerY - this.sizeH < player.hitboxY &&
+				playerY < player.hitboxY + player.sizeH
 			) {
 				///contact donc on renvoit true
 				//console.log("sa se touche")
@@ -150,14 +148,9 @@ export default class Animation {
 		this.sizeH = (cnv_i.height - 120) * this.zoom;
 
 		//Notre hitbox
-		this.ctx.strokeRect(
-			this.hitboxX,
-			this.hitboxY,
-			this.sizeW,
-			this.sizeH
-		);
+		this.ctx.strokeRect(this.hitboxX, this.hitboxY, this.sizeW, this.sizeH);
 
-		this.ctx.fillStyle = "blue";
+		this.ctx.fillStyle = 'blue';
 		if (this.range_attack.length >= 1) {
 			for (let i = 0; i < this.range_attack.length; i++) {
 				this.ctx.fillRect(
