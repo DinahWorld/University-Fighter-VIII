@@ -125,6 +125,7 @@ function game(){
 
 }
 
+
 function onload_atlas3(n) {
 	let player;
 	if(n == 0) {player = player_1;}
@@ -307,4 +308,30 @@ function keydown_fun(e) {
 	}
 }
 
+let instruID = 0;
+let instruction = ["walk-right", "punch", "jump"];
+function instru_execute(player, movement) {
+	switch (movement) {
+		case "walk-right":
+			player.walk_right();
+			break;
+		case "punch":
+			player.punch();
+			break;
+		case "jump":
+			player.jump();
+			break;
+	}
+}
+///cette methode est pas possible parce que bizzarement le programme lit tout la liste d'instruction quand il recoit la liste
+//let instrucs = [player_1.walk_right(), player_1.punch(), player_1.jump()];
+function instru_list(player) {
+	instru_execute(player, instruction[instruID]);
+	if(instruID != instruction.length-1) {instruID+=1;}
+	else{instruID = 0;}
+}
+
 setInterval(update, 45);
+//setInterval(instru_list, 2000);
+setInterval(function () {instru_list(player_1)}, 2000);
+
