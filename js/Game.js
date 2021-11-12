@@ -2,7 +2,7 @@
 *			BUG !
 * 		Virer les reset pour lorsqu'on saut on 
 		puise se déplacer sur l'axe X
-
+		Opti possible quand on choisie 2 fois le meme perso on fait deux list d'animation différente alors que une est suffisante
 		
  */
 
