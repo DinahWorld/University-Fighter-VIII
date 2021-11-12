@@ -26,7 +26,12 @@ let black_screen = false;
 let opacity = 0;
 let opacity_value = 0.05;
 
-let spritesPL = ['./assets/atlas/ken.json', './assets/atlas/chunli.json'];
+let select = false;
+let selectID = 0;
+let selectList = ["ryu", "ken", "akuma", "chunli"];
+let selected = [];
+
+let spritesPL = ['./assets/atlas/ken.json', './assets/atlas/akuma.json'];
 
 let spriteP1 = './assets/atlas/ken.json';
 let spriteP2 = './assets/atlas/chunli.json';
@@ -46,16 +51,6 @@ for(let i = 0; i < spritesPL.length; i++) {
 		onload_atlas3(i);
 	})
 }
-/*for(let i = 0; i < spritesPL.length; i++) {
-	//if(i==0){xobj.onload = onload_atlas2(player_1);}
-	//else{xobj.onload = onload_atlas2(player_2);}
-	//xobj.onload = onload_atlas2(i);
-	xobj.onload = function () { onload_atlas2(i)}
-	xobj.overrideMimeType('application/json');
-	xobj.open('GET', spritesPL[i], true);
-	//xobj.open('GET', spriteP2, true);
-	xobj.send();
-}*/
 
 
 /*xobj.onload = onload_atlas;
@@ -175,46 +170,6 @@ function onload_atlas3(n) {
 }
 
 
-function onload_atlas2(player) {
-
-	if(player == 0) {player = player_1;}
-	else{player = player_2;}
-	if(this.status == 200) {
-		let json_infos = JSON.parse(this.responseText);
-		//console.log(json_infos);
-		let spritesheet = new Image();
-		spritesheet.src = './assets/atlas/' + json_infos['meta']['image'];
-
-		spritesheet.onload = function () {
-			let canvas1 = document.createElement('canvas');
-			canvas1.width = json_infos['meta']['size']['w'];
-			canvas1.height = json_infos['meta']['size']['h'];
-			let context1 = canvas1.getContext('2d');
-			context1.drawImage(spritesheet, 0, 0, canvas1.width, canvas1.height);
-
-			for(let i = 0; i < 13; i++) {
-				player.sprites[i] = new SpriteAtlas(context1, json_infos);
-			}
-			
-			player.sprites[0].add_anime('normal', 1, 10, '');
-			player.sprites[1].add_anime('punch-1', 1, 4, 'Punch');
-			player.sprites[2].add_anime('walk-left', 1, 11, 'WalkLeft');
-			player.sprites[3].add_anime('walk-right', 1, 11, 'WalkRight');
-			player.sprites[4].add_anime('jump', 1, 21, 'Jump');
-			player.sprites[5].add_anime('down', 1, 6, 'Down');
-			player.sprites[6].add_anime('punch-2', 1, 8, 'Punch2');
-			player.sprites[7].add_anime('punch-3', 1, 9, 'Punch3');
-			player.sprites[8].add_anime('damaged', 1, 7, 'Hit');
-			player.sprites[9].add_anime('block', 1, 4, 'Block');
-			player.sprites[10].add_anime('run-left', 1, 6, 'RunLeft');
-			player.sprites[11].add_anime('run-right', 1, 6, 'RunRight');
-			player.sprites[12].add_anime('kick', 1, 7, 'Kick');
-			player.sprites[0].loop = true;
-		};
-
-	}
-}
-
 function onload_atlas() {
 	//console.log(this.status);
 
@@ -267,6 +222,31 @@ function keyup_fun() {
 	action = true;
 }
 function keydown_fun(e) {
+	
+	if(select == true) {
+		///Si on est dans la sélection de personnage;
+		switch(e.code) {
+			///Avec 4 perso avoir une selection en une ligne c'est parfaitement suffisant
+			//case 'KeyW':
+			//	break;
+			//case 'KeyS':
+			//	break;
+			case 'KeyA':
+				///On bouge l'id dans la liste de perso
+				if(selectID != 0){selectID -= 1;}
+				break;
+			case 'KeyD':
+				if(selectID != selectList.length-1){selectID += 1;}
+				break;
+			case 'Enter':
+				///quand on a choisi le perso il est push dans notre liste de choisie
+				selected.push(selectList[selectID]);
+				break;
+		}
+		if(selected.length == 2) {
+			select == false;
+		}
+	}
 	if (action == true) {
 		action = false;
 		switch (e.code) {
