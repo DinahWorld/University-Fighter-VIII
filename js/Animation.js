@@ -4,8 +4,8 @@ export default class Animation {
 		this.zoom = 3;
 		this.direction = direction;
 		this.ctx = ctx;
-		if (direction == true) this.posXX = posXX;
-		else this.posXX = -posXX;
+		if (direction == true) this.posXX = posXX + 90;
+		else this.posXX = -posXX + 90;
 
 		this.posYY = posYY;
 		this.posHYY = posYY;
