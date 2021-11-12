@@ -1,12 +1,14 @@
 import Animation from './Animation.js';
 
 export default class Character extends Animation {
-	constructor(name, posXX, posYY, ctx, sens) {
-		super(ctx, posXX + 100, posYY, sens);
+	constructor(name, posXX, posYY, ctx, direction) {
+		super(ctx, posXX, posYY, direction);
 		this.name = name;
 		this.hp = 500;
 		this.combo = 0;
 		this.attacking = false;
+		this.blocking = false;
+		this.is_down = false;
 		//a frappé
 		this.attacked = false;
 		this.jumping = false;
@@ -17,47 +19,30 @@ export default class Character extends Animation {
 		this.move = 0;
 		this.count = 0;
 		this.wait = 0;
+		this.current_width = 0;
+		this.changedDirection = false;
 	}
-	
-	
-	drawing(player) {
-		if (this.wait == 0) {
-			this.hit = false;
-		} else {
-			this.wait--;
-		}
-		if (this.count != 0) {
-			this.count--;
-		}
-		//Nous renvoi true lorsque on aura joué toutes nos frames
-		//Sinon, ça voudra dire qu'on est entrain de jouer une animation en boucle
-		let finished = this.drawPlayerV2(player,this.animation_number, this.move);
-		if (finished == true) {
-			this.animation_number = 0;
-			this.move = 0;
-			this.attacking = false;
-			this.attacked = false;
-			this.jumping = false;
-			this.falling = false;
-		}
-	}
-		
+
 	takeDamage(amount) {
 		this.hp -= amount;
 		if (this.hp <= 0) this.hp = 0;
 	}
+
+	
 	walk_left() {
 		if (this.hit == false) {
 			this.reset();
-			this.animation_number = 2;
 			this.move = -20;
+			if (this.direction == true) this.animation_number = 2;
+			else this.animation_number = 3;
 		}
 	}
 	walk_right() {
 		if (this.hit == false) {
 			this.reset();
-			this.animation_number = 3;
 			this.move = +20;
+			if (this.direction == true) this.animation_number = 3;
+			else this.animation_number = 2;
 		}
 	}
 	jump() {
@@ -69,10 +54,12 @@ export default class Character extends Animation {
 		}
 	}
 	down() {
+		super.addRange([this.posXX - 60 + this.sizeW, this.posYY + 270, 60, 40]);
 		if (this.hit == false) {
 			if (this.jumping == false && this.falling == false) {
 				this.reset();
 				this.animation_number = 5;
+				this.is_down = true;
 			}
 		}
 	}
@@ -90,15 +77,17 @@ export default class Character extends Animation {
 	run_left() {
 		if (this.hit == false) {
 			this.reset();
-			this.animation_number = 10;
 			this.move = -50;
+			if (this.direction == true) this.animation_number = 10;
+			else this.animation_number = 11;
 		}
 	}
 	run_right() {
 		if (this.hit == false) {
 			this.reset();
-			this.animation_number = 11;
 			this.move = +50;
+			if (this.direction == true) this.animation_number = 11;
+			else this.animation_number = 10;
 		}
 	}
 	kick() {
@@ -136,8 +125,10 @@ export default class Character extends Animation {
 		this.combo = 0;
 		this.animation_number = 0;
 		this.move = 0;
+		this.is_down = 0;
 		this.attacking = false;
 		this.attacked = false;
+		this.changedDirection = false;
 		this.resetAnimation();
 	}
 
@@ -149,9 +140,15 @@ export default class Character extends Animation {
 				this.attacked = true;
 				player.hit = true;
 				player.wait = 8;
-			}else{
+			} else {
 				return true;
-
+			}
+		}
+		if (super.getRange() != 0) {
+			if (super.collisionRange(player) == true && player.blocking == false) {
+				console.log('je ne rate jamais ma cible');
+				player.takeDamage(20);
+				player.damaged();
 			}
 		}
 	}
@@ -171,6 +168,71 @@ export default class Character extends Animation {
 				this.falling = false;
 				this.posYY = 0;
 			}
+		}
+	}
+
+	drawing(player) {
+		if (this.wait == 0) {
+			this.hit = false;
+		} else {
+			this.wait--;
+		}
+		if (this.count != 0) {
+			this.count--;
+		}
+
+		//On modifie la taille de notre hitbox
+		if (this.attacking == true) this.modifiedhsizeW = 135;
+		else this.modifiedhsizeW = 170;
+
+		if (this.is_down == true) this.modifiedhY = 340;
+		else this.modifiedhY = 240;
+
+
+		if (this.direction == true) {
+			this.posXX += this.move;
+		} else {
+			this.posXX -= this.move;
+		}
+
+		//Nous renvoi true lorsque on aura joué toutes nos frames
+		//Sinon, ça voudra dire qu'on est entrain de jouer une animation en boucle
+		let finished = this.drawPlayerV2(this.animation_number);
+		if (finished == true) {
+			this.animation_number = 0;
+			this.is_down = false;
+			this.move = 0;
+			this.attacking = false;
+			this.attacked = false;
+			this.jumping = false;
+			this.falling = false;
+		}
+		this.collisionCheck(player);
+	}
+
+	changeDirection(player) {
+		//Pour qu'il ne change pas de direction en boucle
+		if (this.changedDirection == false) {
+			player.changedDirection = true;
+			if (this.direction == true) {
+				this.compareDirection(this, player);
+			} else {
+				this.compareDirection(player, this);
+			}
+		}
+	}
+	compareDirection(player_1, player_2) {
+		//SI les coordonnées du joueur1 sont plus grand que celle du joueur2
+		//alors on inverse les sens
+		if (player_1.posXX >= Math.abs(player_2.posXX)) {
+			player_1.direction = false;
+			player_2.direction = true;
+			player_2.posXX = Math.abs(player_2.posXX);
+			player_1.posXX = -player_1.posXX;
+			player_2.changedDirection = true;
+			player_1.changedDirection = true;
+		}else{
+
 		}
 	}
 }
