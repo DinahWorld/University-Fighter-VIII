@@ -69,8 +69,7 @@ function update() {
 }
 
 function game() {
-	if (hp_1 != player_1.hp) hp_1 -= 2;
-	if (hp_2 != player_2.hp) hp_2 -= 2;
+	drawHP();
 	//Pourquoi j'en met 2 jsp
 	player_1.changeDirection(player_2);
 	player_2.changeDirection(player_1);
@@ -83,8 +82,6 @@ function game() {
 
 function drawCharacter(player, ennemy) {
 	player.jumpingMove();
-	ctx.fillStyle = 'red';
-	ctx.fillRect(20, 20, hp_1, 50);
 	if (player.direction == false) {
 		player.ctx.save();
 		player.ctx.translate(0, 0);
@@ -95,7 +92,21 @@ function drawCharacter(player, ennemy) {
 		player.drawing(ennemy);
 	}
 }
+function drawHP(){
+	if (hp_1 != player_1.hp) hp_1 -= 2;
+	if (hp_2 != player_2.hp) hp_2 -= 2;
 
+	ctx.fillStyle = 'red';
+	ctx.fillRect(20, 20, hp_1, 50);
+
+	ctx.save();
+	ctx.scale(-1, 1);
+	ctx.fillStyle = 'red';
+	ctx.fillRect(-cnv.width - 20, 20, hp_2, 50);
+	ctx.restore();
+
+
+}
 function onload_atlas() {
 	//console.log(this.status);
 
