@@ -9,6 +9,11 @@ import SpriteAtlas from './SpriteAtlas.js';
 
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
+let cnv_player_1 =  document.getElementById('myCanvas');
+let ctx_player_1 = cnv_player_1.getContext('2d');
+ctx_player_1.width = cnv.width;
+ctx_player_1.height = cnv.height
+
 ctx.imageSmoothingEnabled = false;
 let xobj = new XMLHttpRequest();
 let number_of_player = 2;
@@ -17,7 +22,6 @@ let go = false;
 let hp_1 = 500;
 let hp_2 = 500;
 let action = true;
-
 let transition_done = false;
 let black_screen = false;
 
@@ -26,12 +30,14 @@ let opacity_value = 0.05;
 
 xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
-xobj.open('GET', './assets/atlas/chunli.json', true);
+xobj.open('GET', './assets/atlas/ryu.json', true);
 xobj.send();
 
 let player_1 = new Character('Dinath', 0, 0, ctx, 1);
-let player_2 = new Character('Fayçal', -cnv.width, 0, ctx, 2);
-audio.play();
+let player_2 = new Character('Fayçal',1000, 0, ctx, 2);
+let players = [player_1, player_2];
+
+//audio.play();
 
 //Comme ça il ne charge qu'une fois la map et non plusieurs fois en boucle
 function mapSelect() {
@@ -54,6 +60,7 @@ function mapSelect() {
 		black_screen = false;
 	}
 }
+
 function update() {
 	ctx.beginPath();
 	ctx.clearRect(0, 0, cnv.width, cnv.height);
@@ -70,39 +77,51 @@ function update() {
 }
 
 
-function game(){
+function game() {
 	if (hp_1 != player_1.hp) hp_1 -= 2;
 	if (hp_2 != player_2.hp) hp_2 -= 2;
-
-	ctx.fillStyle = 'red';
-	ctx.fillRect(20, 20, hp_1, 50);
-
-	player_1.jumpingMove();
-	player_2.jumpingMove();
-
+	player_1.changeDirection(player_2);
+	player_2.changeDirection(player_1);
+	if(player_1.sens == 1)
+		correctSide(player_1,player_2);
+	else
+		correctSide(player_2,player_1);
 	
-	player_1.drawing(player_2);	
-	player_2.ctx.save();
-	player_2.ctx.scale(-1, 1);
-
-	ctx.fillStyle = 'red';
-	ctx.fillRect(-cnv.width + 20, 20, hp_2, 50);
-
-	player_2.drawing(player_1);
-	
-	player_2.ctx.restore();
-	ctx.closePath();
-
+		ctx.closePath();
 }
 
+function correctSide(player,ennemy){
+	player.jumpingMove();
+	ctx.fillStyle = 'red';
+	ctx.fillRect(20, 20, hp_1, 50);
+	player.drawing(ennemy);
 
+	invertSide(ennemy,player);
+}
+
+function invertSide(player,ennemy){
+	player.jumpingMove();
+	player.ctx.save();
+	//console.log(player.posXX)
+	player.ctx.translate(player.sizeW / 2,0);
+	player.ctx.scale(-1, 1);
+	player.drawing(ennemy);
+	player.ctx.restore();
+	
+	//ctx.save();
+	//ctx.fillStyle = 'red';
+	//ctx.fillRect(-cnv.width + 20, 20, hp_2, 50);
+	//ctx.scale(-1, 1);
+	//ctx.restore();
+
+
+}
 
 
 function onload_atlas() {
 	//console.log(this.status);
 
 	if (this.status == 200) {
-		let players = [player_1, player_2];
 
 		let json_infos = JSON.parse(this.responseText);
 		let spritesheet = new Image();
@@ -148,6 +167,7 @@ window.addEventListener('keyup', keyup_fun, false);
 function keyup_fun() {
 	action = true;
 }
+
 function keydown_fun(e) {
 	if (action == true) {
 		action = false;
@@ -159,10 +179,10 @@ function keydown_fun(e) {
 				player_2.kick();
 				break;
 			case 'Numpad3':
-				player_2.walk_left();
+				player_2.walk_right();
 				break;
 			case 'Numpad1':
-				player_2.walk_right();
+				player_2.walk_left();
 				break;
 			case 'Numpad5':
 				player_2.jump();
