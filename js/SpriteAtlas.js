@@ -5,10 +5,9 @@ export default class SpriteAtlas {
 		this.event_code = 0;
 		this.animestep = 1;
 		this.to_draw = 1;
-		this.to_goX = 0;
-		this.to_goY = 0;
 		this.animeseq = [];
 		this.loop = false;
+		this.stop = false;
 	}
 	next_step() {
 		if (this.to_draw == 0) {
@@ -19,8 +18,7 @@ export default class SpriteAtlas {
 			this.to_draw = 1;
 		}
 	}
-	add_anime(prefix, first_id, last_id, event_code) {
-		this.event_code = event_code;
+	add_anime(prefix, first_id, last_id) {
 		for (let i = first_id; i < last_id + 1; i += 1) {
 			let filename = prefix;
 			if (i < 10) {

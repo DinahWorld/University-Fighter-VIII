@@ -24,7 +24,7 @@ let opacity_value = 0.05;
 
 xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
-xobj.open('GET', './assets/atlas/ryu.json', true);
+xobj.open('GET', './assets/atlas/ken.json', true);
 xobj.send();
 
 let player_1 = new Character('Dinath', 0, 0, ctx, true);
@@ -50,7 +50,7 @@ function mapSelect() {
 	}
 
 	if (black_screen == true) {
-		cnv.style.backgroundImage = 'url(assets/background/bg_1.gif)';
+		cnv.style.backgroundImage = 'url(assets/background/bg_7_2.gif)';
 		black_screen = false;
 	}
 }
@@ -122,27 +122,37 @@ function onload_atlas() {
 			let context1 = canvas1.getContext('2d');
 			context1.drawImage(spritesheet, 0, 0, canvas1.width, canvas1.height);
 
-			for (let i = 0; i < 13; i++) {
+			for (let i = 0; i < 22; i++) {
 				players[0].sprites[i] = new SpriteAtlas(context1, json_infos);
 				players[1].sprites[i] = new SpriteAtlas(context1, json_infos);
 			}
 
 			//TODO : Les perso n'ont pas le meme nombre de sprite
 			for (let i = 0; i < number_of_player; i++) {
-				players[i].sprites[0].add_anime('normal', 1, 10, '');
-				players[i].sprites[1].add_anime('punch-1', 1, 4, 'Punch');
-				players[i].sprites[2].add_anime('walk-left', 1, 11, 'WalkLeft');
-				players[i].sprites[3].add_anime('walk-right', 1, 11, 'WalkRight');
-				players[i].sprites[4].add_anime('jump', 1, 21, 'Jump');
-				players[i].sprites[5].add_anime('down', 1, 6, 'Down');
-				players[i].sprites[6].add_anime('punch-2', 1, 8, 'Punch2');
-				players[i].sprites[7].add_anime('punch-3', 1, 9, 'Punch3');
-				players[i].sprites[8].add_anime('damaged', 1, 7, 'Hit');
-				players[i].sprites[9].add_anime('block', 1, 4, 'Block');
-				players[i].sprites[10].add_anime('run-left', 1, 6, 'RunLeft');
-				players[i].sprites[11].add_anime('run-right', 1, 6, 'RunRight');
-				players[i].sprites[12].add_anime('kick', 1, 7, 'Kick');
+				players[i].sprites[0].add_anime('normal', 1, 10);
+				players[i].sprites[1].add_anime('punch-1', 1, 4);
+				players[i].sprites[2].add_anime('walk-left', 1, 11);
+				players[i].sprites[3].add_anime('walk-right', 1, 11);
+				players[i].sprites[4].add_anime('jump', 1, 23);
+				players[i].sprites[5].add_anime('down', 1, 9);
+				players[i].sprites[6].add_anime('punch-2', 1, 8);
+				players[i].sprites[7].add_anime('punch-3', 1, 9);
+				players[i].sprites[8].add_anime('damaged', 1, 7);
+				players[i].sprites[9].add_anime('block', 1, 4);
+				players[i].sprites[10].add_anime('run-left', 1, 6);
+				players[i].sprites[11].add_anime('run-right', 1, 6);
+				players[i].sprites[12].add_anime('kick', 1, 7);
+				players[i].sprites[13].add_anime('down-damage', 1, 8);
+				players[i].sprites[14].add_anime('down-kick', 1, 5);
+				players[i].sprites[15].add_anime('down-punch', 1, 5);
+				players[i].sprites[16].add_anime('hadoken', 1, 18);
+				players[i].sprites[17].add_anime('jump-kick', 1, 5);
+				players[i].sprites[18].add_anime('jump-punch', 1, 8);
+				players[i].sprites[19].add_anime('ko', 1, 25);
+				players[i].sprites[20].add_anime('pose', 1, 8);
+				players[i].sprites[21].add_anime('super-attack', 1, 11);
 				players[i].sprites[0].loop = true;
+				players[i].sprites[19].stop = true;				
 			}
 		};
 	}
@@ -213,6 +223,8 @@ function keydown_fun(e) {
 			case 'KeyB':
 				player_1.kick();
 				break;
+			case 'KeyC':
+				player_1.hadoken();
 		}
 	}
 }
