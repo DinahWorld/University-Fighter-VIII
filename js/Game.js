@@ -291,6 +291,11 @@ let instructionP1 = ["walk-right", "run-right", "punch", "kick", "run-left", "ju
  "block", "run-left", "hadouken", "hadouken", "run-right", "punch", "punch", "punch", "kick", "hadouken", "walk-left"];
 let instructionP2 = ["walk-left", "walk-left", "block", "run-right", "hadouken", "run-left", "run-left", "punch",
  "punch", "punch", "jump", "block", "run-left", "run-left", "kick", "kick", "punch", "punch", "punch", "hadouken", "run-right"];
+
+ let instructionChun = ["run-right", "run-right", "kick", "kick", "punch", "punch", "punch", "walk-left", "down", "block", "jump",
+"walk-right", "walk-right", "punch", "kick", "run-left", "run-left", "block", "block", "run-right", "run-right", "kick", "kick", "punch"];
+let instructionChunInv = ["run-left", "run-left", "kick", "kick", "punch", "punch", "punch", "walk-right", "down", "block", "jump",
+"walk-left", "walk-left", "punch", "kick", "run-right", "run-right", "block", "block", "run-left", "run-left", "kick", "kick", "punch"];
 let instruction = ["walk-right", "punch", "jump"];
 function instru_execute(player, movement) {
 	switch (movement) {
