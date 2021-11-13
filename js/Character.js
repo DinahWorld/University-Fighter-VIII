@@ -14,7 +14,7 @@ export default class Character extends Animation {
 		this.jumping = false;
 		this.falling = false;
 		this.hit = false;
-		this.jump_value = 50;
+		this.jump_value = 60;
 		this.animation_number = 0;
 		this.move = 0;
 		this.count = 0;
@@ -186,7 +186,7 @@ export default class Character extends Animation {
 		else this.modifiedhsizeW = 170;
 
 		if (this.is_down == true) this.modifiedhY = 340;
-		else this.modifiedhY = 240;
+		else this.modifiedhY = 320;
 
 
 		if (this.direction == true) {

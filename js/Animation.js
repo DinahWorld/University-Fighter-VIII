@@ -1,11 +1,11 @@
 export default class Animation {
 	constructor(ctx, posXX, posYY, direction) {
 		this.sprites = [];
-		this.zoom = 3;
+		this.zoom = 4;
 		this.direction = direction;
 		this.ctx = ctx;
-		if (direction == true) this.posXX = posXX + 90;
-		else this.posXX = -posXX + 90;
+		if (direction == true) this.posXX = posXX;
+		else this.posXX = -posXX;
 
 		this.posYY = posYY;
 		this.posHYY = posYY;
@@ -175,7 +175,7 @@ export default class Animation {
 		//On dessine notre sprite
 		this.ctx.drawImage(
 			cnv_i,
-			this.posXX - 500,
+			this.posXX - 650,
 			this.posYY,
 			cnv_i.width * this.zoom,
 			cnv_i.height * this.zoom

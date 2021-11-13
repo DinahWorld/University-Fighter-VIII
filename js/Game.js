@@ -28,7 +28,7 @@ xobj.open('GET', './assets/atlas/ryu.json', true);
 xobj.send();
 
 let player_1 = new Character('Dinath', 0, 0, ctx, true);
-let player_2 = new Character('Fayçal', 1600, 0, ctx, false);
+let player_2 = new Character('Fayçal', cnv.width, 0, ctx, false);
 let players = [player_1, player_2];
 
 //audio.play();
@@ -50,7 +50,7 @@ function mapSelect() {
 	}
 
 	if (black_screen == true) {
-		cnv.style.backgroundImage = 'url(assets/background/bg_7_2.gif)';
+		cnv.style.backgroundImage = 'url(assets/background/bg_1.gif)';
 		black_screen = false;
 	}
 }
@@ -97,12 +97,12 @@ function drawHP(){
 	if (hp_2 != player_2.hp) hp_2 -= 2;
 
 	ctx.fillStyle = 'red';
-	ctx.fillRect(20, 20, hp_1, 50);
+	ctx.fillRect(50, 20, hp_1, 50);
 
 	ctx.save();
 	ctx.scale(-1, 1);
 	ctx.fillStyle = 'red';
-	ctx.fillRect(-cnv.width - 20, 20, hp_2, 50);
+	ctx.fillRect(-cnv.width + 20, 20, hp_2, 50);
 	ctx.restore();
 
 
