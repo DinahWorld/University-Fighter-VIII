@@ -26,15 +26,14 @@ let black_screen = false;
 let opacity = 0;
 let opacity_value = 0.05;
 
-let select = false;
+let select = true;
 let selectID = 0;
 let selectList = ["ryu", "ken", "akuma", "chunli"];
 let selected = [];
+let selectedSprites = [];
 
 let spritesPL = ['./assets/atlas/ken.json', './assets/atlas/akuma.json'];
 
-let spriteP1 = './assets/atlas/ken.json';
-let spriteP2 = './assets/atlas/chunli.json';
 
 let loadFile = function (filePath, done) {
     let xhr = new XMLHttpRequest();//new XMLHTTPRequest();
@@ -45,11 +44,41 @@ let loadFile = function (filePath, done) {
 let json_datas = [];
 let player_1 = new Character('Dinath', 0, 0, ctx, 1);
 let player_2 = new Character('Fayçal', -cnv.width, 0, ctx, 2);
-for(let i = 0; i < spritesPL.length; i++) {
+/*for(let i = 0; i < spritesPL.length; i++) {
 	loadFile(spritesPL[i], function (responseText) {
 		json_datas[i] = JSON.parse(responseText);
 		onload_atlas3(i);
 	})
+}*/
+
+//utiliser pour load les sprites des perso choisies
+function loadEverything() {
+	for(let i = 0; i < selectedSprites.length; i++) {
+		loadFile(selectedSprites[i], function (responseText) {
+			json_datas[i] = JSON.parse(responseText);
+			onload_atlas3(i);
+		})
+	}
+}
+
+//utiliser pour donner les bon chemin selon les perso
+function selectedPath() {
+	for(let i = 0; i < selected.length; i++) {
+		switch (selected[i]) {
+			case "ryu":
+				selectedSprites.push('./assets/atlas/ryu.json');
+				break;
+			case "ken":
+				selectedSprites.push('./assets/atlas/ken.json');
+				break;
+			case "akuma":
+				selectedSprites.push('./assets/atlas/akuma.json');
+				break;
+			case "chunli":
+				selectedSprites.push('./assets/atlas/chunli.json');
+				break;
+		}
+	}
 }
 
 audio.play();
@@ -175,10 +204,6 @@ function keydown_fun(e) {
 		///Si on est dans la sélection de personnage;
 		switch(e.code) {
 			///Avec 4 perso avoir une selection en une ligne c'est parfaitement suffisant
-			//case 'KeyW':
-			//	break;
-			//case 'KeyS':
-			//	break;
 			case 'KeyA':
 				///On bouge l'id dans la liste de perso
 				if(selectID != 0){selectID -= 1;}
@@ -191,10 +216,14 @@ function keydown_fun(e) {
 				selected.push(selectList[selectID]);
 				break;
 		}
+		console.log(selectID);
 		if(selected.length == 2) {
-			select == false;
+			select = false;
+			selectedPath();
+			loadEverything();
 		}
 	}
+	else {
 	if (action == true) {
 		action = false;
 		switch (e.code) {
@@ -254,6 +283,7 @@ function keydown_fun(e) {
 		}
 	}
 }
+}
 
 let instruID = 0;
 let instruction = ["walk-right", "punch", "jump"];
@@ -280,5 +310,5 @@ function instru_list(player) {
 
 setInterval(update, 45);
 //setInterval(instru_list, 2000);
-setInterval(function () {instru_list(player_1)}, 1000);
+//setInterval(function () {instru_list(player_1)}, 1000);
 
