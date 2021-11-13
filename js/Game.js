@@ -23,12 +23,16 @@ let opacity = 0;
 let opacity_value = 0.05;
 let enterGame = false;
 
-
+//select pour si on est rentré dans la selection
 let select = false;
 let madeSelect = false;
+//id dans la selection
 let selectID = 0;
+//liste de tout les perso
 let selectList = ["ryu", "ken", "akuma", "chunli"];
+//selected sont les perso choisie 
 let selected = [];
+//le chemin des sprites des perso choisie
 let selectedSprites = [];
 
 /*xobj.onload = onload_atlas;
@@ -40,6 +44,8 @@ let player_1 = new Character('Dinath', 0, 0, ctx, true);
 let player_2 = new Character('Fayçal', cnv.width, 0, ctx, false);
 let players = [player_1, player_2];
 
+
+///permet de load plusieurs json
 let loadFile = function (filePath, done) {
     let xhr = new XMLHttpRequest();//new XMLHTTPRequest();
     xhr.onload = function () { return done(this.responseText) }
@@ -48,6 +54,7 @@ let loadFile = function (filePath, done) {
 }
 let json_datas = [];
 
+//permet de load tout les sprites des joueurs
 function loadEverything() {
 	for(let i = 0; i < selectedSprites.length; i++) {
 		loadFile(selectedSprites[i], function (responseText) {
@@ -78,6 +85,7 @@ function selectedPath() {
 }
 //audio.play();
 
+//no car c'était des test
 function transition () {
 	ctx.fillStyle = 'rgba(0, 0, 0,' + opacity + ')';
 	ctx.fillRect(0, 0, cnv.width, cnv.height);
@@ -177,6 +185,7 @@ function drawHP(){
 
 
 }
+//onload atlas modif pour prendre un perso et son json et le load (amélioration possible quand le meme perso est pris)
 function onload_atlas(n) {
 	let player;
 	if(n == 0) {player = player_1;}
@@ -245,7 +254,7 @@ function keyup_fun() {
 }
 
 function keydown_fun(e) {
-
+	///le mode de selection sans graphique pour l'instant 
 	if(select == true) {
 		///Si on est dans la sélection de personnage;
 		switch(e.code) {
@@ -271,7 +280,7 @@ function keydown_fun(e) {
 			go = true;
 		}
 	}
-
+	//quand entre dans le jeu (pas mit de transition)
 	if(enterGame == false) {
 		switch (e.code) {
 			case 'Enter':
@@ -345,7 +354,7 @@ function keydown_fun(e) {
 
 setInterval(update, 35);
 
-
+///eachPerso qui va load les différent perso dans onload_atlas(en cours)
 function eachPersoLoad(player, perso) {
 	switch(perso) {
 		case "ryu":
