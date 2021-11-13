@@ -52,15 +52,6 @@ for(let i = 0; i < spritesPL.length; i++) {
 	})
 }
 
-
-/*xobj.onload = onload_atlas;
-xobj.overrideMimeType('application/json');
-xobj.open('GET', spriteP1, true);
-//xobj.open('GET', spriteP2, true);
-xobj.send();*/
-
-//let player_1 = new Character('Dinath', 0, 0, ctx, 1);
-//let player_2 = new Character('Fayçal', -cnv.width, 0, ctx, 2);
 audio.play();
 
 //Comme ça il ne charge qu'une fois la map et non plusieurs fois en boucle
@@ -170,50 +161,6 @@ function onload_atlas3(n) {
 	//}
 }
 
-
-function onload_atlas() {
-	//console.log(this.status);
-
-	if (this.status == 200) {
-		let players = [player_1, player_2];
-
-		let json_infos = JSON.parse(this.responseText);
-		//console.log(json_infos);
-		let spritesheet = new Image();
-		spritesheet.src = './assets/atlas/' + json_infos['meta']['image'];
-
-		spritesheet.onload = function () {
-			let canvas1 = document.createElement('canvas');
-			canvas1.width = json_infos['meta']['size']['w'];
-			canvas1.height = json_infos['meta']['size']['h'];
-			let context1 = canvas1.getContext('2d');
-			context1.drawImage(spritesheet, 0, 0, canvas1.width, canvas1.height);
-
-			for (let i = 0; i < 13; i++) {
-				players[0].sprites[i] = new SpriteAtlas(context1, json_infos);
-				players[1].sprites[i] = new SpriteAtlas(context1, json_infos);
-			}
-
-			//TODO : Les perso n'ont pas le meme nombre de sprite
-			for (let i = 0; i < number_of_player; i++) {
-				players[i].sprites[0].add_anime('normal', 1, 10, '');
-				players[i].sprites[1].add_anime('punch-1', 1, 4, 'Punch');
-				players[i].sprites[2].add_anime('walk-left', 1, 11, 'WalkLeft');
-				players[i].sprites[3].add_anime('walk-right', 1, 11, 'WalkRight');
-				players[i].sprites[4].add_anime('jump', 1, 21, 'Jump');
-				players[i].sprites[5].add_anime('down', 1, 6, 'Down');
-				players[i].sprites[6].add_anime('punch-2', 1, 8, 'Punch2');
-				players[i].sprites[7].add_anime('punch-3', 1, 9, 'Punch3');
-				players[i].sprites[8].add_anime('damaged', 1, 7, 'Hit');
-				players[i].sprites[9].add_anime('block', 1, 4, 'Block');
-				players[i].sprites[10].add_anime('run-left', 1, 6, 'RunLeft');
-				players[i].sprites[11].add_anime('run-right', 1, 6, 'RunRight');
-				players[i].sprites[12].add_anime('kick', 1, 7, 'Kick');
-				players[i].sprites[0].loop = true;
-			}
-		};
-	}
-}
 
 //Permet de ne pas rester appuyer sur une touche
 window.addEventListener('keydown', keydown_fun, false);
@@ -333,5 +280,5 @@ function instru_list(player) {
 
 setInterval(update, 45);
 //setInterval(instru_list, 2000);
-setInterval(function () {instru_list(player_1)}, 2000);
+setInterval(function () {instru_list(player_1)}, 1000);
 
