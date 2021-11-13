@@ -285,7 +285,12 @@ function keydown_fun(e) {
 }
 }
 
-let instruID = 0;
+let instruID1 = 0;
+let instruID2 = 0;
+let instructionP1 = ["walk-right", "run-right", "punch", "kick", "run-left", "jump", "walk-right", "walk-right",
+ "block", "run-left", "hadouken", "hadouken", "run-right", "punch", "punch", "punch", "kick", "hadouken", "walk-left"];
+let instructionP2 = ["walk-left", "walk-left", "block", "run-right", "hadouken", "run-left", "run-left", "punch",
+ "punch", "punch", "jump", "block", "run-left", "run-left", "kick", "kick", "punch", "punch", "punch", "hadouken", "run-right"];
 let instruction = ["walk-right", "punch", "jump"];
 function instru_execute(player, movement) {
 	switch (movement) {
@@ -302,13 +307,14 @@ function instru_execute(player, movement) {
 }
 ///cette methode est pas possible parce que bizzarement le programme lit tout la liste d'instruction quand il recoit la liste
 //let instrucs = [player_1.walk_right(), player_1.punch(), player_1.jump()];
-function instru_list(player) {
-	instru_execute(player, instruction[instruID]);
-	if(instruID != instruction.length-1) {instruID+=1;}
+function instru_list(player, instruPlayer, instruID) {
+	instru_execute(player, instruPlayer[instruID]);
+	if(instruID != instruPlayer.length-1) {instruID+=1;}
 	else{instruID = 0;}
 }
 
 setInterval(update, 45);
 //setInterval(instru_list, 2000);
-//setInterval(function () {instru_list(player_1)}, 1000);
+//if(go == true) {
+//setInterval(function () {instru_list(player_1, instruction, instruID1)}, 1000);
 
