@@ -15,7 +15,7 @@ export default class Character extends Animation {
 		this.falling = false;
 		this.hit = false;
 		this.jump_value = 50;
-		this.animation_number = 0;
+		this.animation_number = 20;
 		this.move = 0;
 		this.count = 0;
 		this.wait = 0;
@@ -193,7 +193,10 @@ export default class Character extends Animation {
 
 	drawing(player) {
 
-		if(this.hp == 0) this.animation_number = 19;
+		if(this.hp == 0) {
+			this.animation_number = 19;
+			player.animation_number = 20;
+		}
 		//Lorsque le personnage se fait frappé, la variable wait 
 		//est sur 8 et donc le personnage ne peut plus frapper ou se déplacer,
 		//lorsque wait sera a 0 alors on considere que 

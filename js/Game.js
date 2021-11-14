@@ -35,6 +35,7 @@ let selected = [];
 //le chemin des sprites des perso choisie
 let selectedSprites = [];
 
+let lenSpr = [];
 /*xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
 xobj.open('GET', './assets/atlas/ken.json', true);
@@ -70,15 +71,19 @@ function selectedPath() {
 		switch (selected[i]) {
 			case "ryu":
 				selectedSprites.push('./assets/atlas/ryu.json');
+				lenSpr.push([10,4,11,11,21,9,8,9,9,4,6,6,7,4,5,5,18,5,8,25,8,11]);
 				break;
 			case "ken":
 				selectedSprites.push('./assets/atlas/ken.json');
+				lenSpr.push([10,4,11,11,23,9,8,9,9,4,6,6,7,8,5,5,18,5,8,25,8,11]);
 				break;
 			case "akuma":
 				selectedSprites.push('./assets/atlas/akuma.json');
+				lenSpr.push([11,4,11,11,21,9,8,9,9,4,6,6,7,4,5,5,18,5,8,24,8,12]);
 				break;
 			case "chunli":
 				selectedSprites.push('./assets/atlas/chunli.json');
+				lenSpr.push([10,5,18,16,23,9,8,9,9,4,6,6,11,8,5,5,18,5,9,20,8,22]);
 				break;
 		}
 	}
@@ -148,7 +153,7 @@ function update() {
 
 function game() {
 	drawHP();
-	//Pourquoi j'en met 2 jsp
+
 	player_1.changeDirection(player_2);
 	player_2.changeDirection(player_1);
 
@@ -211,31 +216,33 @@ function onload_atlas(n) {
 			for(let i = 0; i < 22; i++) {
 				player.sprites[i] = new SpriteAtlas(context1, json_datas[n]);
 			}
-
+			console.log(n,"ds")
 			//TODO : Les perso n'ont pas le meme nombre de sprite
 			//for (let i = 0; i < number_of_player; i++) {
-				player.sprites[0].add_anime('normal', 1, 10);
-				player.sprites[1].add_anime('punch-1', 1, 4);
-				player.sprites[2].add_anime('walk-left', 1, 11);
-				player.sprites[3].add_anime('walk-right', 1, 11);
-				player.sprites[4].add_anime('jump', 1, 21);
-				player.sprites[5].add_anime('down', 1, 9);
-				player.sprites[6].add_anime('punch-2', 1, 8);
-				player.sprites[7].add_anime('punch-3', 1, 9);
-				player.sprites[8].add_anime('damaged', 1, 7);
-				player.sprites[9].add_anime('block', 1, 4);
-				player.sprites[10].add_anime('run-left', 1, 6);
-				player.sprites[11].add_anime('run-right', 1, 6);
-				player.sprites[12].add_anime('kick', 1, 7);
-				player.sprites[13].add_anime('down-damage', 1, 8);
-				player.sprites[14].add_anime('down-kick', 1, 5);
-				player.sprites[15].add_anime('down-punch', 1, 5);
-				player.sprites[16].add_anime('hadoken', 1, 17);
-				player.sprites[17].add_anime('jump-kick', 1, 5);
-				player.sprites[18].add_anime('jump-punch', 1, 8);
-				player.sprites[19].add_anime('ko', 1, 25);
-				player.sprites[20].add_anime('pose', 1, 8);
-				player.sprites[21].add_anime('super-attack', 1, 11);
+				console.log(lenSpr[n])
+				player.sprites[0].add_anime('normal', 1, lenSpr[n][0]);
+				player.sprites[1].add_anime('punch-1', 1, lenSpr[n][1]);
+				player.sprites[2].add_anime('walk-left', 1, lenSpr[n][2]);
+				player.sprites[3].add_anime('walk-right', 1, lenSpr[n][3]);
+				console.log(lenSpr[n][4])
+				player.sprites[4].add_anime('jump', 1, lenSpr[n][4]);
+				player.sprites[5].add_anime('down', 1, lenSpr[n][5]);
+				player.sprites[6].add_anime('punch-2', 1, lenSpr[n][6]);
+				player.sprites[7].add_anime('punch-3', 1, lenSpr[n][7]);
+				player.sprites[8].add_anime('damaged', 1, lenSpr[n][8]);
+				player.sprites[9].add_anime('block', 1, lenSpr[n][9]);
+				player.sprites[10].add_anime('run-left', 1, lenSpr[n][10]);
+				player.sprites[11].add_anime('run-right', 1, lenSpr[n][11]);
+				player.sprites[12].add_anime('kick', 1, lenSpr[n][12]);
+				player.sprites[13].add_anime('down-damage', 1, lenSpr[n][13]);
+				player.sprites[14].add_anime('down-kick', 1, lenSpr[n][14]);
+				player.sprites[15].add_anime('down-punch', 1, lenSpr[n][15]);
+				player.sprites[16].add_anime('hadoken', 1, lenSpr[n][16]);
+				player.sprites[17].add_anime('jump-kick', 1, lenSpr[n][17]);
+				player.sprites[18].add_anime('jump-punch', 1, lenSpr[n][18]);
+				player.sprites[19].add_anime('ko', 1, lenSpr[n][19]);
+				player.sprites[20].add_anime('pose', 1, lenSpr[n][20]);
+				player.sprites[21].add_anime('super-attack', 1, lenSpr[n][21]);
 				player.sprites[0].loop = true;
 				player.sprites[19].stop = true;				
 			//}
