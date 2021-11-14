@@ -90,31 +90,6 @@ function selectedPath() {
 }
 //audio.play();
 
-//no car c'était des test
-function transition () {
-	ctx.fillStyle = 'rgba(0, 0, 0,' + opacity + ')';
-	ctx.fillRect(0, 0, cnv.width, cnv.height);
-
-	opacity += opacity_value;
-
-	if (opacity < 0) {
-		console.log("je veux voire");
-		go = false;
-	}
-	if (opacity > 0.99) {
-		black_screen = true;
-		transition_done = true;
-		opacity_value = -opacity_value;
-	}
-}
-
-function transitionUP() {
-	if (opacity > 0.99) {
-		black_screen = true;
-		transition_done = true;
-		opacity_value = -opacity_value;
-	}
-}
 //Comme ça il ne charge qu'une fois la map et non plusieurs fois en boucle
 function mapSelect() {
 	ctx.fillStyle = 'rgba(0, 0, 0,' + opacity + ')';
@@ -153,13 +128,12 @@ function update() {
 
 function game() {
 	drawHP();
-
 	player_1.changeDirection(player_2);
 	player_2.changeDirection(player_1);
 
 	drawCharacter(player_1, player_2);
 	drawCharacter(player_2, player_1);
-
+	
 	ctx.closePath();
 }
 
@@ -209,16 +183,12 @@ function onload_atlas(n) {
 			let context1 = canvas1.getContext('2d');
 			context1.drawImage(spritesheet, 0, 0, canvas1.width, canvas1.height);
 
-			/*for (let i = 0; i < 22; i++) {
-				players[0].sprites[i] = new SpriteAtlas(context1, json_infos);
-				players[1].sprites[i] = new SpriteAtlas(context1, json_infos);
-			}*/
 			for(let i = 0; i < 22; i++) {
 				player.sprites[i] = new SpriteAtlas(context1, json_datas[n]);
 			}
 			console.log(n,"ds")
 			//TODO : Les perso n'ont pas le meme nombre de sprite
-			//for (let i = 0; i < number_of_player; i++) {
+
 				console.log(lenSpr[n])
 				player.sprites[0].add_anime('normal', 1, lenSpr[n][0]);
 				player.sprites[1].add_anime('punch-1', 1, lenSpr[n][1]);
@@ -244,8 +214,9 @@ function onload_atlas(n) {
 				player.sprites[20].add_anime('pose', 1, lenSpr[n][20]);
 				player.sprites[21].add_anime('super-attack', 1, lenSpr[n][21]);
 				player.sprites[0].loop = true;
-				player.sprites[19].stop = true;				
-			//}
+				player.sprites[19].stop = true;
+				//player.sprites[20].stop = true;			
+
 		};
 	//}
 }
@@ -297,7 +268,7 @@ function keydown_fun(e) {
 		}
 	}
 
-	if (action == true) {
+	if (action == true && hp_1 != 0 && hp_2 != 0) {
 		action = false;
 		switch (e.code) {
 			case 'KeyK':
@@ -360,65 +331,3 @@ function keydown_fun(e) {
 }
 
 setInterval(update, 35);
-
-///eachPerso qui va load les différent perso dans onload_atlas(en cours)
-function eachPersoLoad(player, perso) {
-	switch(perso) {
-		case "ryu":
-			player.sprites[0].add_anime('normal', 1, 10);
-			player.sprites[1].add_anime('punch-1', 1, 4);
-			player.sprites[2].add_anime('walk-left', 1, 11);
-			player.sprites[3].add_anime('walk-right', 1, 11);
-			player.sprites[4].add_anime('jump', 1, 21);
-			player.sprites[5].add_anime('down', 1, 9);
-			player.sprites[6].add_anime('punch-2', 1, 8);
-			player.sprites[7].add_anime('punch-3', 1, 9);
-			player.sprites[8].add_anime('damaged', 1, 7);
-			player.sprites[9].add_anime('block', 1, 4);
-			player.sprites[10].add_anime('run-left', 1, 6);
-			player.sprites[11].add_anime('run-right', 1, 6);
-			player.sprites[12].add_anime('kick', 1, 7);
-			player.sprites[13].add_anime('down-damage', 1, 4);
-			player.sprites[14].add_anime('down-kick', 1, 5);
-			player.sprites[15].add_anime('down-punch', 1, 5);
-			player.sprites[16].add_anime('hadoken', 1, 18);
-			player.sprites[17].add_anime('jump-kick', 1, 5);
-			player.sprites[18].add_anime('jump-punch', 1, 8);
-			player.sprites[19].add_anime('ko', 1, 25);
-			player.sprites[20].add_anime('pose', 1, 8);
-			player.sprites[21].add_anime('super-attack', 1, 11);
-			player.sprites[0].loop = true;
-			player.sprites[19].stop = true;	
-			break;
-		case "ken":
-			player.sprites[0].add_anime('normal', 1, 10);
-			player.sprites[1].add_anime('punch-1', 1, 4);
-			player.sprites[2].add_anime('walk-left', 1, 11);
-			player.sprites[3].add_anime('walk-right', 1, 11);
-			player.sprites[4].add_anime('jump', 1, 23);
-			player.sprites[5].add_anime('down', 1, 9);
-			player.sprites[6].add_anime('punch-2', 1, 8);
-			player.sprites[7].add_anime('punch-3', 1, 9);
-			player.sprites[8].add_anime('damaged', 1, 7);
-			player.sprites[9].add_anime('block', 1, 4);
-			player.sprites[10].add_anime('run-left', 1, 6);
-			player.sprites[11].add_anime('run-right', 1, 6);
-			player.sprites[12].add_anime('kick', 1, 7);
-			player.sprites[13].add_anime('down-damage', 1, 4);
-			player.sprites[14].add_anime('down-kick', 1, 5);
-			player.sprites[15].add_anime('down-punch', 1, 5);
-			player.sprites[16].add_anime('hadoken', 1, 18);
-			player.sprites[17].add_anime('jump-kick', 1, 5);
-			player.sprites[18].add_anime('jump-punch', 1, 8);
-			player.sprites[19].add_anime('ko', 1, 25);
-			player.sprites[20].add_anime('pose', 1, 8);
-			player.sprites[21].add_anime('super-attack', 1, 11);
-			player.sprites[0].loop = true;
-			player.sprites[19].stop = true;	
-			break;
-		case "akuma":
-			break;
-		case "chunli":
-			break;
-	}
-}
