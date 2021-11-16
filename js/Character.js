@@ -15,7 +15,7 @@ export default class Character extends Animation {
 		this.falling = false;
 		this.hit = false;
 		this.jump_value = 50;
-		this.animation_number = 0;
+		this.animation_number = 20;
 		this.move = 0;
 		this.count = 0;
 		this.wait = 0;
@@ -29,24 +29,6 @@ export default class Character extends Animation {
 		if (this.hp <= 0) this.hp = 0;
 	}
 
-	spaceBTWplayers(player) {
-		if(this.direction == true) {
-			//console.log("1");
-			let ab = Math.abs(player.posXX) - player.sizeW;
-			return (ab - (this.posXX +(this.sizeW/2)));
-		}
-		else {
-			//console.log("2");
-			let ab = Math.abs(this.posXX) - this.sizeW;
-			return (ab - (player.posXX +(this.sizeW/2)));
-		}
-	}
-
-	checkFuturMove(amount) {
-		if(this.collisionCheck == true) {
-			//this.move
-		}
-	}
 	
 	walk_left() {
 		if (this.hit == false && this.go_left == true) {
@@ -232,14 +214,11 @@ export default class Character extends Animation {
 		if (this.is_down == true) this.modifiedhY = 500;
 		else this.modifiedhY = 450;
 
-		let sp = this.spaceBTWplayers(player);
-		//console.log(sp);
-		if (this.direction == true) { if(sp < this.move) {this.posXX += sp;} else {this.posXX += this.move;}}
-		else { if(sp < this.move) {this.posXX -= sp;} else {this.posXX -= this.move;}}
-		//if(this.direction == true) {this.posXX += this.move;} else{this.posXX -= this.move;}
-		//console.log(this.spaceBTWplayers(player));
+		
+		if (this.direction == true) this.posXX += this.move;
+		else this.posXX -= this.move;
+
 		if(this.collisionCheck(player) == true){
-			console.log("ok");
 			if(this.direction == true) this.go_right = false
 			else this.go_left = false;
 		}else{
