@@ -148,10 +148,9 @@ export default class Animation {
 		this.sizeH = (cnv_i.height - 140) * this.zoom;
 		
 		//Notre hitbox
-		this.ctx.strokeRect(this.hitboxX, this.hitboxY, this.sizeW, this.sizeH);
+		//this.ctx.strokeRect(this.hitboxX, this.hitboxY, this.sizeW, this.sizeH);
 		//On regarde les collisions
 		
-		this.ctx.fillStyle = 'blue';
 		if (this.range_attack.length >= 1) {
 			let step2_i = this.sprites[16].animestep;
 			let cnv2_i = this.sprites[16].animeseq[step2_i];
