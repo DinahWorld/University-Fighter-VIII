@@ -15,7 +15,7 @@ export default class Character extends Animation {
 		this.falling = false;
 		this.hit = false;
 		this.jump_value = 50;
-		this.animation_number = 20;
+		this.animation_number = 0;
 		this.move = 0;
 		this.count = 0;
 		this.wait = 0;

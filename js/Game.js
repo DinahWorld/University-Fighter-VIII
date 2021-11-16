@@ -36,6 +36,7 @@ let selected = [];
 let selectedSprites = [];
 
 let lenSpr = [];
+let winLoop = [];
 /*xobj.onload = onload_atlas;
 xobj.overrideMimeType('application/json');
 xobj.open('GET', './assets/atlas/ken.json', true);
@@ -72,18 +73,22 @@ function selectedPath() {
 			case "ryu":
 				selectedSprites.push('./assets/atlas/ryu.json');
 				lenSpr.push([10,4,11,11,21,9,8,9,9,4,6,6,7,4,5,5,18,5,8,25,8,11]);
+				winLoop.push(false);
 				break;
 			case "ken":
 				selectedSprites.push('./assets/atlas/ken.json');
 				lenSpr.push([10,4,11,11,23,9,8,9,9,4,6,6,7,8,5,5,18,5,8,25,8,11]);
+				winLoop.push(false);
 				break;
 			case "akuma":
 				selectedSprites.push('./assets/atlas/akuma.json');
 				lenSpr.push([11,4,11,11,21,9,8,9,9,4,6,6,7,4,5,5,18,5,8,24,8,12]);
+				winLoop.push(true);
 				break;
 			case "chunli":
 				selectedSprites.push('./assets/atlas/chunli.json');
 				lenSpr.push([10,5,18,16,23,9,8,9,9,4,6,6,11,8,5,5,18,5,9,20,8,22]);
+				winLoop.push(false);
 				break;
 		}
 	}
@@ -215,7 +220,11 @@ function onload_atlas(n) {
 				player.sprites[21].add_anime('super-attack', 1, lenSpr[n][21]);
 				player.sprites[0].loop = true;
 				player.sprites[19].stop = true;
-				//player.sprites[20].stop = true;			
+				//fait buger car true pour akuma
+				//meilleur faire en sorte qu'il font pas l'anim de win au début
+				player.sprites[20].loop = winLoop[n];
+				player.sprites[20].stop = true;
+
 
 		};
 	//}
@@ -269,6 +278,7 @@ function keydown_fun(e) {
 	}
 
 	if (action == true && hp_1 != 0 && hp_2 != 0) {
+		
 		action = false;
 		switch (e.code) {
 			case 'KeyK':
