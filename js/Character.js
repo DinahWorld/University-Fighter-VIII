@@ -22,6 +22,7 @@ export default class Character extends Animation {
 		this.changedDirection = false;
 		this.go_right = true;
 		this.go_left = true;
+		this.inside = false;
 	}
 
 	takeDamage(amount) {
@@ -49,8 +50,8 @@ export default class Character extends Animation {
 	jump() {
 		if (this.hit == false && this.jumping == false && this.falling == false) {
 			this.reset();
-				this.jumping = true;
-				this.animation_number = 4;
+			this.jumping = true;
+			this.animation_number = 4;
 		}
 	}
 	down() {
@@ -90,14 +91,11 @@ export default class Character extends Animation {
 	}
 	kick() {
 		if (this.hit == false && this.attacking == false && this.falling == false) {
-			this.reset();
-
-			if (this.falling == false) {
-				if(this.is_down == true) this.animation_number = 14;
-				else if(this.jumping == true) this.animation_number = 17;
+			this.resetAnimation();
+				if(this.jumping == true) this.animation_number = 17;
+				else if(this.is_down == true) this.animation_number = 14;
 				else this.animation_number = 12;
 				this.attacking = true;
-			}
 		}
 	}
 
@@ -153,6 +151,13 @@ export default class Character extends Animation {
 	}
 
 	collisionCheck(player) {
+		if (super.getRange() != 0) {
+			if (super.collisionRange(player) == true && player.blocking == false) {
+				console.log('je ne rate jamais ma cible');
+				player.takeDamage(20);
+				player.damaged();
+			}
+		}
 		if (super.collision(player) == true) {
 			if (this.attacking == true && this.attacked == false) {
 				player.takeDamage(10);
@@ -161,16 +166,10 @@ export default class Character extends Animation {
 				player.hit = true;
 				player.wait = 8;
 			} else {
+				//Sa voudra dire qu'on est juste en contact avec l'adversaire
 				return true;
 			}
-		}
-		if (super.getRange() != 0) {
-			if (super.collisionRange(player) == true && player.blocking == false) {
-				console.log('je ne rate jamais ma cible');
-				player.takeDamage(20);
-				player.damaged();
-			}
-		}
+		}else return false;
 	}
 
 	//quand on a sauté on doit revenir au sol petit à petit
@@ -213,18 +212,35 @@ export default class Character extends Animation {
 
 		if (this.is_down == true) this.modifiedhY = 500;
 		else this.modifiedhY = 450;
-
 		
+		//S'il n'est pas à l'interieur de la hitbox de son opposant
+		if(this.inside == false){
+			//S'il y a une collision on dit qu'il est à l'interieur
+			//et en fonction de sa direction on lui empeche un mouvement
+			if(this.collisionCheck(player) == true){
+				if(this.direction == true){
+					this.move = 0;
+					this.go_right = false
+					this.inside = true;
+				} 
+				else{
+					this.move = 0;
+					this.go_left = false;
+					this.inside = true;
+				} 
+			}
+		//S'il arrive a sortir de la hitbox alors on lui rend tout ses mouvement
+		//et on dira qu'il n'est plus a l'intérieur				
+		}else{
+			if(this.collisionCheck(player) == false){
+				this.inside = false;
+				this.go_right = true;
+				this.go_left = true;
+			}
+		}
+	
 		if (this.direction == true) this.posXX += this.move;
 		else this.posXX -= this.move;
-
-		if(this.collisionCheck(player) == true){
-			if(this.direction == true) this.go_right = false
-			else this.go_left = false;
-		}else{
-			this.go_right = true;
-			this.go_left = true;
-		}
 
 		//Nous renvoi true lorsque on aura joué toutes nos frames
 		//Sinon, ça voudra dire qu'on est entrain de jouer une animation en boucle

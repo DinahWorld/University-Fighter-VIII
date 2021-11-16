@@ -11,7 +11,6 @@ ctx_player_1.height = cnv.height;
 ctx.imageSmoothingEnabled = false;
 let xobj = new XMLHttpRequest();
 let number_of_player = 2;
-let audio = new Audio('./assets/music/battle_music.mp3');
 let go = false;
 let hp_1 = 500;
 let hp_2 = 500;
@@ -29,18 +28,31 @@ let madeSelect = false;
 //id dans la selection
 let selectID = 0;
 //liste de tout les perso
-let selectList = ["ryu", "ken", "akuma", "chunli"];
+let selectList = ["chunli", "akuma", "ken", "ryu"];
 //selected sont les perso choisie 
 let selected = [];
 //le chemin des sprites des perso choisie
 let selectedSprites = [];
+let sound = new Array(4)
+for(let i = 0;i < 4;i++){
+	sound[i] = new Audio()
+}
+sound[0].src = './assets/sound/character_select/select.wav'
+sound[1].src = './assets/sound/character_select/enter.wav'
+sound[2].src = './assets/sound/character_select/go.wav'
+sound[3].src = './assets/sound/menu_start/menu.mp3'
+
+let character_select = new Array(4)
+for(let i = 0;i < 4;i++){
+	character_select[i] = new Image();
+}
+character_select[0].src = './assets/character_select/Chunli_2.png';
+character_select[1].src = './assets/character_select/akuma_2.png';
+character_select[2].src = './assets/character_select/Ken_2.png';
+character_select[3].src = './assets/character_select/Ryu_2.png';
 
 let lenSpr = [];
 let winLoop = [];
-/*xobj.onload = onload_atlas;
-xobj.overrideMimeType('application/json');
-xobj.open('GET', './assets/atlas/ken.json', true);
-xobj.send();*/
 
 let player_1 = new Character('Dinath', 0, 0, ctx, true);
 let player_2 = new Character('Fayçal', cnv.width, 0, ctx, false);
@@ -117,11 +129,17 @@ function mapSelect() {
 	}
 }
 
+sound[3].play();
 function update() {
 	ctx.beginPath();
 	ctx.clearRect(0, 0, cnv.width, cnv.height);
+
 	//Le go c'est juste car quand le programme se lance il execute le update avant meme
 	//que player_1 reçoit les sprites du coup on a des error dans la console
+	if(select == true){
+		sound[3].pause();
+		ctx.drawImage(character_select[selectID],0,0);
+	}
 	if (go == true) {
 		mapSelect();
 	}
@@ -231,6 +249,13 @@ function onload_atlas(n) {
 }
 
 
+function sound_select(i){
+	if (sound[i].paused) {
+		sound[i].play();
+	}else{
+		sound[i].currentTime = 0
+	}
+}
 
 //Permet de ne pas rester appuyer sur une touche
 window.addEventListener('keydown', keydown_fun, false);
@@ -248,22 +273,25 @@ function keydown_fun(e) {
 			///Avec 4 perso avoir une selection en une ligne c'est parfaitement suffisant
 			case 'KeyA':
 				///On bouge l'id dans la liste de perso
-				if(selectID != 0){selectID -= 1;}
+				if(selectID != 0) selectID -= 1;
+				sound_select(0);				
 				break;
 			case 'KeyD':
-				if(selectID != selectList.length-1){selectID += 1;}
-				break;
+				if(selectID != selectList.length-1) selectID += 1;
+				sound_select(0);
+				break;				
 			case 'Enter':
 				///quand on a choisi le perso il est push dans notre liste de choisie
 				selected.push(selectList[selectID]);
+				sound_select(1);
 				break;
 		}
-		console.log(selectID);
 		if(selected.length == 2) {
 			select = false;
 			selectedPath();
 			loadEverything();
 			madeSelect = true;
+			sound_select(2);
 			go = true;
 		}
 	}
@@ -271,6 +299,7 @@ function keydown_fun(e) {
 	if(enterGame == false) {
 		switch (e.code) {
 			case 'Enter':
+				sound_select(1);
 				enterGame = true;
 				select = true;
 				break;
