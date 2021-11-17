@@ -28,22 +28,22 @@ let madeSelect = false;
 //id dans la selection
 let selectID = 0;
 //liste de tout les perso
-let selectList = ["chunli", "akuma", "ken", "ryu"];
-//selected sont les perso choisie 
+let selectList = ['chunli', 'akuma', 'ken', 'ryu'];
+//selected sont les perso choisie
 let selected = [];
 //le chemin des sprites des perso choisie
 let selectedSprites = [];
-let sound = new Array(4)
-for(let i = 0;i < 4;i++){
-	sound[i] = new Audio()
+let sound = new Array(4);
+for (let i = 0; i < 4; i++) {
+	sound[i] = new Audio();
 }
-sound[0].src = './assets/sound/character_select/select.wav'
-sound[1].src = './assets/sound/character_select/enter.wav'
-sound[2].src = './assets/sound/character_select/go.wav'
-sound[3].src = './assets/sound/menu_start/menu.mp3'
+sound[0].src = './assets/sound/character_select/select.wav';
+sound[1].src = './assets/sound/character_select/enter.wav';
+sound[2].src = './assets/sound/character_select/go.wav';
+sound[3].src = './assets/sound/menu_start/menu.mp3';
 
-let character_select = new Array(4)
-for(let i = 0;i < 4;i++){
+let character_select = new Array(4);
+for (let i = 0; i < 4; i++) {
 	character_select[i] = new Image();
 }
 character_select[0].src = './assets/character_select/Chunli_2.png';
@@ -58,48 +58,49 @@ let player_1 = new Character('Dinath', 0, 0, ctx, true);
 let player_2 = new Character('Fayçal', cnv.width, 0, ctx, false);
 let players = [player_1, player_2];
 
-
 ///permet de load plusieurs json
 let loadFile = function (filePath, done) {
-    let xhr = new XMLHttpRequest();//new XMLHTTPRequest();
-    xhr.onload = function () { return done(this.responseText) }
-    xhr.open("GET", filePath, true);
-    xhr.send();
-}
+	let xhr = new XMLHttpRequest(); //new XMLHTTPRequest();
+	xhr.onload = function () {
+		return done(this.responseText);
+	};
+	xhr.open('GET', filePath, true);
+	xhr.send();
+};
 let json_datas = [];
 
 //permet de load tout les sprites des joueurs
 function loadEverything() {
-	for(let i = 0; i < selectedSprites.length; i++) {
+	for (let i = 0; i < selectedSprites.length; i++) {
 		loadFile(selectedSprites[i], function (responseText) {
 			json_datas[i] = JSON.parse(responseText);
 			onload_atlas(i);
-		})
+		});
 	}
 }
 
 //utiliser pour donner les bon chemin selon les perso
 function selectedPath() {
-	for(let i = 0; i < selected.length; i++) {
+	for (let i = 0; i < selected.length; i++) {
 		switch (selected[i]) {
-			case "ryu":
+			case 'ryu':
 				selectedSprites.push('./assets/atlas/ryu.json');
-				lenSpr.push([10,4,11,11,21,9,8,9,9,9,6,6,7,4,5,5,18,5,8,25,8,11]);
+				lenSpr.push([10, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 4, 5, 5, 18, 5, 8, 25, 8, 11]);
 				winLoop.push(false);
 				break;
-			case "ken":
+			case 'ken':
 				selectedSprites.push('./assets/atlas/ken.json');
-				lenSpr.push([10,4,11,11,23,9,8,9,9,9,6,6,7,8,5,5,18,5,8,25,8,11]);
+				lenSpr.push([10, 4, 11, 11, 23, 9, 8, 9, 9, 9, 6, 6, 7, 8, 5, 5, 18, 5, 8, 25, 8, 11]);
 				winLoop.push(false);
 				break;
-			case "akuma":
+			case 'akuma':
 				selectedSprites.push('./assets/atlas/akuma.json');
-				lenSpr.push([11,4,11,11,21,9,8,9,9,9,6,6,7,4,5,5,18,5,8,24,8,12]);
+				lenSpr.push([11, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 4, 5, 5, 18, 5, 8, 24, 8, 12]);
 				winLoop.push(true);
 				break;
-			case "chunli":
+			case 'chunli':
 				selectedSprites.push('./assets/atlas/chunli.json');
-				lenSpr.push([10,5,18,16,23,9,8,9,9,9,6,6,11,8,5,5,18,5,9,20,8,22]);
+				lenSpr.push([10, 5, 18, 16, 23, 9, 8, 9, 9, 9, 6, 6, 11, 8, 5, 5, 18, 5, 9, 20, 8, 22]);
 				winLoop.push(false);
 				break;
 		}
@@ -136,9 +137,9 @@ function update() {
 
 	//Le go c'est juste car quand le programme se lance il execute le update avant meme
 	//que player_1 reçoit les sprites du coup on a des error dans la console
-	if(select == true){
+	if (select == true) {
 		sound[3].pause();
-		ctx.drawImage(character_select[selectID],0,0);
+		ctx.drawImage(character_select[selectID], 0, 0);
 	}
 	if (go == true) {
 		mapSelect();
@@ -156,7 +157,7 @@ function game() {
 
 	drawCharacter(player_1, player_2);
 	drawCharacter(player_2, player_1);
-	
+
 	ctx.closePath();
 }
 
@@ -172,7 +173,7 @@ function drawCharacter(player, ennemy) {
 		player.drawing(ennemy);
 	}
 }
-function drawHP(){
+function drawHP() {
 	if (hp_1 != player_1.hp) hp_1 -= 2;
 	if (hp_2 != player_2.hp) hp_2 -= 2;
 
@@ -184,76 +185,69 @@ function drawHP(){
 	ctx.fillStyle = 'red';
 	ctx.fillRect(-cnv.width + 20, 20, hp_2, 50);
 	ctx.restore();
-
-
 }
 //onload atlas modif pour prendre un perso et son json et le load (amélioration possible quand le meme perso est pris)
 function onload_atlas(n) {
 	let player;
-	if(n == 0) {player = player_1;}
-	else{player = player_2;}
+	if (n == 0) {
+		player = player_1;
+	} else {
+		player = player_2;
+	}
 	//console.log(this.status);
 
 	//if (this.status == 200) {
-		//let json_infos = JSON.parse(this.responseText);
-		let spritesheet = new Image();
-		spritesheet.src = './assets/atlas/' + json_datas[n]['meta']['image'];
+	//let json_infos = JSON.parse(this.responseText);
+	let spritesheet = new Image();
+	spritesheet.src = './assets/atlas/' + json_datas[n]['meta']['image'];
 
-		spritesheet.onload = function () {
-			let canvas1 = document.createElement('canvas');
-			canvas1.width = json_datas[n]['meta']['size']['w'];
-			canvas1.height = json_datas[n]['meta']['size']['h'];
-			let context1 = canvas1.getContext('2d');
-			context1.drawImage(spritesheet, 0, 0, canvas1.width, canvas1.height);
+	spritesheet.onload = function () {
+		let canvas1 = document.createElement('canvas');
+		canvas1.width = json_datas[n]['meta']['size']['w'];
+		canvas1.height = json_datas[n]['meta']['size']['h'];
+		let context1 = canvas1.getContext('2d');
+		context1.drawImage(spritesheet, 0, 0, canvas1.width, canvas1.height);
 
-			for(let i = 0; i < 22; i++) {
-				player.sprites[i] = new SpriteAtlas(context1, json_datas[n]);
-			}
-			console.log(n,"ds")
-			//TODO : Les perso n'ont pas le meme nombre de sprite
-
-				console.log(lenSpr[n])
-				player.sprites[0].add_anime('normal', 1, lenSpr[n][0]);
-				player.sprites[1].add_anime('punch-1', 1, lenSpr[n][1]);
-				player.sprites[2].add_anime('walk-left', 1, lenSpr[n][2]);
-				player.sprites[3].add_anime('walk-right', 1, lenSpr[n][3]);
-				console.log(lenSpr[n][4])
-				player.sprites[4].add_anime('jump', 1, lenSpr[n][4]);
-				player.sprites[5].add_anime('down', 1, lenSpr[n][5]);
-				player.sprites[6].add_anime('punch-2', 1, lenSpr[n][6]);
-				player.sprites[7].add_anime('punch-3', 1, lenSpr[n][7]);
-				player.sprites[8].add_anime('damaged', 1, lenSpr[n][8]);
-				player.sprites[9].add_anime('block', 1, lenSpr[n][9]);
-				player.sprites[10].add_anime('run-left', 1, lenSpr[n][10]);
-				player.sprites[11].add_anime('run-right', 1, lenSpr[n][11]);
-				player.sprites[12].add_anime('kick', 1, lenSpr[n][12]);
-				player.sprites[13].add_anime('down-damage', 1, lenSpr[n][13]);
-				player.sprites[14].add_anime('down-kick', 1, lenSpr[n][14]);
-				player.sprites[15].add_anime('down-punch', 1, lenSpr[n][15]);
-				player.sprites[16].add_anime('hadoken', 1, lenSpr[n][16]);
-				player.sprites[17].add_anime('jump-kick', 1, lenSpr[n][17]);
-				player.sprites[18].add_anime('jump-punch', 1, lenSpr[n][18]);
-				player.sprites[19].add_anime('ko', 1, lenSpr[n][19]);
-				player.sprites[20].add_anime('pose', 1, lenSpr[n][20]);
-				player.sprites[21].add_anime('super-attack', 1, lenSpr[n][21]);
-				player.sprites[0].loop = true;
-				player.sprites[19].stop = true;
-				//fait buger car true pour akuma
-				//meilleur faire en sorte qu'il font pas l'anim de win au début
-				player.sprites[20].loop = winLoop[n];
-				player.sprites[20].stop = true;
-
-
-		};
+		for (let i = 0; i < 22; i++) {
+			player.sprites[i] = new SpriteAtlas(context1, json_datas[n]);
+		}
+		player.sprites[0].add_anime('normal', 1, lenSpr[n][0]);
+		player.sprites[1].add_anime('punch-1', 1, lenSpr[n][1]);
+		player.sprites[2].add_anime('walk-left', 1, lenSpr[n][2]);
+		player.sprites[3].add_anime('walk-right', 1, lenSpr[n][3]);
+		player.sprites[4].add_anime('jump', 1, lenSpr[n][4]);
+		player.sprites[5].add_anime('down', 1, lenSpr[n][5]);
+		player.sprites[6].add_anime('punch-2', 1, lenSpr[n][6]);
+		player.sprites[7].add_anime('punch-3', 1, lenSpr[n][7]);
+		player.sprites[8].add_anime('damaged', 1, lenSpr[n][8]);
+		player.sprites[9].add_anime('block', 1, lenSpr[n][9]);
+		player.sprites[10].add_anime('run-left', 1, lenSpr[n][10]);
+		player.sprites[11].add_anime('run-right', 1, lenSpr[n][11]);
+		player.sprites[12].add_anime('kick', 1, lenSpr[n][12]);
+		player.sprites[13].add_anime('down-damage', 1, lenSpr[n][13]);
+		player.sprites[14].add_anime('down-kick', 1, lenSpr[n][14]);
+		player.sprites[15].add_anime('down-punch', 1, lenSpr[n][15]);
+		player.sprites[16].add_anime('hadoken', 1, lenSpr[n][16]);
+		player.sprites[17].add_anime('jump-kick', 1, lenSpr[n][17]);
+		player.sprites[18].add_anime('jump-punch', 1, lenSpr[n][18]);
+		player.sprites[19].add_anime('ko', 1, lenSpr[n][19]);
+		player.sprites[20].add_anime('pose', 1, lenSpr[n][20]);
+		player.sprites[21].add_anime('super-attack', 1, lenSpr[n][21]);
+		player.sprites[0].loop = true;
+		player.sprites[19].stop = true;
+		//fait buger car true pour akuma
+		//meilleur faire en sorte qu'il font pas l'anim de win au début
+		player.sprites[20].loop = winLoop[n];
+		player.sprites[20].stop = true;
+	};
 	//}
 }
 
-
-function sound_select(i){
+function sound_select(i) {
 	if (sound[i].paused) {
 		sound[i].play();
-	}else{
-		sound[i].currentTime = 0
+	} else {
+		sound[i].currentTime = 0;
 	}
 }
 
@@ -266,27 +260,27 @@ function keyup_fun() {
 }
 
 function keydown_fun(e) {
-	///le mode de selection sans graphique pour l'instant 
-	if(select == true) {
+	///le mode de selection sans graphique pour l'instant
+	if (select == true) {
 		///Si on est dans la sélection de personnage;
-		switch(e.code) {
+		switch (e.code) {
 			///Avec 4 perso avoir une selection en une ligne c'est parfaitement suffisant
 			case 'KeyA':
 				///On bouge l'id dans la liste de perso
-				if(selectID != 0) selectID -= 1;
-				sound_select(0);				
+				if (selectID != 0) selectID -= 1;
+				sound_select(0);
 				break;
 			case 'KeyD':
-				if(selectID != selectList.length-1) selectID += 1;
+				if (selectID != selectList.length - 1) selectID += 1;
 				sound_select(0);
-				break;				
+				break;
 			case 'Enter':
 				///quand on a choisi le perso il est push dans notre liste de choisie
 				selected.push(selectList[selectID]);
 				sound_select(1);
 				break;
 		}
-		if(selected.length == 2) {
+		if (selected.length == 2) {
 			select = false;
 			selectedPath();
 			loadEverything();
@@ -296,7 +290,7 @@ function keydown_fun(e) {
 		}
 	}
 	//quand entre dans le jeu (pas mit de transition)
-	if(enterGame == false) {
+	if (enterGame == false) {
 		switch (e.code) {
 			case 'Enter':
 				sound_select(1);
@@ -307,7 +301,6 @@ function keydown_fun(e) {
 	}
 
 	if (action == true && hp_1 != 0 && hp_2 != 0) {
-		
 		action = false;
 		switch (e.code) {
 			case 'KeyK':

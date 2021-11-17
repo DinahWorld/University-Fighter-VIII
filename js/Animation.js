@@ -52,8 +52,7 @@ export default class Animation {
 				///playerY ne change pas
 				//console.log(playerY);
 				if (
-					this.range_attack[i][0] + this.range_attack[i][2] >
-						playerX - player.sizeW &&
+					this.range_attack[i][0] + this.range_attack[i][2] > playerX - player.sizeW &&
 					this.range_attack[i][0] < playerX &&
 					this.range_attack[i][1] + this.range_attack[i][3] > playerY &&
 					this.range_attack[i][1] < playerY + player.sizeH
@@ -138,19 +137,17 @@ export default class Animation {
 	drawV2(index) {
 		this.ctx.beginPath();
 
-		
-		
 		let step_i = this.sprites[index].animestep;
 		let cnv_i = this.sprites[index].animeseq[step_i];
 		this.hitboxX = this.posXX - 60;
 		this.hitboxY = this.posYY + this.modifiedhY;
 		this.sizeW = (cnv_i.width - this.modifiedhsizeW) * this.zoom;
 		this.sizeH = (cnv_i.height - 140) * this.zoom;
-		
+
 		//Notre hitbox
 		//this.ctx.strokeRect(this.hitboxX, this.hitboxY, this.sizeW, this.sizeH);
 		//On regarde les collisions
-		
+
 		if (this.range_attack.length >= 1) {
 			let step2_i = this.sprites[16].animestep;
 			let cnv2_i = this.sprites[16].animeseq[step2_i];
@@ -173,7 +170,6 @@ export default class Animation {
 
 		this.ctx.stroke();
 
-
 		//On dessine notre sprite
 		this.ctx.drawImage(
 			cnv_i,
@@ -182,9 +178,7 @@ export default class Animation {
 			cnv_i.width * this.zoom,
 			cnv_i.height * this.zoom
 		);
-		
 
-		
 		//Une fois dessiné on dit au programme qu'on a finit de dessiner cette image
 		this.sprites[index].to_draw = 0;
 		this.ctx.closePath();
@@ -200,14 +194,14 @@ export default class Animation {
 		let step_i = this.sprites[i].animestep;
 
 		//Si on loop est false
-		//On enchaine les images normalement 
+		//On enchaine les images normalement
 		if (this.sprites[i].loop == false) {
 			//Lorsque l'on aura atteint la derniere image de notre animation
 			//on renvoie true pour qu'on puisse dire au programme que notre
-			//animation est fini 
+			//animation est fini
 			if (step_i != number_of_sprite - 1) this.sprites[i].next_step();
 			else {
-				if(this.sprites[i].stop == false) this.sprites[i].animestep = 1;
+				if (this.sprites[i].stop == false) this.sprites[i].animestep = 1;
 				return true;
 			}
 		} else {
