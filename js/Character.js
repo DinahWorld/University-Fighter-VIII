@@ -98,6 +98,7 @@ export default class Character extends Animation {
 	kick() {
 		if (this.hit == false && this.attacking == false && this.falling == false) {
 			this.resetAnimation();
+
 			if (this.jumping == true) this.animation_number = 17;
 			else if (this.is_down == true) this.animation_number = 14;
 			else this.animation_number = 12;

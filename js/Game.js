@@ -363,4 +363,4 @@ function keydown_fun(e) {
 	}
 }
 
-setInterval(update, 35);
+setInterval(update, 45);
