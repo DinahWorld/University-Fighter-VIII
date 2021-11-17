@@ -35,8 +35,12 @@ export default class Character extends Animation {
 		if (this.hit == false && this.go_left == true) {
 			this.reset();
 			this.move = -20;
-			if (this.direction == true) this.animation_number = 2;
+			if (this.direction == true) {
+				this.animation_number = 2;
+				this.blocking = true;
+			}
 			else this.animation_number = 3;
+			this.going_left = true;
 		}
 	}
 	walk_right() {
@@ -44,7 +48,11 @@ export default class Character extends Animation {
 			this.reset();
 			this.move = +20;
 			if (this.direction == true) this.animation_number = 3;
-			else this.animation_number = 2;
+			else {
+				this.animation_number = 2;
+				this.blocking = true;
+			}
+			this.going_right = true;
 		}
 	}
 	jump() {
@@ -147,29 +155,43 @@ export default class Character extends Animation {
 		this.attacking = false;
 		this.attacked = false;
 		this.changedDirection = false;
+		this.blocking = false;
 		this.resetAnimation();
 	}
 
 	collisionCheck(player) {
 		if (super.getRange() != 0) {
 			if (super.collisionRange(player) == true && player.blocking == false) {
-				console.log('je ne rate jamais ma cible');
+				if(player.blocking == true) {
+					player.animation_number = 9;
+				}	
 				player.takeDamage(20);
-				player.damaged();
+					player.damaged();					
+				
 			}
+				
+			
 		}
 		if (super.collision(player) == true) {
-			if (this.attacking == true && this.attacked == false) {
-				player.takeDamage(10);
-				player.damaged();
-				this.attacked = true;
-				player.hit = true;
-				player.wait = 8;
-			} else {
-				//Sa voudra dire qu'on est juste en contact avec l'adversaire
-				return true;
+			//S'il attaque, a attaqué et si le joueur en face ne bloque pas
+				if (this.attacking == true && this.attacked == false) {
+					if(player.blocking == true) {
+						player.animation_number = 9;
+					}else{
+
+						player.takeDamage(10);
+						player.damaged();
+						this.attacked = true;
+						player.hit = true;
+						player.wait = 8;
+					} 
+					}
+				else {
+					//Sa voudra dire qu'on est juste en contact avec l'adversaire
+					return true;
+				}
 			}
-		}else return false;
+		else return false;
 	}
 
 	//quand on a sauté on doit revenir au sol petit à petit
@@ -256,6 +278,8 @@ export default class Character extends Animation {
 			this.attacked = false;
 			this.jumping = false;
 			this.falling = false;
+			this.blocking = false;
+
 		}
 	}
 
