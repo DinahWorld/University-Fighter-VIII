@@ -12,8 +12,8 @@ ctx.imageSmoothingEnabled = false;
 let xobj = new XMLHttpRequest();
 let number_of_player = 2;
 let go = false;
-let hp_1 = 500;
-let hp_2 = 500;
+let hp_1 = 300;
+let hp_2 = 300;
 let action = true;
 let transition_done = false;
 let black_screen = false;
@@ -24,7 +24,6 @@ let enterGame = false;
 
 //select pour si on est rentré dans la selection
 let select = false;
-let madeSelect = false;
 //id dans la selection
 let selectID = 0;
 //liste de tout les perso
@@ -112,13 +111,13 @@ function selectedPath() {
 function mapSelect() {
 	ctx.fillStyle = 'rgba(0, 0, 0,' + opacity + ')';
 	ctx.fillRect(0, 0, cnv.width, cnv.height);
-
 	opacity += opacity_value;
 
 	if (opacity < 0) {
 		go = false;
 	}
 	if (opacity > 0.99) {
+		console.log("les value qui bugs");
 		black_screen = true;
 		transition_done = true;
 		opacity_value = -opacity_value;
@@ -137,6 +136,7 @@ function update() {
 
 	//Le go c'est juste car quand le programme se lance il execute le update avant meme
 	//que player_1 reçoit les sprites du coup on a des error dans la console
+	//console.log(go);
 	if (select == true) {
 		sound[3].pause();
 		ctx.drawImage(character_select[selectID], 0, 0);
@@ -144,7 +144,7 @@ function update() {
 	if (go == true) {
 		mapSelect();
 	}
-
+	
 	if (transition_done == true) {
 		game();
 	}
@@ -262,6 +262,7 @@ function keyup_fun() {
 function keydown_fun(e) {
 	///le mode de selection sans graphique pour l'instant
 	if (select == true) {
+		console.log("entrer perso")
 		///Si on est dans la sélection de personnage;
 		switch (e.code) {
 			///Avec 4 perso avoir une selection en une ligne c'est parfaitement suffisant
@@ -284,13 +285,15 @@ function keydown_fun(e) {
 			select = false;
 			selectedPath();
 			loadEverything();
-			madeSelect = true;
 			sound_select(2);
 			go = true;
+			console.log("selection terminer")
+			//transition_done = true;
 		}
 	}
 	//quand entre dans le jeu (pas mit de transition)
 	if (enterGame == false) {
+		console.log("entrer jeu");
 		switch (e.code) {
 			case 'Enter':
 				sound_select(1);
@@ -300,7 +303,7 @@ function keydown_fun(e) {
 		}
 	}
 
-	if (action == true && hp_1 != 0 && hp_2 != 0) {
+	if (hp_1 != 0 && hp_2 != 0) {
 		action = false;
 		switch (e.code) {
 			case 'KeyK':
@@ -360,6 +363,22 @@ function keydown_fun(e) {
 				player_1.hadoken();
 				break;
 		}
+	}
+	else {
+		enterGame = false;
+		select = false;
+		go = false;
+		transition_done = false;
+		action = false;
+		hp_1 = 300;
+		hp_2 = 300;
+		player_1 = new Character('Dinath', 0, 0, ctx, true);
+		player_2 = new Character('Fayçal', cnv.width, 0, ctx, false); 
+		selected = [];
+		selectedSprites = [];
+		lenSpr = [];
+		opacity = 0;
+		opacity_value = 0.05;
 	}
 }
 
