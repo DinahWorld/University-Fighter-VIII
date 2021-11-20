@@ -56,6 +56,7 @@ let winLoop = [];
 let player_1 = new Character('Dinath', 0, 0, ctx, true);
 let player_2 = new Character('Fayçal', cnv.width, 0, ctx, false);
 let players = [player_1, player_2];
+///variable utiliser pour les liste d'instructions
 let P1Interval = null;
 let P2Interval = null;
 let launchIntervals;
@@ -63,12 +64,6 @@ let InstruID1 = 0;
 let InstruID2 = 0;
 let listP1;
 let listP2;
-
-let testList = ["hadoken", "hadoken", "hadoken", "hadoken", "hadoken", "hadoken", 
-				"hadoken", "hadoken", "hadoken", "hadoken", "hadoken", "hadoken", "hadoken"];
-let testList2 = ["kick", "kick", "kick", "kick", "kick","kick", "kick", "kick", "kick", "kick",
-				"kick", "kick", "kick", "kick", "kick", "kick", "kick", "kick", "kick"];
-let change = 0;
 
 ///permet de load plusieurs json
 let loadFile = function (filePath, done) {
@@ -162,6 +157,7 @@ function update() {
 	if (transition_done == true) {
 		game();
 	}
+	///si on peut commencer la partie alors les interval son lancer(le combats)
 	if(launchIntervals == true) {
 		launchIntervals = false;
 		getLists();
@@ -198,6 +194,7 @@ function drawHP() {
 	if (hp_2 != player_2.hp) hp_2 -= 2;
 
 	//ctx.fillStyle = 'gray';
+	///déssine un espace derriere pour faire plus beau
 	ctx.fillStyle = 'rgba(169,169,169, 0.5)';
 	ctx.fillRect(50, 20, 300, 50);
 
@@ -214,6 +211,7 @@ function drawHP() {
 	ctx.restore();
 }
 
+///vérifie si le match est terminer et si oui stop la partie et clear les setInterval
 function checkWin() {
 	if(hp_1 == 0 || hp_2 == 0) {
 		KO = true;
@@ -326,7 +324,7 @@ function keydown_fun(e) {
 			//transition_done = true;
 		}
 	}
-	//quand entre dans le jeu (pas mit de transition)
+	//quand on entre dans le jeu 
 	if (enterGame == false) {
 		console.log("entrer jeu");
 		switch (e.code) {
@@ -338,6 +336,7 @@ function keydown_fun(e) {
 		}
 	}
 
+	//si le joueur et KO et que n'importe quel touche est presser ca reviendra au menu (peut mettre une touche pour cela)
 	if(KO == true) {
 		enterGame = false;
 		select = false;
@@ -357,25 +356,9 @@ function keydown_fun(e) {
 		InstruID1 = 0;
 		InstruID2 = 0;
 	}
-	/*else {
-		enterGame = false;
-		select = false;
-		go = false;
-		transition_done = false;
-		action = false;
-		hp_1 = 300;
-		hp_2 = 300;
-		player_1 = new Character('Dinath', 0, 0, ctx, true);
-		player_2 = new Character('Fayçal', cnv.width, 0, ctx, false); 
-		selected = [];
-		selectedSprites = [];
-		lenSpr = [];
-		opacity = 0;
-		opacity_value = 0.05;
-		//cnv.style.backgroundImage = 'url(assets/menu_start/menu.gif)';
-	}*/
 }
 
+///execute l'instruction que est donner on doit faire cela car sinon le programme lis la liste d'un coup
 function instru_execute(player, movement) {
 	switch (movement) {
 		case "walk-left":
@@ -413,11 +396,13 @@ function instru_execute(player, movement) {
 	}
 }
 
+///instru list est appeler par le setInteveral pour chaque joueur avec leur liste a faire
 function instru_list(player, instruPlayer, instruID) {
 	instru_execute(player, instruPlayer[instruID]);
 	if(instruID != instruPlayer.length-1) {instruID+=1;}
 	else{instruID = 0;}
 	console.log(instruID);
+	//On fait cela car instruID ne change pas les valeurs globals
 	if(player == player_1) {
 		InstruID1 = instruID;
 	}
@@ -426,21 +411,30 @@ function instru_list(player, instruPlayer, instruID) {
 	}
 }
 
+///donne une liste d'instruction selon les joueurs
 function getLists() {
 	for(let i = 0; i < 2; i++) {
 		switch(selected[i]) {
+			///ryu ken et akuma on un move set très similaire donc cela n'est pas important si la liste est la meme
 			case "ryu":
 			case "ken":
 			case "akuma":
 				if(i == 0) {
 					listP1 = ["walk-right", "run-right", "punch", "kick", "run-left", "jump",
-					 "walk-right", "walk-right", "block", "run-left", "hadoken", "hadoken",
+					 "walk-right", "walk-right", "block", "run-left","run-left" , "hadoken", "hadoken",
 					  "run-right", "punch", "punch", "punch", "kick", "hadoken", "walk-left"];
+
+					/*listP1 = ["hadoken", "hadoken", "walk-right", "walk-right", "block", "punch", "kick","run-left", "block",
+						"punch", "punch", "hadoken", "jump", "walk-right", "run-right", "kick", "kick", "punch"];*/
+					//listP1 = ["walk-left", "walk-left", "walk-left", "walk-left"];
 				}
 				else {
 					listP2 = ["walk-left", "walk-left", "block", "run-right", "hadoken", "run-left",
 					 "run-left", "punch", "punch", "punch", "run-right", "jump", "block", "run-left", "run-left",
 					  "kick", "kick", "punch", "punch", "punch", "hadoken", "run-right"];
+					/*listP2 = ["walk-left", "jump", "block", "hadoken", "punch", "punch", "punch", "kick", "run-right", "punch",
+						"kick", "down", "run-right", "run-right", "hadoken", "hadoken", "punch", "punch", "punch"];*/
+					//listP2 = ["walk-right", "walk-right", "walk-right", "walk-right"];
 				}
 				break;
 			case "chunli":

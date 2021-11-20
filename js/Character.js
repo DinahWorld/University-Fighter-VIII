@@ -258,9 +258,11 @@ export default class Character extends Animation {
 				this.go_left = true;
 			}
 		}
-
-		if (this.direction == true) this.posXX += this.move;
-		else this.posXX -= this.move;
+		///vérifie que le joueur n'essaye pas de bouger en dehors de l'écran
+		if(Math.abs(this.posXX) + this.move >= 0 && Math.abs(this.posXX) + this.move <= 1500) {
+			if (this.direction == true) this.posXX += this.move;
+			else this.posXX -= this.move;
+		}
 
 		//Nous renvoi true lorsque on aura joué toutes nos frames
 		//Sinon, ça voudra dire qu'on est entrain de jouer une animation en boucle
