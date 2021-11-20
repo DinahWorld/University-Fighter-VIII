@@ -177,11 +177,18 @@ function drawHP() {
 	if (hp_1 != player_1.hp) hp_1 -= 2;
 	if (hp_2 != player_2.hp) hp_2 -= 2;
 
+	//ctx.fillStyle = 'gray';
+	ctx.fillStyle = 'rgba(169,169,169, 0.5)';
+	ctx.fillRect(50, 20, 300, 50);
+
 	ctx.fillStyle = 'red';
 	ctx.fillRect(50, 20, hp_1, 50);
 
 	ctx.save();
 	ctx.scale(-1, 1);
+	ctx.fillStyle = 'rgba(169,169,169, 0.5)';
+	ctx.fillRect(-cnv.width + 20, 20, 300, 50);
+
 	ctx.fillStyle = 'red';
 	ctx.fillRect(-cnv.width + 20, 20, hp_2, 50);
 	ctx.restore();
@@ -379,6 +386,7 @@ function keydown_fun(e) {
 		lenSpr = [];
 		opacity = 0;
 		opacity_value = 0.05;
+		//cnv.style.backgroundImage = 'url(assets/menu_start/menu.gif)';
 	}
 }
 
