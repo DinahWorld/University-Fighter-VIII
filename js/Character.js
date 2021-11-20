@@ -145,7 +145,7 @@ export default class Character extends Animation {
 			this.reset();
 			this.animation_number = 21;
 			super.addRange([
-				this.posXX - 60 + this.sizeW,
+				this.posXX - 200 + this.sizeW,
 				this.posYY + (this.modifiedhY + 25),
 				91 * 3,
 				52 * 3,

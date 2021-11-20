@@ -21,7 +21,7 @@ let black_screen = false;
 let opacity = 0;
 let opacity_value = 0.05;
 let enterGame = false;
-
+let KO = false;
 //select pour si on est rentré dans la selection
 let select = false;
 //id dans la selection
@@ -56,6 +56,19 @@ let winLoop = [];
 let player_1 = new Character('Dinath', 0, 0, ctx, true);
 let player_2 = new Character('Fayçal', cnv.width, 0, ctx, false);
 let players = [player_1, player_2];
+let P1Interval = null;
+let P2Interval = null;
+let launchIntervals;
+let InstruID1 = 0;
+let InstruID2 = 0;
+let listP1;
+let listP2;
+
+let testList = ["hadoken", "hadoken", "hadoken", "hadoken", "hadoken", "hadoken", 
+				"hadoken", "hadoken", "hadoken", "hadoken", "hadoken", "hadoken", "hadoken"];
+let testList2 = ["kick", "kick", "kick", "kick", "kick","kick", "kick", "kick", "kick", "kick",
+				"kick", "kick", "kick", "kick", "kick", "kick", "kick", "kick", "kick"];
+let change = 0;
 
 ///permet de load plusieurs json
 let loadFile = function (filePath, done) {
@@ -121,6 +134,7 @@ function mapSelect() {
 		black_screen = true;
 		transition_done = true;
 		opacity_value = -opacity_value;
+		launchIntervals = true;
 	}
 
 	if (black_screen == true) {
@@ -148,6 +162,12 @@ function update() {
 	if (transition_done == true) {
 		game();
 	}
+	if(launchIntervals == true) {
+		launchIntervals = false;
+		getLists();
+		P1Interval = setInterval(function() {instru_list(player_1, listP1, InstruID1)}, 500);
+		P2Interval = setInterval(function() {instru_list(player_2, listP2, InstruID2)}, 500);
+	}
 }
 
 function game() {
@@ -157,7 +177,7 @@ function game() {
 
 	drawCharacter(player_1, player_2);
 	drawCharacter(player_2, player_1);
-
+	checkWin();
 	ctx.closePath();
 }
 
@@ -192,6 +212,14 @@ function drawHP() {
 	ctx.fillStyle = 'red';
 	ctx.fillRect(-cnv.width + 20, 20, hp_2, 50);
 	ctx.restore();
+}
+
+function checkWin() {
+	if(hp_1 == 0 || hp_2 == 0) {
+		KO = true;
+		clearInterval(P1Interval);
+		clearInterval(P2Interval);
+	}
 }
 //onload atlas modif pour prendre un perso et son json et le load (amélioration possible quand le meme perso est pris)
 function onload_atlas(n) {
@@ -310,68 +338,26 @@ function keydown_fun(e) {
 		}
 	}
 
-	if (hp_1 != 0 && hp_2 != 0) {
+	if(KO == true) {
+		enterGame = false;
+		select = false;
+		go = false;
+		transition_done = false;
 		action = false;
-		switch (e.code) {
-			case 'KeyK':
-				player_2.punch();
-				break;
-			case 'KeyL':
-				player_2.kick();
-				break;
-			case 'Numpad3':
-				player_2.walk_right();
-				break;
-			case 'Numpad1':
-				player_2.walk_left();
-				break;
-			case 'Numpad5':
-				player_2.jump();
-				break;
-			case 'Numpad2':
-				player_2.down();
-				break;
-			case 'Numpad6':
-				player_2.run_right();
-				break;
-			case 'Numpad4':
-				player_2.run_left();
-				break;
-
-			/*case 'Enter':
-				go = true;
-				break;*/
-
-			case 'KeyS':
-				player_1.down();
-				break;
-			case 'KeyD':
-				player_1.walk_right();
-				break;
-			case 'KeyA':
-				player_1.walk_left();
-				break;
-			case 'KeyW':
-				player_1.jump();
-				break;
-			case 'KeyQ':
-				player_1.run_left();
-				break;
-			case 'KeyE':
-				player_1.run_right();
-				break;
-			case 'KeyV':
-				player_1.punch();
-				break;
-			case 'KeyB':
-				player_1.kick();
-				break;
-			case 'KeyC':
-				player_1.hadoken();
-				break;
-		}
+		hp_1 = 300;
+		hp_2 = 300;
+		player_1 = new Character('Dinath', 0, 0, ctx, true);
+		player_2 = new Character('Fayçal', cnv.width, 0, ctx, false); 
+		selected = [];
+		selectedSprites = [];
+		lenSpr = [];
+		opacity = 0;
+		opacity_value = 0.05;
+		KO = false;
+		InstruID1 = 0;
+		InstruID2 = 0;
 	}
-	else {
+	/*else {
 		enterGame = false;
 		select = false;
 		go = false;
@@ -387,6 +373,89 @@ function keydown_fun(e) {
 		opacity = 0;
 		opacity_value = 0.05;
 		//cnv.style.backgroundImage = 'url(assets/menu_start/menu.gif)';
+	}*/
+}
+
+function instru_execute(player, movement) {
+	switch (movement) {
+		case "walk-left":
+			player.walk_left();
+			break;
+		case "walk-right":
+			player.walk_right();
+			break;
+		case "run-left":
+			player.run_left();
+			break;
+		case "run-right":
+			player.run_right();
+			break;
+		case "down":
+			player.down();
+			break;
+		case "punch":
+			player.punch();
+			break;
+		case "jump":
+			player.jump();
+			break;
+		case "hadoken":
+			player.hadoken();
+			break;
+		case "kick":
+			player.kick();
+			break;
+		case "block":
+			player.block();
+			break;
+		
+		
+	}
+}
+
+function instru_list(player, instruPlayer, instruID) {
+	instru_execute(player, instruPlayer[instruID]);
+	if(instruID != instruPlayer.length-1) {instruID+=1;}
+	else{instruID = 0;}
+	console.log(instruID);
+	if(player == player_1) {
+		InstruID1 = instruID;
+	}
+	else {
+		InstruID2 = instruID;
+	}
+}
+
+function getLists() {
+	for(let i = 0; i < 2; i++) {
+		switch(selected[i]) {
+			case "ryu":
+			case "ken":
+			case "akuma":
+				if(i == 0) {
+					listP1 = ["walk-right", "run-right", "punch", "kick", "run-left", "jump",
+					 "walk-right", "walk-right", "block", "run-left", "hadoken", "hadoken",
+					  "run-right", "punch", "punch", "punch", "kick", "hadoken", "walk-left"];
+				}
+				else {
+					listP2 = ["walk-left", "walk-left", "block", "run-right", "hadoken", "run-left",
+					 "run-left", "punch", "punch", "punch", "run-right", "jump", "block", "run-left", "run-left",
+					  "kick", "kick", "punch", "punch", "punch", "hadoken", "run-right"];
+				}
+				break;
+			case "chunli":
+				if(i == 0) {
+					listP1 = ["run-right", "run-right", "kick", "kick", "punch", "punch", "punch", "walk-left",
+					 "down", "block", "jump", "walk-right", "walk-right", "punch", "kick", "run-left", "run-left",
+					  "block", "block", "run-right", "run-right", "kick", "kick", "punch"];
+				}
+				else {
+					listP2 = ["run-left", "run-left", "kick", "kick", "punch", "punch", "punch", "walk-right", "down",
+					 "block", "jump","walk-left", "walk-left", "punch", "kick", "run-right", "run-right", "block", 
+					 "block", "run-left", "run-left", "kick", "kick", "punch"];
+				}
+				break;
+		}
 	}
 }
 
