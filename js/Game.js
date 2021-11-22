@@ -454,3 +454,9 @@ function getLists() {
 }
 
 setInterval(update, 45);
+
+/*listP1 = ["walk-right", "walk-right", "block", "block", "punch", "punch", "punch", "kick", "run-left", "down"
+			"run-right", "run-right", "punch", "punch", "jump", "down"]
+  listP2 = ["run-left", "run-left", "punch", "punch", "punch", "block", "walk-left", "walk-right", "block", "walk-left",
+			"punch", "kick", "punch", "block", "kick", "punch"]			
+*/
