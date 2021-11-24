@@ -72,7 +72,7 @@ let InstruID2 = 0;
 let listP1;
 let listP2;
 
-
+///quel personnage va etre choisie
 let P1Choice = rdom(3, 0);
 let P2Choice = rdom(3, 0);
 
@@ -185,6 +185,7 @@ function update() {
 	}
 }
 
+///execute le combat
 function game() {
 	drawHP();
 	player_1.changeDirection(player_2);
@@ -196,6 +197,7 @@ function game() {
 	ctx.closePath();
 }
 
+///dessine les personnages sur le canvas
 function drawCharacter(player, ennemy) {
 	player.jumpingMove();
 	if (player.direction == false) {
@@ -208,6 +210,8 @@ function drawCharacter(player, ennemy) {
 		player.drawing(ennemy);
 	}
 }
+
+///dessine les hp des joueurs
 function drawHP() {
 	if (hp_1 != player_1.hp) hp_1 -= 2;
 	if (hp_2 != player_2.hp) hp_2 -= 2;
@@ -230,7 +234,7 @@ function drawHP() {
 	ctx.restore();
 }
 
-///vérifie si le match est terminer et si oui stop la partie et clear les setInterval
+///vérifie si le match est terminer et si oui stop la partie, clear les setInterval et retour au debut
 function checkWin() {
 	if(hp_1 == 0 || hp_2 == 0) {
 		KO = true;
@@ -307,79 +311,6 @@ function sound_select(i) {
 	}
 }
 
-//Permet de ne pas rester appuyer sur une touche
-window.addEventListener('keydown', keydown_fun, false);
-window.addEventListener('keyup', keyup_fun, false);
-
-function keyup_fun() {
-	action = true;
-}
-
-function keydown_fun(e) {
-	///le mode de selection sans graphique pour l'instant
-	/*if (select == true) {
-		console.log("entrer perso")
-		///Si on est dans la sélection de personnage;
-		switch (e.code) {
-			///Avec 4 perso avoir une selection en une ligne c'est parfaitement suffisant
-			case 'KeyA':
-				///On bouge l'id dans la liste de perso
-				if (selectID != 0) selectID -= 1;
-				sound_select(0);
-				break;
-			case 'KeyD':
-				if (selectID != selectList.length - 1) selectID += 1;
-				sound_select(0);
-				break;
-			case 'Enter':
-				///quand on a choisi le perso il est push dans notre liste de choisie
-				selected.push(selectList[selectID]);
-				sound_select(1);
-				break;
-		}
-		if (selected.length == 2) {
-			select = false;
-			selectedPath();
-			loadEverything();
-			sound_select(2);
-			go = true;
-			console.log("selection terminer")
-			//transition_done = true;
-		}
-	}*/
-	//quand on entre dans le jeu 
-	/*if (enterGame == false) {
-		console.log("entrer jeu");
-		switch (e.code) {
-			case 'Enter':
-				sound_select(1);
-				enterGame = true;
-				select = true;
-				break;
-		}
-	}*/
-
-	//si le joueur et KO et que n'importe quel touche est presser ca reviendra au menu (peut mettre une touche pour cela)
-	/*if(KO == true) {
-		enterGame = false;
-		select = false;
-		go = false;
-		transition_done = false;
-		action = false;
-		hp_1 = 300;
-		hp_2 = 300;
-		player_1 = new Character('Dinath', 0, 0, ctx, true);
-		player_2 = new Character('Fayçal', cnv.width, 0, ctx, false); 
-		selected = [];
-		selectedSprites = [];
-		lenSpr = [];
-		opacity = 0;
-		opacity_value = 0.05;
-		KO = false;
-		InstruID1 = 0;
-		InstruID2 = 0;
-	}*/
-}
 
 ///execute l'instruction que est donner on doit faire cela car sinon le programme lis la liste d'un coup
 function instru_execute(player, movement) {
@@ -476,10 +407,12 @@ function getLists() {
 	}
 }
 
+///fonction de random (a revoir)
 function rdom(max, min) {
 	return Math.floor(Math.random() * (max - min) + min);
 }
 
+///fonction rentrant dans le jeu
 function InGame() {
 	console.log("Je rentre");
 	sound_select(1);
@@ -489,6 +422,7 @@ function InGame() {
 	selectTimer = true;
 }
 
+///deplacement dans la selection selon le choix
 function moveInSelect(choice) {
 	if(selectID == choice) {
 		selected.push(selectList[selectID]);
@@ -505,6 +439,7 @@ function moveInSelect(choice) {
 	}
 }
 
+///fonction executant la partie selection du jeu
 function InSelect() {
 	if(selected.length == 0) {
 		moveInSelect(P1Choice);
@@ -522,6 +457,7 @@ function InSelect() {
 	}
 }
 
+///fonction de retour au debut du jeu
 function InGoBack() {
 	enterGame = false;
 	enterGameTimer = false;
