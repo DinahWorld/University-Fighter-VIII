@@ -3,6 +3,8 @@ import SpriteAtlas from './SpriteAtlas.js';
 
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
+//ctx.canvas.width = window.innerWidth;
+//ctx.canvas.height = window.innerHeight;
 let cnv_player_1 = document.getElementById('myCanvas');
 let ctx_player_1 = cnv_player_1.getContext('2d');
 ctx_player_1.width = cnv.width;
@@ -21,6 +23,8 @@ let black_screen = false;
 let opacity = 0;
 let opacity_value = 0.05;
 let enterGame = false;
+let enterGameTimer = false;
+let returnBack = false;
 let KO = false;
 //select pour si on est rentré dans la selection
 let select = false;
@@ -32,6 +36,9 @@ let selectList = ['chunli', 'akuma', 'ken', 'ryu'];
 let selected = [];
 //le chemin des sprites des perso choisie
 let selectedSprites = [];
+
+let selectTimer = false;
+let selectInter = null;
 let sound = new Array(4);
 for (let i = 0; i < 4; i++) {
 	sound[i] = new Audio();
@@ -64,6 +71,10 @@ let InstruID1 = 0;
 let InstruID2 = 0;
 let listP1;
 let listP2;
+
+
+let P1Choice = rdom(3, 0);
+let P2Choice = rdom(3, 0);
 
 ///permet de load plusieurs json
 let loadFile = function (filePath, done) {
@@ -145,8 +156,16 @@ function update() {
 
 	//Le go c'est juste car quand le programme se lance il execute le update avant meme
 	//que player_1 reçoit les sprites du coup on a des error dans la console
+	if(enterGameTimer == false) {
+		enterGameTimer = true;
+		setTimeout(InGame, 1000);
+	}
 	//console.log(go);
 	if (select == true) {
+		if(selectTimer == true) {
+			selectTimer = false;
+		    selectInter = setInterval(InSelect, 1000);
+		}
 		sound[3].pause();
 		ctx.drawImage(character_select[selectID], 0, 0);
 	}
@@ -217,6 +236,10 @@ function checkWin() {
 		KO = true;
 		clearInterval(P1Interval);
 		clearInterval(P2Interval);
+		if(returnBack == false) {
+			returnBack = true;
+			setTimeout(InGoBack, 2000);
+		}
 	}
 }
 //onload atlas modif pour prendre un perso et son json et le load (amélioration possible quand le meme perso est pris)
@@ -294,7 +317,7 @@ function keyup_fun() {
 
 function keydown_fun(e) {
 	///le mode de selection sans graphique pour l'instant
-	if (select == true) {
+	/*if (select == true) {
 		console.log("entrer perso")
 		///Si on est dans la sélection de personnage;
 		switch (e.code) {
@@ -323,9 +346,9 @@ function keydown_fun(e) {
 			console.log("selection terminer")
 			//transition_done = true;
 		}
-	}
+	}*/
 	//quand on entre dans le jeu 
-	if (enterGame == false) {
+	/*if (enterGame == false) {
 		console.log("entrer jeu");
 		switch (e.code) {
 			case 'Enter':
@@ -334,10 +357,10 @@ function keydown_fun(e) {
 				select = true;
 				break;
 		}
-	}
+	}*/
 
 	//si le joueur et KO et que n'importe quel touche est presser ca reviendra au menu (peut mettre une touche pour cela)
-	if(KO == true) {
+	/*if(KO == true) {
 		enterGame = false;
 		select = false;
 		go = false;
@@ -355,7 +378,7 @@ function keydown_fun(e) {
 		KO = false;
 		InstruID1 = 0;
 		InstruID2 = 0;
-	}
+	}*/
 }
 
 ///execute l'instruction que est donner on doit faire cela car sinon le programme lis la liste d'un coup
@@ -453,7 +476,78 @@ function getLists() {
 	}
 }
 
+function rdom(max, min) {
+	return Math.floor(Math.random() * (max - min) + min);
+}
+
+function InGame() {
+	console.log("Je rentre");
+	sound_select(1);
+	//sound[1].play();
+	enterGame = true;
+	select = true;
+	selectTimer = true;
+}
+
+function moveInSelect(choice) {
+	if(selectID == choice) {
+		selected.push(selectList[selectID]);
+		sound_select(1);
+	}
+	else if(choice >= selectID) {
+		//if (selectID != selectList.length - 1) selectID += 1;
+		selectID += 1;
+		sound_select(0);
+	}
+	else {
+		selectID -= 1;
+		sound_select(0);
+	}
+}
+
+function InSelect() {
+	if(selected.length == 0) {
+		moveInSelect(P1Choice);
+	}
+	else if(selected.length == 1) {
+		moveInSelect(P2Choice);
+	}
+	else {
+		select = false;
+		selectedPath();
+		loadEverything();
+		sound_select(2);
+		go = true;
+		clearInterval(selectInter);
+	}
+}
+
+function InGoBack() {
+	enterGame = false;
+	enterGameTimer = false;
+	select = false;
+	go = false;
+	transition_done = false;
+	action = false;
+	hp_1 = 300;
+	hp_2 = 300;
+	returnBack = false;
+	player_1 = new Character('Dinath', 0, 0, ctx, true);
+	player_2 = new Character('Fayçal', cnv.width, 0, ctx, false); 
+	selected = [];
+	selectedSprites = [];
+	lenSpr = [];
+	opacity = 0;
+	opacity_value = 0.05;
+	KO = false;
+	InstruID1 = 0;
+	InstruID2 = 0;
+	P1Choice = rdom(3, 0);
+	P2Choice = rdom(3, 0);
+}
+
 setInterval(update, 45);
+//setTimeout(InGame, 1000);
 
 /*listP1 = ["walk-right", "walk-right", "block", "block", "punch", "punch", "punch", "kick", "run-left", "down"
 			"run-right", "run-right", "punch", "punch", "jump", "down"]
