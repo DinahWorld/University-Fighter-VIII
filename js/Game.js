@@ -1,6 +1,6 @@
 import Player from './Player.js';
 
-export {ctx, cnv, players};
+export {ctx, cnv, players, timerg};
 import {drawHP} from './HealthPoint.js';
 import {
 	clearPlayerInterval,
@@ -10,6 +10,8 @@ import {
 } from './Instructions.js';
 import {resetTransition} from './Map.js';
 import {resetCharacterSelect} from './CharacterSelect.js';
+import {imageNumber} from './TimerDef.js';
+import Timer from './TimerClass.js';
 
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
@@ -22,6 +24,7 @@ let onMenu = true;
 let player1 = new Player(0, 0, ctx, true);
 let player2 = new Player(cnv.width, 0, ctx, false);
 let players = [player1, player2];
+let timerg = new Timer(99, ctx, imageNumber, (cnv.width/2)-62);
 
 function update() {
 	ctx.beginPath();
@@ -42,6 +45,7 @@ function game() {
 
 	drawCharacter(player1, player2);
 	drawCharacter(player2, player1);
+	timerg.displayTime();
 	checkWin();
 	ctx.closePath();
 }
@@ -64,8 +68,9 @@ function drawCharacter(player, ennemy) {
 
 ///vérifie si le match est terminer et si oui stop la partie, clear les setInterval et retour au debut
 function checkWin() {
-	if (player1.hp == 0 || player2.hp == 0) {
+	if (player1.hp == 0 || player2.hp == 0 || timerg.getTime() == 0) {
 		clearPlayerInterval();
+		//clearIntervalTimer();
 		if (returnBack == false) {
 			returnBack = true;
 			setTimeout(inGoBack, 2000);
@@ -81,6 +86,7 @@ function inGoBack() {
 	player2.resetCharacter(cnv.width, 0);
 	resetTransition();
 	resetInstructions();
+	timerg.resetTime();
 	returnBack = false;
 }
 setInterval(update, 45);
