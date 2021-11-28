@@ -3,6 +3,7 @@ export {
     clearIntervalTimer
 };
 
+///On charge les images pour le timer
 let imageNumber = [];
 let imgTimer = new Image();
 imgTimer.src = './assets/count/count_number.png';
@@ -23,6 +24,7 @@ imgTimer.onload = function() {
 	}
 };
 
+///Clear le timer
 function clearIntervalTimer(t) {
     clearInterval(t);
 }

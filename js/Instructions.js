@@ -38,6 +38,7 @@ let playerInterval = null;
 let launchIntervals = true;
 let timerInterval = null;
 
+///Gere l'état du jeu avant combat
 function gameInstructionMenu() {
 	//Comme si on appuyait sur entrer pour rentrer dans le menu selection
 	if (enterGameTimer == false) {
@@ -63,14 +64,13 @@ function gameInstructionMenu() {
 	return false;
 }
 function gameFightInstructions() {
-	///si on peut commencer la partie alors les interval son lancer(le combats)
+	///si on peut commencer la partie alors les interval son lancer
 	if (launchIntervals == true) {
 		launchIntervals = false;
 		playerInterval = setInterval(function () {
 			instruList(players);
 		}, 500);
 		timerInterval = setInterval(function() {timerg.decreseTime(1)}, 1000);
-		//launchIntervalTimer(timerg);
 	}
 }
 ///instru list est appeler par le setInteveral pour chaque joueur avec leur liste a faire
@@ -132,11 +132,13 @@ function setTrueSelectTimer() {
 	return (selectTimer = true);
 }
 
+///clear les interval des joueurs
 function clearPlayerInterval() {
 	clearInterval(playerInterval);
 	clearIntervalTimer(timerInterval);
 }
 
+///reset des instruction et du timer
 function resetInstructions() {
 	listP1 = [];
 	listP2 = [];

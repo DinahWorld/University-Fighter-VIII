@@ -32,6 +32,7 @@ let selected = false;
 let lenSpr = [];
 let winLoop = [];
 
+///le choix du perso
 let p1Choice = randomValue(4, 0);
 let p2Choice = randomValue(4, 0);
 
@@ -72,7 +73,7 @@ function moveInSelect(choice) {
 	}
 }
 
-//utiliser pour donner les bon chemin selon les perso
+//utiliser pour donner les bon chemin selon les perso et leur nombre d'animations
 function selectedPath() {
 	for (let i = 0; i < selectedCharacter.length; i++) {
 		switch (selectedCharacter[i]) {
@@ -116,6 +117,7 @@ function randomValue(max) {
 	return Math.floor(Math.random() * max);
 }
 
+///fonction de reset pour le retour à la selections
 function resetCharacterSelect() {
 	lenSpr = [];
 	winLoop = [];

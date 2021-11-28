@@ -70,7 +70,6 @@ function drawCharacter(player, ennemy) {
 function checkWin() {
 	if (player1.hp == 0 || player2.hp == 0 || timerg.getTime() == 0) {
 		clearPlayerInterval();
-		//clearIntervalTimer();
 		if (returnBack == false) {
 			returnBack = true;
 			setTimeout(inGoBack, 2000);

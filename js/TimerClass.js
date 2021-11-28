@@ -1,3 +1,4 @@
+///Timer class pour créée un timer
 export default class Timer {
     constructor(time, ctx, images, posTX1) {
         this.time = time;
@@ -7,14 +8,17 @@ export default class Timer {
         this.posTX1 = posTX1;
     }
 
+    ///reset au premier temps donné
     resetTime() {
         this.time = this.Otime;
     }
 
+    ///renvoie le temps actuelle
     getTime() {
         return this.time;
     }
 
+    ///diminue le temps du montant bloquant à 0
     decreseTime(amount) {
         if(this.time - amount > 0) {
         this.time -= amount;
@@ -24,16 +28,15 @@ export default class Timer {
         }
     }
 
+    ///Dessine le temps
     displayTime() {
-        //console.log("slt je derange aps ?");
         let strTime = this.time.toString(10);
-        //console.log(strTime)
         let posTX;
         let posTY = 0;
         for(let i = 0; i < strTime.length; i++) {
             if(i == 0) {posTX = this.posTX1;}
             else {posTX = this.posTX1+62;}
-            //console.log(strTime[i]);
+
             switch(strTime[i]) {
                 case '0':
                     this.ctx.drawImage(this.images[0], posTX, posTY);
