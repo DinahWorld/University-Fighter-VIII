@@ -1,27 +1,26 @@
 import Animation from './Animation.js';
 
-export default class Character extends Animation {
-	constructor(name, posXX, posYY, ctx, direction) {
+export default class Player extends Animation {
+	constructor(posXX, posYY, ctx, direction) {
 		super(ctx, posXX, posYY, direction);
-		this.name = name;
-		this.hp = 100;
+		this.hp = 500;
 		this.combo = 0;
 		this.attacking = false;
 		this.blocking = false;
-		this.is_down = false;
+		this.isDown = false;
 		//a frappé
 		this.attacked = false;
 		this.jumping = false;
 		this.falling = false;
 		this.hit = false;
-		this.jump_value = 50;
-		this.animation_number = 20;
+		this.jumpValue = 50;
+		this.animationNumber = 20;
 		this.move = 0;
 		this.count = 0;
 		this.wait = 0;
 		this.changedDirection = false;
-		this.go_right = true;
-		this.go_left = true;
+		this.goRight = true;
+		this.goLeft = true;
 		this.inside = false;
 	}
 
@@ -31,24 +30,24 @@ export default class Character extends Animation {
 		if (this.hp <= 0) this.hp = 0;
 	}
 
-	walk_left() {
-		if (this.hit == false && this.go_left == true) {
+	walkLeft() {
+		if (this.hit == false && this.goLeft == true) {
 			this.reset();
 			this.move = -20;
 			if (this.direction == true) {
-				this.animation_number = 2;
+				this.animationNumber = 2;
 				this.blocking = true;
-			} else this.animation_number = 3;
+			} else this.animationNumber = 3;
 			this.going_left = true;
 		}
 	}
-	walk_right() {
-		if (this.hit == false && this.go_right == true) {
+	walkRight() {
+		if (this.hit == false && this.goRight == true) {
 			this.reset();
 			this.move = +20;
-			if (this.direction == true) this.animation_number = 3;
+			if (this.direction == true) this.animationNumber = 3;
 			else {
-				this.animation_number = 2;
+				this.animationNumber = 2;
 				this.blocking = true;
 			}
 			this.going_right = true;
@@ -58,51 +57,51 @@ export default class Character extends Animation {
 		if (this.hit == false && this.jumping == false && this.falling == false) {
 			this.reset();
 			this.jumping = true;
-			this.animation_number = 4;
+			this.animationNumber = 4;
 		}
 	}
 	down() {
 		if (this.hit == false && this.jumping == false && this.falling == false) {
 			this.reset();
-			this.animation_number = 5;
-			this.is_down = true;
+			this.animationNumber = 5;
+			this.isDown = true;
 		}
 	}
 	damaged() {
 		this.reset();
-		if (this.is_down == false) this.animation_number = 8;
-		else this.animation_number = 13;
+		if (this.isDown == false) this.animationNumber = 8;
+		else this.animationNumber = 13;
 	}
 
 	block() {
 		if (this.hit == false) {
 			this.reset();
-			this.animation_number = 9;
+			this.animationNumber = 9;
 		}
 	}
-	run_left() {
-		if (this.hit == false && this.go_left == true) {
+	runLeft() {
+		if (this.hit == false && this.goLeft == true) {
 			this.reset();
 			this.move = -50;
-			if (this.direction == true) this.animation_number = 10;
-			else this.animation_number = 11;
+			if (this.direction == true) this.animationNumber = 10;
+			else this.animationNumber = 11;
 		}
 	}
-	run_right() {
-		if (this.hit == false && this.go_right == true) {
+	runRight() {
+		if (this.hit == false && this.goRight == true) {
 			this.reset();
 			this.move = +50;
-			if (this.direction == true) this.animation_number = 11;
-			else this.animation_number = 10;
+			if (this.direction == true) this.animationNumber = 11;
+			else this.animationNumber = 10;
 		}
 	}
 	kick() {
 		if (this.hit == false && this.attacking == false && this.falling == false) {
 			this.resetAnimation();
 
-			if (this.jumping == true) this.animation_number = 17;
-			else if (this.is_down == true) this.animation_number = 14;
-			else this.animation_number = 12;
+			if (this.jumping == true) this.animationNumber = 17;
+			else if (this.isDown == true) this.animationNumber = 14;
+			else this.animationNumber = 12;
 			this.attacking = true;
 		}
 	}
@@ -115,12 +114,12 @@ export default class Character extends Animation {
 
 			//S'il est le personnage saute ou s'accroupit
 			//on a une nouvelle animation de punch
-			if (this.jumping == true) this.animation_number = 18;
-			else if (this.is_down == true) this.animation_number = 15;
+			if (this.jumping == true) this.animationNumber = 18;
+			else if (this.isDown == true) this.animationNumber = 15;
 			else if (this.count == 0) {
-				if (this.combo == 0) this.animation_number = 1;
-				else if (this.combo == 1) this.animation_number = 6;
-				else if (this.combo == 2) this.animation_number = 7;
+				if (this.combo == 0) this.animationNumber = 1;
+				else if (this.combo == 1) this.animationNumber = 6;
+				else if (this.combo == 2) this.animationNumber = 7;
 
 				this.combo += 1;
 
@@ -144,7 +143,7 @@ export default class Character extends Animation {
 			this.jumping == false
 		) {
 			this.reset();
-			this.animation_number = 21;
+			this.animationNumber = 21;
 			super.addRange([
 				this.posXX - 200 + this.sizeW,
 				this.posYY + (this.modifiedhY + 25),
@@ -157,9 +156,9 @@ export default class Character extends Animation {
 
 	reset() {
 		this.combo = 0;
-		this.animation_number = 0;
+		this.animationNumber = 0;
 		this.move = 0;
-		this.is_down = false;
+		this.isDown = false;
 		this.attacking = false;
 		this.attacked = false;
 		this.changedDirection = false;
@@ -171,9 +170,9 @@ export default class Character extends Animation {
 		if (super.getRange() != 0) {
 			if (super.collisionRange(player) == true && player.blocking == false) {
 				if (player.blocking == true) {
-					player.animation_number = 9;
+					player.animationNumber = 9;
 				}
-				player.takeDamage(20);
+				player.takeDamage(50);
 				player.damaged();
 			}
 		}
@@ -181,9 +180,9 @@ export default class Character extends Animation {
 			//S'il attaque, a attaqué et si le joueur en face ne bloque pas
 			if (this.attacking == true && this.attacked == false) {
 				if (player.blocking == true) {
-					player.animation_number = 9;
+					player.animationNumber = 9;
 				} else {
-					player.takeDamage(10);
+					player.takeDamage(20);
 					player.damaged();
 					this.attacked = true;
 					player.hit = true;
@@ -199,14 +198,14 @@ export default class Character extends Animation {
 	//quand on a sauté on doit revenir au sol petit à petit
 	jumpingMove() {
 		if (this.jumping == true) {
-			if (this.posYY != -this.jump_value * 9) {
-				this.posYY -= this.jump_value;
+			if (this.posYY != -this.jumpValue * 9) {
+				this.posYY -= this.jumpValue;
 			} else {
 				this.jumping = false;
 			}
 		} else {
 			this.falling = true;
-			this.posYY += this.jump_value;
+			this.posYY += this.jumpValue;
 			if (this.posYY > 0) {
 				this.falling = false;
 				this.posYY = 0;
@@ -216,8 +215,8 @@ export default class Character extends Animation {
 
 	drawing(player) {
 		if (this.hp == 0) {
-			this.animation_number = 19;
-			player.animation_number = 20;
+			this.animationNumber = 19;
+			player.animationNumber = 20;
 		}
 		//Lorsque le personnage se fait frappé, la variable wait
 		//est sur 8 et donc le personnage ne peut plus frapper ou se déplacer,
@@ -232,7 +231,7 @@ export default class Character extends Animation {
 		if (this.attacking == true) this.modifiedhsizeW = 135;
 		else this.modifiedhsizeW = 170;
 
-		if (this.is_down == true) this.modifiedhY = 500;
+		if (this.isDown == true) this.modifiedhY = 500;
 		else this.modifiedhY = 450;
 
 		//S'il n'est pas à l'interieur de la hitbox de son opposant
@@ -242,11 +241,11 @@ export default class Character extends Animation {
 			if (this.collisionCheck(player) == true) {
 				if (this.direction == true) {
 					this.move = 0;
-					this.go_right = false;
+					this.goRight = false;
 					this.inside = true;
 				} else {
 					this.move = 0;
-					this.go_left = false;
+					this.goLeft = false;
 					this.inside = true;
 				}
 			}
@@ -255,8 +254,8 @@ export default class Character extends Animation {
 		} else {
 			if (this.collisionCheck(player) == false) {
 				this.inside = false;
-				this.go_right = true;
-				this.go_left = true;
+				this.goRight = true;
+				this.goLeft = true;
 			}
 		}
 		///vérifie que le joueur n'essaye pas de bouger en dehors de l'écran
@@ -267,13 +266,13 @@ export default class Character extends Animation {
 
 		//Nous renvoi true lorsque on aura joué toutes nos frames
 		//Sinon, ça voudra dire qu'on est entrain de jouer une animation en boucle
-		let finished = this.drawPlayerV2(this.animation_number, player);
+		let finished = this.drawPlayer(this.animationNumber, player);
 		//S'il est true sa eut dire qu'on est dans une animation qu'on doit rejouer en boucle
 		//hors cette animation est celle qui joué lorsqu'on ne fait, on considere cette
 		//animation comme notre état initial
 		if (finished == true) {
-			this.animation_number = 0;
-			this.is_down = false;
+			this.animationNumber = 0;
+			this.isDown = false;
 			this.move = 0;
 			this.attacking = false;
 			this.attacked = false;
@@ -304,7 +303,29 @@ export default class Character extends Animation {
 			player_1.posXX = -player_1.posXX;
 			player_2.changedDirection = true;
 			player_1.changedDirection = true;
-		} else {
-		}
+		} 
+	}
+
+	resetCharacter(posXX,posYY){
+		super.reset(posXX,posYY);
+		this.hp = 500;
+		this.combo = 0;
+		this.attacking = false;
+		this.blocking = false;
+		this.isDown = false;
+		//a frappé
+		this.attacked = false;
+		this.jumping = false;
+		this.falling = false;
+		this.hit = false;
+		this.jumpValue = 50;
+		this.animationNumber = 20;
+		this.move = 0;
+		this.count = 0;
+		this.wait = 0;
+		this.changedDirection = false;
+		this.goRight = true;
+		this.goLeft = true;
+		this.inside = false;
 	}
 }

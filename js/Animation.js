@@ -23,14 +23,14 @@ export default class Animation {
 
 		this.rangehitboxX = this.hitboxX;
 		this.rangehitboxY = this.hitboxY;
-		this.range_attack = [];
+		this.rangeAttack = [];
 	}
 
 	addRange(l) {
-		this.range_attack.push(l);
+		this.rangeAttack.push(l);
 	}
 	getRange() {
-		return this.range_attack.length;
+		return this.rangeAttack.length;
 	}
 
 	//On arrete toutes les animations et on revient à la premiere image du tableau
@@ -41,9 +41,9 @@ export default class Animation {
 	}
 	collisionRange(player) {
 		if (this.direction == true) {
-			for (let i = 0; i < this.range_attack.length; i++) {
-				if (this.range_attack[i][0] + this.range_attack[i][2] > 1920) {
-					this.range_attack.splice(i, 1);
+			for (let i = 0; i < this.rangeAttack.length; i++) {
+				if (this.rangeAttack[i][0] + this.rangeAttack[i][2] > 1920) {
+					this.rangeAttack.splice(i, 1);
 					continue;
 				}
 
@@ -55,40 +55,40 @@ export default class Animation {
 				///playerY ne change pas
 				//console.log(playerY);
 				if (
-					this.range_attack[i][0] + this.range_attack[i][2] > playerX - player.sizeW &&
-					this.range_attack[i][0] < playerX &&
-					this.range_attack[i][1] + this.range_attack[i][3] > playerY &&
-					this.range_attack[i][1] < playerY + player.sizeH
+					this.rangeAttack[i][0] + this.rangeAttack[i][2] > playerX - player.sizeW &&
+					this.rangeAttack[i][0] < playerX &&
+					this.rangeAttack[i][1] + this.rangeAttack[i][3] > playerY &&
+					this.rangeAttack[i][1] < playerY + player.sizeH
 				) {
 					///contact donc on renvoit true
-					this.range_attack.splice(i, 1);
+					this.rangeAttack.splice(i, 1);
 					return true;
 				} else {
 					return false;
 				}
 			}
 		} else {
-			for (let i = 0; i < this.range_attack.length; i++) {
-				if (this.range_attack[i][0] > 0) {
-					this.range_attack.splice(i, 1);
+			for (let i = 0; i < this.rangeAttack.length; i++) {
+				if (this.rangeAttack[i][0] > 0) {
+					this.rangeAttack.splice(i, 1);
 					continue;
 				}
-				let attackX = Math.abs(this.range_attack[i][0]);
-				let attackY = Math.abs(this.range_attack[i][1]);
+				let attackX = Math.abs(this.rangeAttack[i][0]);
+				let attackY = Math.abs(this.rangeAttack[i][1]);
 
 				/*if(attackX  < 0) {
-					this.range_attack.splice(i, 1);
+					this.rangeAttack.splice(i, 1);
 					continue;
 				}*/
 				if (
-					attackX - this.range_attack[i][2] < player.hitboxX + player.sizeW &&
-					attackX > player.hitboxX /*this.range_attack[i][0]*/ &&
-					attackY + this.range_attack[i][3] > player.hitboxY &&
+					attackX - this.rangeAttack[i][2] < player.hitboxX + player.sizeW &&
+					attackX > player.hitboxX /*this.rangeAttack[i][0]*/ &&
+					attackY + this.rangeAttack[i][3] > player.hitboxY &&
 					attackY < player.hitboxY + player.sizeH
 				) {
 					///contact donc on renvoit true
 					//console.log("sa se touche")
-					this.range_attack.splice(i, 1);
+					this.rangeAttack.splice(i, 1);
 					return true;
 				} else {
 					return false;
@@ -137,7 +137,7 @@ export default class Animation {
 		}
 	}
 
-	drawV2(index) {
+	draw(index) {
 		this.ctx.beginPath();
 
 		let step_i = this.sprites[index].animestep;
@@ -151,21 +151,21 @@ export default class Animation {
 		//this.ctx.strokeRect(this.hitboxX, this.hitboxY, this.sizeW, this.sizeH);
 		//On regarde les collisions
 
-		if (this.range_attack.length >= 1) {
+		if (this.rangeAttack.length >= 1) {
 			let step2_i = this.sprites[16].animestep;
 			let cnv2_i = this.sprites[16].animeseq[step2_i];
 
-			for (let i = 0; i < this.range_attack.length; i++) {
+			for (let i = 0; i < this.rangeAttack.length; i++) {
 				this.ctx.drawImage(
 					cnv2_i,
-					this.range_attack[i][0],
-					this.range_attack[i][1],
-					this.range_attack[i][2],
-					this.range_attack[i][3]
+					this.rangeAttack[i][0],
+					this.rangeAttack[i][1],
+					this.rangeAttack[i][2],
+					this.rangeAttack[i][3]
 					//(cnv_i.width - 80) * this.zoom,
 					//(cnv_i.height - 40) * this.zoom
 				);
-				this.range_attack[i][0] += 30;
+				this.rangeAttack[i][0] += 30;
 			}
 			this.sprites[16].to_draw = 0;
 			this.sprites[16].next_step();
@@ -187,8 +187,8 @@ export default class Animation {
 		this.ctx.closePath();
 	}
 
-	drawPlayerV2(i) {
-		this.drawV2(i);
+	drawPlayer(i) {
+		this.draw(i);
 		//On récupere la valeur du nombre d'images de l'animation
 		let number_of_sprite = this.sprites[i].animeseq.length;
 
@@ -211,5 +211,15 @@ export default class Animation {
 			this.sprites[i].next_step();
 			return false;
 		}
+	}
+	
+	reset(posXX,posYY){
+
+		this.hpBar = 500;
+		if (this.direction == true) this.posXX = posXX + 90;
+		else this.posXX = -posXX + 90;
+
+		this.posYY = posYY;
+
 	}
 }

@@ -1,30 +1,19 @@
-import {player_1,player_2} from './Game.js';
+import {players} from './Game.js';
 import SpriteAtlas from './SpriteAtlas.js';
-import {sound_select} from './Sound.js';
-export {character_select,selectID,selected,moveInSelect,loadEverything,selectedPath,resetSprite};
+export {characterSelect,loadEverything};
+import {lenSpr,selectedSprites,winLoop} from './CharacterSelect.js';
 
-let character_select = new Array(4);
+let characterSelect = new Array(4);
 for (let i = 0; i < 4; i++) {
-	character_select[i] = new Image();
+	characterSelect[i] = new Image();
 }
-character_select[0].src = './assets/character_select/Chunli_2.png';
-character_select[1].src = './assets/character_select/akuma_2.png';
-character_select[2].src = './assets/character_select/Ken_2.png';
-character_select[3].src = './assets/character_select/Ryu_2.png';
+characterSelect[0].src = './assets/character_select/Chunli_2.png';
+characterSelect[1].src = './assets/character_select/akuma_2.png';
+characterSelect[2].src = './assets/character_select/Ken_2.png';
+characterSelect[3].src = './assets/character_select/Ryu_2.png';
 
 
-//id dans la selection
-let selectID = 0;
-//liste de tout les perso
-let selectList = ['chunli', 'akuma', 'ken', 'ryu'];
-//selected sont les perso choisie
-let selected = [];
-//le chemin des sprites des perso choisie
-let selectedSprites = [];
 
-
-let lenSpr = [];
-let winLoop = [];
 
 ///permet de load plusieurs json
 let loadFile = function (filePath, done) {
@@ -42,51 +31,15 @@ function loadEverything() {
 	for (let i = 0; i < selectedSprites.length; i++) {
 		loadFile(selectedSprites[i], function (responseText) {
 			json_datas[i] = JSON.parse(responseText);
-			onload_atlas(i);
+			onload_atlas(i,players[i]);
 		});
 	}
 }
 
-//utiliser pour donner les bon chemin selon les perso
-function selectedPath() {
-	for (let i = 0; i < selected.length; i++) {
-		switch (selected[i]) {
-			case 'ryu':
-				selectedSprites.push('./assets/atlas/ryu.json');
-				lenSpr.push([10, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 4, 5, 5, 18, 5, 8, 25, 8, 11]);
-				winLoop.push(false);
-				break;
-			case 'ken':
-				selectedSprites.push('./assets/atlas/ken.json');
-				lenSpr.push([10, 4, 11, 11, 23, 9, 8, 9, 9, 9, 6, 6, 7, 8, 5, 5, 18, 5, 8, 25, 8, 11]);
-				winLoop.push(false);
-				break;
-			case 'akuma':
-				selectedSprites.push('./assets/atlas/akuma.json');
-				lenSpr.push([11, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 4, 5, 5, 18, 5, 8, 24, 8, 12]);
-				winLoop.push(true);
-				break;
-			case 'chunli':
-				selectedSprites.push('./assets/atlas/chunli.json');
-				lenSpr.push([10, 5, 18, 16, 23, 9, 8, 9, 9, 9, 6, 6, 11, 8, 5, 5, 18, 5, 9, 20, 8, 22]);
-				winLoop.push(false);
-				break;
-		}
-	}
-}
 
 //onload atlas modif pour prendre un perso et son json et le load (amélioration possible quand le meme perso est pris)
-function onload_atlas(n) {
-	let player;
-	if (n == 0) {
-		player = player_1;
-	} else {
-		player = player_2;
-	}
-	//console.log(this.status);
+function onload_atlas(n,player) {
 
-	//if (this.status == 200) {
-	//let json_infos = JSON.parse(this.responseText);
 	let spritesheet = new Image();
 	spritesheet.src = './assets/atlas/' + json_datas[n]['meta']['image'];
 
@@ -132,25 +85,3 @@ function onload_atlas(n) {
 	//}
 }
 
-///deplacement dans la selection selon le choix
-function moveInSelect(choice) {
-	if(selectID == choice) {
-		selected.push(selectList[selectID]);
-		sound_select(1);
-	}
-	else if(choice >= selectID) {
-		//if (selectID != selectList.length - 1) selectID += 1;
-		selectID += 1;
-		sound_select(0);
-	}
-	else {
-		selectID -= 1;
-		sound_select(0);
-	}
-}
-
-function resetSprite(){
-    selected = [];
-	selectedSprites = [];
-	lenSpr = [];
-}

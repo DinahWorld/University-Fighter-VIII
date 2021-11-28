@@ -1,4 +1,4 @@
-export {sound,sound_select};
+export {sound,soundSelect};
 
 let sound = new Array(4);
 for (let i = 0; i < 4; i++) {
@@ -11,7 +11,7 @@ sound[2].src = './assets/sound/character_select/go.wav';
 sound[3].src = './assets/sound/menu_start/menu.mp3';
 
 
-function sound_select(i) {
+function soundSelect(i) {
 	if (sound[i].paused) {
 		sound[i].play();
 	} else {
