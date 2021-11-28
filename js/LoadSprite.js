@@ -1,7 +1,7 @@
 import {player_1,player_2} from './Game.js';
 import SpriteAtlas from './SpriteAtlas.js';
 import {sound_select} from './Sound.js';
-export {character_select,selectID,selected,moveInSelect,loadEverything,selectedPath};
+export {character_select,selectID,selected,moveInSelect,loadEverything,selectedPath,resetSprite};
 
 let character_select = new Array(4);
 for (let i = 0; i < 4; i++) {
@@ -147,4 +147,10 @@ function moveInSelect(choice) {
 		selectID -= 1;
 		sound_select(0);
 	}
+}
+
+function resetSprite(){
+    selected = [];
+	selectedSprites = [];
+	lenSpr = [];
 }

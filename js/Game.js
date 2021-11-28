@@ -1,8 +1,9 @@
 import Character from './Character.js';
 
-export{player_1,player_2};
-import{character_select,moveInSelect,selectID,selected,loadEverything,selectedPath} from './LoadSprite.js';
+export{player_1,player_2,ctx,cnv};
+import{character_select,moveInSelect,selectID,selected,loadEverything,selectedPath,resetSprite} from './LoadSprite.js';
 import{sound,sound_select} from './Sound.js'
+import {drawHP} from './HealthPoint.js'
 
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
@@ -16,8 +17,8 @@ ctx_player_1.height = cnv.height;
 ctx.imageSmoothingEnabled = false;
 let number_of_player = 2;
 let go = false;
-let hp_1 = 300;
-let hp_2 = 300;
+let hp_1 = 500;
+let hp_2 = 500;
 let action = true;
 let transition_done = false;
 let black_screen = false;
@@ -28,6 +29,7 @@ let enterGame = false;
 let enterGameTimer = false;
 let returnBack = false;
 let KO = false;
+
 //select pour si on est rentré dans la selection
 let select = false;
 
@@ -112,7 +114,8 @@ function update() {
 
 ///execute le combat
 function game() {
-	drawHP();
+	drawHP(players);
+
 	player_1.changeDirection(player_2);
 	player_2.changeDirection(player_1);
 
@@ -136,28 +139,6 @@ function drawCharacter(player, ennemy) {
 	}
 }
 
-///dessine les hp des joueurs
-function drawHP() {
-	if (hp_1 != player_1.hp) hp_1 -= 2;
-	if (hp_2 != player_2.hp) hp_2 -= 2;
-
-	//ctx.fillStyle = 'gray';
-	///déssine un espace derriere pour faire plus beau
-	ctx.fillStyle = 'rgba(169,169,169, 0.5)';
-	ctx.fillRect(50, 20, 300, 50);
-
-	ctx.fillStyle = 'red';
-	ctx.fillRect(50, 20, hp_1, 50);
-
-	ctx.save();
-	ctx.scale(-1, 1);
-	ctx.fillStyle = 'rgba(169,169,169, 0.5)';
-	ctx.fillRect(-cnv.width + 20, 20, 300, 50);
-
-	ctx.fillStyle = 'red';
-	ctx.fillRect(-cnv.width + 20, 20, hp_2, 50);
-	ctx.restore();
-}
 
 ///vérifie si le match est terminer et si oui stop la partie, clear les setInterval et retour au debut
 function checkWin() {
@@ -313,9 +294,7 @@ function InGoBack() {
 	returnBack = false;
 	player_1 = new Character('Dinath', 0, 0, ctx, true);
 	player_2 = new Character('Fayçal', cnv.width, 0, ctx, false); 
-	selected = [];
-	selectedSprites = [];
-	lenSpr = [];
+	resetSprite();
 	opacity = 0;
 	opacity_value = 0.05;
 	KO = false;

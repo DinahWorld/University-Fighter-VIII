@@ -4,7 +4,7 @@ export default class Character extends Animation {
 	constructor(name, posXX, posYY, ctx, direction) {
 		super(ctx, posXX, posYY, direction);
 		this.name = name;
-		this.hp = 300;
+		this.hp = 500;
 		this.combo = 0;
 		this.attacking = false;
 		this.blocking = false;
@@ -24,6 +24,7 @@ export default class Character extends Animation {
 		this.go_left = true;
 		this.inside = false;
 	}
+
 
 	takeDamage(amount) {
 		this.hp -= amount;

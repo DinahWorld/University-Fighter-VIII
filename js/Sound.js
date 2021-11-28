@@ -3,6 +3,7 @@ export {sound,sound_select};
 let sound = new Array(4);
 for (let i = 0; i < 4; i++) {
 	sound[i] = new Audio();
+	sound[i].muted = true;
 }
 sound[0].src = './assets/sound/character_select/select.wav';
 sound[1].src = './assets/sound/character_select/enter.wav';
