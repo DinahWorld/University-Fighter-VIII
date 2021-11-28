@@ -6,10 +6,11 @@ import {
 	selectedCharacter,
 	selected,
 } from './CharacterSelect.js';
-import {ctx, players} from './Game.js';
+import {ctx, players, timerg} from './Game.js';
 import {sound} from './Sound.js';
 import {characterSelect} from './LoadSprite.js';
 import {transitionMap} from './Map.js';
+import {clearIntervalTimer} from './TimerDef.js';
 export {
 	clearPlayerInterval,
 	resetInstructions,
@@ -19,6 +20,7 @@ export {
 	selectTimer,
 	gameInstructionMenu,
 	setTrueSelectTimer,
+	launchIntervals,
 };
 
 let listP1 = [];
@@ -34,7 +36,9 @@ let selectInter = null;
 ///variable utiliser pour les liste d'instructions
 let playerInterval = null;
 let launchIntervals = true;
+let timerInterval = null;
 
+///Gere l'état du jeu avant combat
 function gameInstructionMenu() {
 	//Comme si on appuyait sur entrer pour rentrer dans le menu selection
 	if (enterGameTimer == false) {
@@ -67,6 +71,7 @@ function gameFightInstructions() {
 	playerInterval = setInterval(function () {
 		instruList(players);
 	}, 500);
+	timerInterval = setInterval(function() {timerg.decreseTime(1)}, 1000);
 }
 ///instru list est appeler par le setInteveral pour chaque joueur avec leur liste a faire
 function instruList(players) {
@@ -127,10 +132,13 @@ function setTrueSelectTimer() {
 	return (selectTimer = true);
 }
 
+///clear les interval des joueurs
 function clearPlayerInterval() {
 	clearInterval(playerInterval);
+	clearIntervalTimer(timerInterval);
 }
 
+///reset des instruction et du timer
 function resetInstructions() {
 	listP1 = [];
 	listP2 = [];
@@ -140,6 +148,7 @@ function resetInstructions() {
 	selectInter = null;
 	playerInterval = null;
 	launchIntervals = true;
+	timerg.resetTime();
 }
 
 

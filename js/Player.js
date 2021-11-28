@@ -282,6 +282,7 @@ export default class Player extends Animation {
 		}
 	}
 
+	///Vérifie la direction des joueurs
 	changeDirection(player) {
 		//Pour qu'il ne change pas de direction en boucle
 		if (this.changedDirection == false) {
@@ -293,6 +294,8 @@ export default class Player extends Animation {
 			}
 		}
 	}
+
+	///Juge dans quel sens les joueurs doivent etre
 	compareDirection(player_1,player_2) {
 		//SI les coordonnées du joueur1 sont plus grand que celle du joueur2
 		//alors on inverse les sens
@@ -306,6 +309,7 @@ export default class Player extends Animation {
 		} 
 	}
 
+	///reset le joueur
 	resetCharacter(posXX,posYY){
 		super.reset(posXX,posYY);
 		this.hp = 500;
