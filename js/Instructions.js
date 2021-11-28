@@ -61,12 +61,12 @@ function gameInstructionMenu() {
 }
 function gameFightInstructions() {
 	///si on peut commencer la partie alors les interval son lancer(le combats)
-	if (launchIntervals == true) {
-		launchIntervals = false;
-		playerInterval = setInterval(function () {
-			instruList(players);
-		}, 500);
-	}
+	if (launchIntervals == false) return;
+	
+	launchIntervals = false;
+	playerInterval = setInterval(function () {
+		instruList(players);
+	}, 500);
 }
 ///instru list est appeler par le setInteveral pour chaque joueur avec leur liste a faire
 function instruList(players) {

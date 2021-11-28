@@ -1,6 +1,6 @@
 import Player from './Player.js';
 
-export {ctx, cnv, players};
+export {ctx, cnv, players,gradient,gradientSet};
 import {drawHP} from './HealthPoint.js';
 import {
 	clearPlayerInterval,
@@ -13,6 +13,7 @@ import {resetCharacterSelect} from './CharacterSelect.js';
 
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
+let gradient = null;
 
 ctx.imageSmoothingEnabled = false;
 
@@ -35,13 +36,15 @@ function update() {
 
 ///execute le combat
 function game() {
-	drawHP(players);
+	ctx.beginPath();
 
 	player1.changeDirection(player2);
 	player2.changeDirection(player1);
 
 	drawCharacter(player1, player2);
 	drawCharacter(player2, player1);
+	drawHP(players);
+
 	checkWin();
 	ctx.closePath();
 }
@@ -84,3 +87,8 @@ function inGoBack() {
 	returnBack = false;
 }
 setInterval(update, 45);
+
+function gradientSet(posX,width,invert){
+	gradient = ctx.createLinearGradient(posX, 0, width, 0);
+
+}

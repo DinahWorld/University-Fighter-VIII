@@ -5,6 +5,7 @@ export {
 	select,
 	selectID,
 	selected,
+	selectList,
 	selectedCharacter,
 	lenSpr,
 	selectedSprites,
@@ -110,6 +111,7 @@ function selectedPath() {
 				break;
 		}
 	}
+	console.log(selectedCharacter)
 }
 ///fonction de random (a revoir)
 function randomValue(max) {
