@@ -4,6 +4,7 @@ export{player_1,player_2,ctx,cnv};
 import{character_select,moveInSelect,selectID,selected,loadEverything,selectedPath,resetSprite} from './LoadSprite.js';
 import{sound,sound_select} from './Sound.js'
 import {drawHP} from './HealthPoint.js'
+import {instru_list,getLists} from './Instructions.js'
 
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
@@ -40,13 +41,8 @@ let player_1 = new Character('Dinath', 0, 0, ctx, true);
 let player_2 = new Character('Fayçal', cnv.width, 0, ctx, false);
 let players = [player_1, player_2];
 ///variable utiliser pour les liste d'instructions
-let P1Interval = null;
-let P2Interval = null;
+let PlayerInterval = null;
 let launchIntervals;
-let InstruID1 = 0;
-let InstruID2 = 0;
-let listP1;
-let listP2;
 
 ///quel personnage va etre choisie
 let P1Choice = rdom(3, 0);
@@ -63,7 +59,6 @@ function mapSelect() {
 		go = false;
 	}
 	if (opacity > 0.99) {
-		console.log("les value qui bugs");
 		black_screen = true;
 		transition_done = true;
 		opacity_value = -opacity_value;
@@ -87,7 +82,7 @@ function update() {
 		enterGameTimer = true;
 		setTimeout(InGame, 1000);
 	}
-	//console.log(go);
+
 	if (select == true) {
 		if(selectTimer == true) {
 			selectTimer = false;
@@ -96,19 +91,15 @@ function update() {
 		sound[3].pause();
 		ctx.drawImage(character_select[selectID], 0, 0);
 	}
-	if (go == true) {
-		mapSelect();
-	}
+
+	if (go == true) mapSelect();
+	if (transition_done == true) game();
 	
-	if (transition_done == true) {
-		game();
-	}
 	///si on peut commencer la partie alors les interval son lancer(le combats)
 	if(launchIntervals == true) {
 		launchIntervals = false;
-		getLists();
-		P1Interval = setInterval(function() {instru_list(player_1, listP1, InstruID1)}, 500);
-		P2Interval = setInterval(function() {instru_list(player_2, listP2, InstruID2)}, 500);
+		// On recupere la liste d'instruction
+		PlayerInterval = setInterval(function() {instru_list(players)}, 500);
 	}
 }
 
@@ -142,10 +133,9 @@ function drawCharacter(player, ennemy) {
 
 ///vérifie si le match est terminer et si oui stop la partie, clear les setInterval et retour au debut
 function checkWin() {
-	if(hp_1 == 0 || hp_2 == 0) {
+	if(player_1.hp == 0 || player_2.hp == 0) {
 		KO = true;
-		clearInterval(P1Interval);
-		clearInterval(P2Interval);
+		clearInterval(PlayerInterval);
 		if(returnBack == false) {
 			returnBack = true;
 			setTimeout(InGoBack, 2000);
@@ -153,99 +143,6 @@ function checkWin() {
 	}
 }
 
-///execute l'instruction que est donner on doit faire cela car sinon le programme lis la liste d'un coup
-function instru_execute(player, movement) {
-	switch (movement) {
-		case "walk-left":
-			player.walk_left();
-			break;
-		case "walk-right":
-			player.walk_right();
-			break;
-		case "run-left":
-			player.run_left();
-			break;
-		case "run-right":
-			player.run_right();
-			break;
-		case "down":
-			player.down();
-			break;
-		case "punch":
-			player.punch();
-			break;
-		case "jump":
-			player.jump();
-			break;
-		case "hadoken":
-			player.hadoken();
-			break;
-		case "kick":
-			player.kick();
-			break;
-		case "block":
-			player.block();
-			break;
-		
-		
-	}
-}
-
-///instru list est appeler par le setInteveral pour chaque joueur avec leur liste a faire
-function instru_list(player, instruPlayer, instruID) {
-	instru_execute(player, instruPlayer[instruID]);
-	if(instruID != instruPlayer.length-1) {instruID+=1;}
-	else{instruID = 0;}
-	//On fait cela car instruID ne change pas les valeurs globals
-	if(player == player_1) {
-		InstruID1 = instruID;
-	}
-	else {
-		InstruID2 = instruID;
-	}
-}
-
-///donne une liste d'instruction selon les joueurs
-function getLists() {
-	for(let i = 0; i < 2; i++) {
-		switch(selected[i]) {
-			///ryu ken et akuma on un move set très similaire donc cela n'est pas important si la liste est la meme
-			case "ryu":
-			case "ken":
-			case "akuma":
-				if(i == 0) {
-					listP1 = ["walk-right", "run-right", "punch", "kick", "run-left", "jump",
-					 "walk-right", "walk-right", "block", "run-left","run-left" , "hadoken", "hadoken",
-					  "run-right", "punch", "punch", "punch", "kick", "hadoken", "walk-left"];
-
-					/*listP1 = ["hadoken", "hadoken", "walk-right", "walk-right", "block", "punch", "kick","run-left", "block",
-						"punch", "punch", "hadoken", "jump", "walk-right", "run-right", "kick", "kick", "punch"];*/
-					//listP1 = ["walk-left", "walk-left", "walk-left", "walk-left"];
-				}
-				else {
-					listP2 = ["walk-left", "walk-left", "block", "run-right", "hadoken", "run-left",
-					 "run-left", "punch", "punch", "punch", "run-right", "jump", "block", "run-left", "run-left",
-					  "kick", "kick", "punch", "punch", "punch", "hadoken", "run-right"];
-					/*listP2 = ["walk-left", "jump", "block", "hadoken", "punch", "punch", "punch", "kick", "run-right", "punch",
-						"kick", "down", "run-right", "run-right", "hadoken", "hadoken", "punch", "punch", "punch"];*/
-					//listP2 = ["walk-right", "walk-right", "walk-right", "walk-right"];
-				}
-				break;
-			case "chunli":
-				if(i == 0) {
-					listP1 = ["run-right", "run-right", "kick", "kick", "punch", "punch", "punch", "walk-left",
-					 "down", "block", "jump", "walk-right", "walk-right", "punch", "kick", "run-left", "run-left",
-					  "block", "block", "run-right", "run-right", "kick", "kick", "punch"];
-				}
-				else {
-					listP2 = ["run-left", "run-left", "kick", "kick", "punch", "punch", "punch", "walk-right", "down",
-					 "block", "jump","walk-left", "walk-left", "punch", "kick", "run-right", "run-right", "block", 
-					 "block", "run-left", "run-left", "kick", "kick", "punch"];
-				}
-				break;
-		}
-	}
-}
 
 ///fonction de random (a revoir)
 function rdom(max, min) {
@@ -254,9 +151,8 @@ function rdom(max, min) {
 
 ///fonction rentrant dans le jeu
 function InGame() {
-	console.log("Je rentre");
 	sound_select(1);
-	//sound[1].play();
+
 	enterGame = true;
 	select = true;
 	selectTimer = true;
