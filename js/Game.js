@@ -27,6 +27,7 @@ let player2 = new Player(cnv.width, 0, ctx, false);
 let players = [player1, player2];
 let timerg = new Timer(99, ctx, imageNumber, (cnv.width/2)-62);
 
+// Fonction Principale
 function update() {
 	ctx.beginPath();
 	ctx.clearRect(0, 0, cnv.width, cnv.height);

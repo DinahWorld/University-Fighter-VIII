@@ -15,12 +15,9 @@ export {
 	clearPlayerInterval,
 	resetInstructions,
 	gameFightInstructions,
-	instruList,
-	selectInter,
-	selectTimer,
 	gameInstructionMenu,
+	selectInter,
 	setTrueSelectTimer,
-	launchIntervals,
 };
 
 let listP1 = [];
