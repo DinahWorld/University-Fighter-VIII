@@ -293,7 +293,7 @@ export default class Player extends Animation {
 			}
 		}
 	}
-	compareDirection(player_1, player_2) {
+	compareDirection(player_1,player_2) {
 		//SI les coordonnées du joueur1 sont plus grand que celle du joueur2
 		//alors on inverse les sens
 		if (player_1.posXX >= Math.abs(player_2.posXX)) {

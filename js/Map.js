@@ -5,8 +5,6 @@ let opacity = 0;
 let opacityValue = 0.05;
 let transitionDone = false;
 
-
-
 /// Fonction qui va crée une transition entre le menu et le jeu
 function transitionMap() {
     if(transitionDone == false){

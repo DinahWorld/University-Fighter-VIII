@@ -4,12 +4,12 @@ export default class Animation {
 		this.zoom = 3;
 		this.direction = direction;
 		this.ctx = ctx;
-		
+
 		if (direction == true) this.posXX = posXX + 90;
 		else this.posXX = -posXX + 90;
-		
+
 		this.hpBar = 500;
-		
+
 		this.posYY = posYY;
 		this.posHYY = posYY;
 
@@ -55,7 +55,8 @@ export default class Animation {
 				///playerY ne change pas
 				//console.log(playerY);
 				if (
-					this.rangeAttack[i][0] + this.rangeAttack[i][2] > playerX - player.sizeW &&
+					this.rangeAttack[i][0] + this.rangeAttack[i][2] >
+						playerX - player.sizeW &&
 					this.rangeAttack[i][0] < playerX &&
 					this.rangeAttack[i][1] + this.rangeAttack[i][3] > playerY &&
 					this.rangeAttack[i][1] < playerY + player.sizeH
@@ -212,14 +213,12 @@ export default class Animation {
 			return false;
 		}
 	}
-	
-	reset(posXX,posYY){
 
+	reset(posXX, posYY) {
 		this.hpBar = 500;
 		if (this.direction == true) this.posXX = posXX + 90;
 		else this.posXX = -posXX + 90;
 
 		this.posYY = posYY;
-
 	}
 }

@@ -1,8 +1,13 @@
 import Player from './Player.js';
 
-export{ctx,cnv,players};
-import {drawHP} from './HealthPoint.js'
-import {clearPlayerInterval,resetInstructions,gameFightInstructions,gameInstructionMenu} from './Instructions.js'
+export {ctx, cnv, players};
+import {drawHP} from './HealthPoint.js';
+import {
+	clearPlayerInterval,
+	resetInstructions,
+	gameFightInstructions,
+	gameInstructionMenu,
+} from './Instructions.js';
 import {resetTransition} from './Map.js';
 import {resetCharacterSelect} from './CharacterSelect.js';
 
@@ -11,7 +16,6 @@ let ctx = cnv.getContext('2d');
 
 ctx.imageSmoothingEnabled = false;
 
-
 let returnBack = false;
 let onMenu = true;
 
@@ -19,17 +23,14 @@ let player1 = new Player(0, 0, ctx, true);
 let player2 = new Player(cnv.width, 0, ctx, false);
 let players = [player1, player2];
 
-
-
 function update() {
 	ctx.beginPath();
 	ctx.clearRect(0, 0, cnv.width, cnv.height);
 	onMenu = gameInstructionMenu();
-	if (onMenu == true){
+	if (onMenu == true) {
 		game();
-		gameFightInstructions();	
-	} 
-	
+		gameFightInstructions();
+	}
 }
 
 ///execute le combat
@@ -61,25 +62,23 @@ function drawCharacter(player, ennemy) {
 	}
 }
 
-
 ///vérifie si le match est terminer et si oui stop la partie, clear les setInterval et retour au debut
 function checkWin() {
-	if(player1.hp == 0 || player2.hp == 0) {
+	if (player1.hp == 0 || player2.hp == 0) {
 		clearPlayerInterval();
-		if(returnBack == false) {
+		if (returnBack == false) {
 			returnBack = true;
 			setTimeout(inGoBack, 2000);
 		}
 	}
 }
 
-
 ///fonction de retour au debut du jeu
 function inGoBack() {
 	onMenu = true;
 	onTransition = true;
 	resetCharacterSelect();
-	player1.resetCharacter(0,0);
+	player1.resetCharacter(0, 0);
 	player2.resetCharacter(cnv.width, 0);
 	resetTransition();
 	resetInstructions();

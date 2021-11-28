@@ -1,8 +1,18 @@
-import {loadEverything} from './LoadSprite.js'
-import {soundSelect} from './Sound.js'
-import {selectInter,setTrueSelectTimer} from './Instructions.js'
-export {select,selectID,selected,selectedCharacter,lenSpr,selectedSprites,winLoop,inGame,inSelect,resetCharacterSelect};
-
+import {loadEverything} from './LoadSprite.js';
+import {soundSelect} from './Sound.js';
+import {selectInter, setTrueSelectTimer} from './Instructions.js';
+export {
+	select,
+	selectID,
+	selected,
+	selectedCharacter,
+	lenSpr,
+	selectedSprites,
+	winLoop,
+	inGame,
+	inSelect,
+	resetCharacterSelect,
+};
 
 //select pour si on est rentré dans la selection
 let select = false;
@@ -27,42 +37,36 @@ let p2Choice = randomValue(4, 0);
 
 ///fonction executant la partie selection du jeu
 function inSelect() {
-	if(selectedCharacter.length == 0) {
+	if (selectedCharacter.length == 0) {
 		moveInSelect(p1Choice);
-	}
-	else if(selectedCharacter.length == 1) {
+	} else if (selectedCharacter.length == 1) {
 		moveInSelect(p2Choice);
-	}
-	else {
+	} else {
 		select = false;
 		selected = true;
 		selectedPath();
 		loadEverything();
 		soundSelect(2);
 		clearInterval(selectInter);
-
-    }
+	}
 }
 
 ///fonction rentrant dans le jeu
 function inGame() {
 	soundSelect(1);
 	select = true;
-    setTrueSelectTimer();
+	setTrueSelectTimer();
 }
-
 
 ///deplacement dans la selection selon le choix
 function moveInSelect(choice) {
-	if(selectID == choice) {
+	if (selectID == choice) {
 		selectedCharacter.push(selectList[selectID]);
 		soundSelect(1);
-	}
-	else if(choice >= selectID) {
+	} else if (choice >= selectID) {
 		selectID += 1;
 		soundSelect(0);
-	}
-	else {
+	} else {
 		selectID -= 1;
 		soundSelect(0);
 	}
@@ -74,22 +78,34 @@ function selectedPath() {
 		switch (selectedCharacter[i]) {
 			case 'ryu':
 				selectedSprites.push('./assets/atlas/ryu.json');
-				lenSpr.push([10, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 4, 5, 5, 18, 5, 8, 25, 8, 11]);
+				lenSpr.push([
+					10, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 4, 5, 5, 18, 5, 8, 25, 8,
+					11,
+				]);
 				winLoop.push(false);
 				break;
 			case 'ken':
 				selectedSprites.push('./assets/atlas/ken.json');
-				lenSpr.push([10, 4, 11, 11, 23, 9, 8, 9, 9, 9, 6, 6, 7, 8, 5, 5, 18, 5, 8, 25, 8, 11]);
+				lenSpr.push([
+					10, 4, 11, 11, 23, 9, 8, 9, 9, 9, 6, 6, 7, 8, 5, 5, 18, 5, 8, 25, 8,
+					11,
+				]);
 				winLoop.push(false);
 				break;
 			case 'akuma':
 				selectedSprites.push('./assets/atlas/akuma.json');
-				lenSpr.push([11, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 4, 5, 5, 18, 5, 8, 24, 8, 12]);
+				lenSpr.push([
+					11, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 4, 5, 5, 18, 5, 8, 24, 8,
+					12,
+				]);
 				winLoop.push(true);
 				break;
 			case 'chunli':
 				selectedSprites.push('./assets/atlas/chunli.json');
-				lenSpr.push([10, 5, 18, 16, 23, 9, 8, 9, 9, 9, 6, 6, 11, 8, 5, 5, 18, 5, 9, 20, 8, 22]);
+				lenSpr.push([
+					10, 5, 18, 16, 23, 9, 8, 9, 9, 9, 6, 6, 11, 8, 5, 5, 18, 5, 9, 20, 8,
+					22,
+				]);
 				winLoop.push(false);
 				break;
 		}
@@ -100,14 +116,13 @@ function randomValue(max) {
 	return Math.floor(Math.random() * max);
 }
 
-function resetCharacterSelect(){
+function resetCharacterSelect() {
 	lenSpr = [];
-	winLoop = []
+	winLoop = [];
 	selectedCharacter = [];
 	selected = false;
 	selectedSprites = [];
 	p1Choice = randomValue(4, 0);
 	p2Choice = randomValue(4, 0);
-    select = true;
+	select = true;
 }
-

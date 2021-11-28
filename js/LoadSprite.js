@@ -1,7 +1,7 @@
 import {players} from './Game.js';
 import SpriteAtlas from './SpriteAtlas.js';
-export {characterSelect,loadEverything};
 import {lenSpr,selectedSprites,winLoop} from './CharacterSelect.js';
+export {characterSelect,loadEverything};
 
 let characterSelect = new Array(4);
 for (let i = 0; i < 4; i++) {
