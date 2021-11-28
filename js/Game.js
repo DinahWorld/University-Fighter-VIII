@@ -1,17 +1,17 @@
-import Player from './Player.js';
+import Player from './Player/Player.js';
 
 export {ctx, cnv, players,gradient,gradientSet,timerg};
-import {drawHP} from './HealthPoint.js';
+import {drawHP} from './Player/HealthPoint.js';
 import {
 	clearPlayerInterval,
 	resetInstructions,
 	gameFightInstructions,
 	gameInstructionMenu,
-} from './Instructions.js';
-import {resetTransition} from './Map.js';
-import {resetCharacterSelect} from './CharacterSelect.js';
-import {imageNumber} from './TimerDef.js';
-import Timer from './TimerClass.js';
+} from './Instruction/Instructions.js';
+import {resetTransition} from './Menu/Map.js';
+import {resetCharacterSelect} from './Menu/CharacterSelect.js';
+import {imageNumber} from './Timer/TimerDef.js';
+import Timer from './Timer/TimerClass.js';
 
 let cnv = document.getElementById('myCanvas');
 let ctx = cnv.getContext('2d');
