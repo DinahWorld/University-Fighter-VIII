@@ -33,7 +33,7 @@ export default class Animation {
 		return this.rangeAttack.length;
 	}
 
-	//On arrete toutes les animations et on revient à la premiere image du tableau
+	//On revient à la premiere image du tableau/animation
 	resetAnimation() {
 		for (let i = 0; i < this.sprites.length; i++) {
 			this.sprites[i].animestep = 1;
@@ -97,6 +97,7 @@ export default class Animation {
 			}
 		}
 	}
+
 	collision(player) {
 		///si on est le joueur a gauche alors on fait la valeur absolue du joueur a droite
 		///car il est sur une échelle négative
@@ -214,6 +215,7 @@ export default class Animation {
 		}
 	}
 
+	//Methode pour remetre par défault nos variables
 	reset(posXX, posYY) {
 		this.hpBar = 500;
 		if (this.direction == true) this.posXX = posXX + 90;

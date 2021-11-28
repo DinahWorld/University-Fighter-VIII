@@ -2,25 +2,24 @@ import {loadEverything} from '../Visual/LoadSprite.js';
 import {soundSelect} from '../Visual/Sound.js';
 import {selectInter, setTrueSelectTimer} from '../Instruction/Instructions.js';
 export {
+	resetCharacterSelect,
 	select,
+	inSelect,
+	inGame,
 	selectID,
+	selectedCharacter,
+	randomValue,
 	selected,
 	selectList,
-	selectedCharacter,
 	lenSpr,
 	selectedSprites,
-	winLoop,
-	inGame,
-	inSelect,
-	resetCharacterSelect,
+	winLoop
 };
 
 //select pour si on est rentré dans la selection
 let select = false;
-
 //liste de tout les perso
 let selectList = ['chunli', 'akuma', 'ken', 'ryu'];
-
 //id dans la selection
 let selectID = 0;
 //selected sont les perso choisie
@@ -112,7 +111,6 @@ function selectedPath() {
 				break;
 		}
 	}
-	console.log(selectedCharacter)
 }
 ///fonction de random (a revoir)
 function randomValue(max) {
