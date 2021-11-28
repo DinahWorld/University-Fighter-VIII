@@ -76,7 +76,6 @@ function checkWin() {
 ///fonction de retour au debut du jeu
 function inGoBack() {
 	onMenu = true;
-	onTransition = true;
 	resetCharacterSelect();
 	player1.resetCharacter(0, 0);
 	player2.resetCharacter(cnv.width, 0);
