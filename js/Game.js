@@ -61,7 +61,7 @@ function game() {
 ///dessine les personnages sur le canvas
 function drawCharacter(player, ennemy) {
 	player.jumpingMove();
-	//Si le joueur est à gauche on le dessinne normalement sinon
+	//Si le joueur est à gauche on le dessine normalement sinon
 	//on inverse son image dans le sens horizontale
 	if (player.direction == false) {
 		player.ctx.save();

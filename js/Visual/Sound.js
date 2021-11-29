@@ -20,7 +20,7 @@ sound[8].src = './assets/sound/battle/hurt.wav'
 sound[9].src = './assets/sound/battle/ko.mp3'
 sound[10].src = './assets/sound/battle/soundtrack.mp3'
 
-///selection des personnages
+///joue le sont selectionner
 function soundSelect(i,reset) {
 	if (sound[i].paused) 
 		sound[i].play()

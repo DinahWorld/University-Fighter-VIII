@@ -84,12 +84,11 @@ export default class Animation {
 
 				if (
 					attackX - this.rangeAttack[i][2] < player.hitboxX + player.sizeW &&
-					attackX > player.hitboxX /*this.rangeAttack[i][0]*/ &&
+					attackX > player.hitboxX &&
 					attackY + this.rangeAttack[i][3] > player.hitboxY &&
 					attackY < player.hitboxY + player.sizeH
 				) {
 					///contact donc on renvoit true
-					//console.log("sa se touche")
 					this.rangeAttack.splice(i, 1);
 					return true;
 				} else {

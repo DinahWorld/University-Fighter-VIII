@@ -134,7 +134,9 @@ function resetInstructions() {
 ///détermine l'état du combat et renvoie une instruction approprié (un bot)
 function getInstru(players, recevingPlayer) {
 	let choiceValue = randomValue(6,0);
+	///vérifie dans quel direction effectuer les mouvements
 	if(recevingPlayer.direction == true) {
+		///si l'espace est trop grand on va chercher à faire des mouvements cohérent
 		if(players[0].spaceBTWplayers(players[1]) > players[0].sizeW) {
 			if(choiceValue < 2) {
 				return "walk-right";
@@ -152,6 +154,7 @@ function getInstru(players, recevingPlayer) {
 				return "walk-left";
 			}
 		}
+		///et également si il est en rage d'attaque
 		else {
 			if(choiceValue < 2) {
 				return "punch";

@@ -35,6 +35,7 @@ export default class Player extends Animation {
 	///Espace entre les deux joueurs
 	spaceBTWplayers(player) {
 		if(this.direction == true) {
+			///On utilise l'absolue vu que un joueurs est dans l'axe négatif
 			let ab = Math.abs(player.posXX) - player.sizeW;
 			return (ab - (this.posXX +(this.sizeW/2)));
 		}
