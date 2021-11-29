@@ -31,6 +31,19 @@ export default class Player extends Animation {
 		if (this.hp <= 0) this.hp = 0;
 	}
 
+	spaceBTWplayers(player) {
+		if(this.direction == true) {
+			//console.log("1");
+			let ab = Math.abs(player.posXX) - player.sizeW;
+			return (ab - (this.posXX +(this.sizeW/2)));
+		}
+		else {
+			//console.log("2");
+			let ab = Math.abs(this.posXX) - this.sizeW;
+			return (ab - (player.posXX +(this.sizeW/2)));
+		}
+	}
+
 	walkLeft() {
 		if (this.hit == false && this.goLeft == true) {
 			this.reset();

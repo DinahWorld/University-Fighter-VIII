@@ -3,8 +3,8 @@ import {
 	inSelect,
 	inGame,
 	selectID,
-	selectedCharacter,
 	selected,
+	randomValue
 } from '../Menu/CharacterSelect.js';
 import {ctx, players, timerg} from '../Game.js';
 import {makePause,soundSelect} from '../Visual/Sound.js';
@@ -19,12 +19,6 @@ export {
 	selectInter,
 	setTrueSelectTimer,
 };
-
-let listP1 = [];
-let listP2 = [];
-
-let instruID1 = 0;
-let instruID2 = 0;
 
 let selectTimer = false;
 let enterGameTimer = false;
@@ -73,22 +67,13 @@ function gameFightInstructions() {
 ///instru list est appeler par le setInteveral pour chaque joueur avec leur liste a faire
 function instruList(players) {
 	// On recupere la liste d'instruction
-	getLists();
-	instruExecute(players[0], listP1[instruID1]);
-	instruExecute(players[1], listP2[instruID2]);
+	let move1 = getInstru(players, players[0]);
+	let move2 = getInstru(players, players[1]);
+	instruExecute(players[0], move1);
+	instruExecute(players[1], move2);
 
-	if (instruID1 != listP1.length - 1) {
-		instruID1 += 1;
-	} else {
-		instruID1 = 0;
-	}
-
-	if (instruID2 != listP2.length - 1) {
-		instruID2 += 1;
-	} else {
-		instruID2 = 0;
-	}
 }
+
 ///execute l'instruction que est donner on doit faire cela car sinon le programme lis la liste d'un coup
 function instruExecute(player, movement) {
 	switch (movement) {
@@ -137,10 +122,6 @@ function clearPlayerInterval() {
 
 ///reset des instruction et du timer
 function resetInstructions() {
-	listP1 = [];
-	listP2 = [];
-	instruID1 = 0;
-	instruID2 = 0;
 	selectTimer = true;
 	selectInter = null;
 	playerInterval = null;
@@ -148,123 +129,72 @@ function resetInstructions() {
 	timerg.resetTime();
 }
 
-
-///donne une liste d'instruction selon les joueurs
-function getLists() {
-	for (let i = 0; i < 2; i++) {
-		switch (selectedCharacter[i]) {
-			///ryu ken et akuma on un move set très similaire donc cela n'est pas important si la liste est la meme
-			case 'ryu':
-			case 'ken':
-			case 'akuma':
-				if (i == 0) {
-					listP1 = [
-						'walk-right',
-						'run-right',
-						'punch',
-						'kick',
-						'run-left',
-						'jump',
-						'walk-right',
-						'walk-right',
-						'block',
-						'run-left',
-						'run-left',
-						'hadoken',
-						'hadoken',
-						'run-right',
-						'punch',
-						'punch',
-						'punch',
-						'kick',
-						'hadoken',
-						'walk-left',
-					];
-				} else {
-					listP2 = [
-						'walk-left',
-						'walk-left',
-						'block',
-						'run-right',
-						'hadoken',
-						'run-left',
-						'run-left',
-						'punch',
-						'punch',
-						'punch',
-						'run-right',
-						'jump',
-						'block',
-						'run-left',
-						'run-left',
-						'kick',
-						'kick',
-						'punch',
-						'punch',
-						'punch',
-						'hadoken',
-						'run-right',
-					];
-				}
-				break;
-			case 'chunli':
-				if (i == 0) {
-					listP1 = [
-						'run-right',
-						'run-right',
-						'kick',
-						'kick',
-						'punch',
-						'punch',
-						'punch',
-						'walk-left',
-						'down',
-						'block',
-						'jump',
-						'walk-right',
-						'walk-right',
-						'punch',
-						'kick',
-						'run-left',
-						'run-left',
-						'block',
-						'block',
-						'run-right',
-						'run-right',
-						'kick',
-						'kick',
-						'punch',
-					];
-				} else {
-					listP2 = [
-						'run-left',
-						'run-left',
-						'kick',
-						'kick',
-						'punch',
-						'punch',
-						'punch',
-						'walk-right',
-						'down',
-						'block',
-						'jump',
-						'walk-left',
-						'walk-left',
-						'punch',
-						'kick',
-						'run-right',
-						'run-right',
-						'block',
-						'block',
-						'run-left',
-						'run-left',
-						'kick',
-						'kick',
-						'punch',
-					];
-				}
-				break;
+function getInstru(players, recevingPlayer) {
+	let choiceValue = randomValue(6,0);
+	if(recevingPlayer.direction == true) {
+		if(players[0].spaceBTWplayers(players[1]) > players[0].sizeW) {
+			if(choiceValue < 2) {
+				return "walk-right";
+			}
+			else if(choiceValue == 2) {
+				return "jump";
+			}
+			else if(choiceValue == 3) {
+				return "run-right";
+			}
+			else if(choiceValue == 4) {
+				return "hadoken";
+			}
+			else {
+				return "walk-left";
+			}
+		}
+		else {
+			if(choiceValue < 2) {
+				return "punch";
+			}
+			else if(choiceValue == 2) {
+				return "kick";
+			}
+			else if(choiceValue == 3) {
+				return "block";
+			}
+			else {
+				return "run-left";
+			}
+		}
+	}
+	else {
+		if(players[0].spaceBTWplayers(players[1]) > players[0].sizeW) {
+			if(choiceValue < 2) {
+				return "walk-left";
+			}
+			else if(choiceValue == 2) {
+				return "jump";
+			}
+			else if(choiceValue == 3) {
+				return "run-left";
+			}
+			else if(choiceValue == 4) {
+				return "hadoken";
+			}
+			else {
+				return "walk-right";
+			}
+		}
+		else {
+			if(choiceValue < 2) {
+				return "punch";
+			}
+			else if(choiceValue == 2) {
+				return "kick";
+			}
+			else if(choiceValue == 3) {
+				return "block";
+			}
+			else {
+				return "run-right";
+			}
 		}
 	}
 }
-
