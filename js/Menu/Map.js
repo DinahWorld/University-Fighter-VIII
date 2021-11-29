@@ -1,5 +1,6 @@
 import { ctx, cnv } from "../Game.js";
 import { randomValue } from "./CharacterSelect.js";
+import {soundSelect} from '../Visual/Sound.js'
 export { transitionMap, resetTransition };
 
 let opacity = 0;
@@ -14,7 +15,9 @@ let bg = [
 
 /// Fonction qui va crée une transition entre le menu et le jeu
 function transitionMap() {
+  
   if (transitionDone == false) {
+    soundSelect('soundtrack',false);	
     ctx.fillStyle = "rgba(0, 0, 0," + opacity + ")";
     ctx.fillRect(0, 0, cnv.width, cnv.height);
     opacity += opacityValue;

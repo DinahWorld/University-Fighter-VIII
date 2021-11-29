@@ -47,14 +47,14 @@ function inSelect() {
 		selected = true;
 		selectedPath();
 		loadEverything();
-		soundSelect(2);
+		soundSelect('go',true);
 		clearInterval(selectInter);
 	}
 }
 
 ///fonction rentrant dans le jeu
 function inGame() {
-	soundSelect(1);
+	soundSelect('enter',true);
 	select = true;
 	setTrueSelectTimer();
 }
@@ -63,13 +63,13 @@ function inGame() {
 function moveInSelect(choice) {
 	if (selectID == choice) {
 		selectedCharacter.push(selectList[selectID]);
-		soundSelect(1);
+		soundSelect('enter',true);
 	} else if (choice >= selectID) {
 		selectID += 1;
-		soundSelect(0);
+		soundSelect('select',true);
 	} else {
 		selectID -= 1;
-		soundSelect(0);
+		soundSelect('select',true);
 	}
 }
 

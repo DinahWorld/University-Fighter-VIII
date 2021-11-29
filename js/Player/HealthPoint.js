@@ -51,10 +51,10 @@ function drawHPPlayer(player,i){
 	let posxBarHp = 0;
 	if(player.direction == false){
 		posxBarHp = -cnv.width;
-		gradientSet(-cnv.width + 50,-cnv.width + (player.hpBar + 63),false);
+		gradientSet(-cnv.width + 50,-cnv.width + (player.hpBar + 63));
 
 	}else{
-		gradientSet(63,player.hpBar,false);
+		gradientSet(63,player.hpBar);
 
 	}
 

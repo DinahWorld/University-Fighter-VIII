@@ -7,7 +7,7 @@ import {
 	selected,
 } from '../Menu/CharacterSelect.js';
 import {ctx, players, timerg} from '../Game.js';
-import {sound} from '../Visual/Sound.js';
+import {makePause,soundSelect} from '../Visual/Sound.js';
 import {characterSelect} from '../Visual/LoadSprite.js';
 import {transitionMap} from '../Menu/Map.js';
 import {clearIntervalTimer} from '../Timer/TimerDef.js';
@@ -39,9 +39,9 @@ let timerInterval = null;
 function gameInstructionMenu() {
 	//Comme si on appuyait sur entrer pour rentrer dans le menu selection
 	if (enterGameTimer == false) {
-		sound[3].play();
+		soundSelect('menu',false);
 		enterGameTimer = true;
-		setTimeout(inGame, 1000);
+		setTimeout(inGame, 2000);
 	}
 
 	if (select == true) {
@@ -49,7 +49,7 @@ function gameInstructionMenu() {
 			selectTimer = false;
 			selectInter = setInterval(inSelect, 1000);
 		}
-		sound[3].pause();
+		makePause('menu');
 		ctx.drawImage(characterSelect[selectID], 0, 0);
 	}
 

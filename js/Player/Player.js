@@ -1,3 +1,4 @@
+import { soundSelect } from '../Visual/Sound.js';
 import Animation from './Animation.js';
 
 export default class Player extends Animation {
@@ -68,6 +69,7 @@ export default class Player extends Animation {
 		}
 	}
 	damaged() {
+		soundSelect('hurt',true);
 		this.reset();
 		if (this.isDown == false) this.animationNumber = 8;
 		else this.animationNumber = 13;
@@ -97,6 +99,7 @@ export default class Player extends Animation {
 	}
 	kick() {
 		if (this.hit == false && this.attacking == false && this.falling == false) {
+			soundSelect('kick',true);
 			this.resetAnimation();
 
 			if (this.jumping == true) this.animationNumber = 17;
@@ -108,6 +111,7 @@ export default class Player extends Animation {
 
 	punch() {
 		if (this.hit == false && this.attacking == false && this.falling == false) {
+			soundSelect('attack',true);
 			//On revient à la premiere image de l'animation du punch
 			this.resetAnimation();
 			this.attacking = true;
@@ -142,6 +146,7 @@ export default class Player extends Animation {
 			this.falling == false &&
 			this.jumping == false
 		) {
+			soundSelect('hadoken',true);
 			this.reset();
 			this.animationNumber = 21;
 			super.addRange([

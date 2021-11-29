@@ -1,17 +1,18 @@
 import {players} from '../Game.js';
-import SpriteAtlas from './SpriteAtlas.js';
+import SpriteAtlas from '../Visual/SpriteAtlas.js';
 import {lenSpr,selectedSprites,winLoop} from '../Menu/CharacterSelect.js';
-export {characterSelect,loadEverything};
+export {characterSelect,loadEverything,allKoImg};
 
+let json_datas = [];
 let characterSelect = new Array(4);
 for (let i = 0; i < 4; i++) {
 	characterSelect[i] = new Image();
 }
+
 characterSelect[0].src = './assets/character_select/Chunli_2.png';
 characterSelect[1].src = './assets/character_select/akuma_2.png';
 characterSelect[2].src = './assets/character_select/Ken_2.png';
 characterSelect[3].src = './assets/character_select/Ryu_2.png';
-
 
 
 
@@ -24,7 +25,9 @@ let loadFile = function (filePath, done) {
 	xhr.open('GET', filePath, true);
 	xhr.send();
 };
-let json_datas = [];
+
+
+
 
 //permet de load tout les sprites des joueurs
 function loadEverything() {
@@ -53,6 +56,7 @@ function onload_atlas(n,player) {
 		for (let i = 0; i < 22; i++) {
 			player.sprites[i] = new SpriteAtlas(context1, json_datas[n]);
 		}
+		
 		player.sprites[0].add_anime('normal', 1, lenSpr[n][0]);
 		player.sprites[1].add_anime('punch-1', 1, lenSpr[n][1]);
 		player.sprites[2].add_anime('walk-left', 1, lenSpr[n][2]);
@@ -77,11 +81,34 @@ function onload_atlas(n,player) {
 		player.sprites[21].add_anime('super-attack', 1, lenSpr[n][21]);
 		player.sprites[0].loop = true;
 		player.sprites[19].stop = true;
-		//fait buger car true pour akuma
-		//meilleur faire en sorte qu'il font pas l'anim de win au début
 		player.sprites[20].loop = winLoop[n];
 		player.sprites[20].stop = true;
 	};
-	//}
+	
 }
 
+let allKoImg = [];
+let imgKO = new Image();
+imgKO.src = './assets/ko/ko.png';
+imgKO.onload = function() {
+	let canvas1 = document.createElement('canvas');
+	canvas1.width = 320 * 9;
+	canvas1.height = 184 * 14;
+	let context1 = canvas1.getContext('2d');
+	context1.drawImage(imgKO, 0, 0, 320 * 9, 184 * 14);
+    for (let j = 0; j < 6; j += 1) {
+        let imax = 9;
+        if (j == 5) {
+            imax = 8;
+        }
+        for (let i = 0; i < imax; i += 1) {
+            let canvasImageData1 = context1.getImageData(i * 320, j * 184, 320, 180);
+            let canvas2 = document.createElement("canvas");
+            canvas2.width = 320;
+            canvas2.height = 184;
+            let context2 = canvas2.getContext("2d");
+            context2.putImageData(canvasImageData1, 0, 0);
+            allKoImg.push(canvas2);
+        }
+    }
+};
