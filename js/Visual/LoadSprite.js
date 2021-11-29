@@ -87,6 +87,7 @@ function onload_atlas(n,player) {
 	
 }
 
+///Les images du KO
 let allKoImg = [];
 let imgKO = new Image();
 imgKO.src = './assets/ko/ko.png';

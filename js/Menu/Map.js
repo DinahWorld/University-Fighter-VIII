@@ -6,6 +6,7 @@ export { transitionMap, resetTransition };
 let opacity = 0;
 let opacityValue = 0.05;
 let transitionDone = false;
+///Les backgrounds de combat
 let bg = [
   "url(assets/background/bg_1.gif)",
   "url(assets/background/bg_2.gif)",
@@ -35,6 +36,7 @@ function transitionMap() {
   return false;
 }
 
+///remet les valeurs de la transition à l'initial
 function resetTransition() {
   opacity = 0;
   opacityValue = 0.05;

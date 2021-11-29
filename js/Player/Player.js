@@ -1,6 +1,7 @@
 import { soundSelect } from '../Visual/Sound.js';
 import Animation from './Animation.js';
 
+///Constructeur de la classe
 export default class Player extends Animation {
 	constructor(posXX, posYY, ctx, direction) {
 		super(ctx, posXX, posYY, direction);
@@ -25,25 +26,25 @@ export default class Player extends Animation {
 		this.inside = false;
 	}
 
-
+	///reduit la vie par le montant jusqu'a 0
 	takeDamage(amount) {
 		this.hp -= amount;
 		if (this.hp <= 0) this.hp = 0;
 	}
 
+	///Espace entre les deux joueurs
 	spaceBTWplayers(player) {
 		if(this.direction == true) {
-			//console.log("1");
 			let ab = Math.abs(player.posXX) - player.sizeW;
 			return (ab - (this.posXX +(this.sizeW/2)));
 		}
 		else {
-			//console.log("2");
 			let ab = Math.abs(this.posXX) - this.sizeW;
 			return (ab - (player.posXX +(this.sizeW/2)));
 		}
 	}
 
+	///déplacement vers la gauche
 	walkLeft() {
 		if (this.hit == false && this.goLeft == true) {
 			this.reset();
@@ -55,6 +56,7 @@ export default class Player extends Animation {
 			this.going_left = true;
 		}
 	}
+	///déplacement vers la droite
 	walkRight() {
 		if (this.hit == false && this.goRight == true) {
 			this.reset();
@@ -67,6 +69,8 @@ export default class Player extends Animation {
 			this.going_right = true;
 		}
 	}
+
+	///saut du joueur
 	jump() {
 		if (this.hit == false && this.jumping == false && this.falling == false) {
 			this.reset();
@@ -74,6 +78,8 @@ export default class Player extends Animation {
 			this.animationNumber = 4;
 		}
 	}
+	
+	///accroupissement du joueur
 	down() {
 		if (this.hit == false && this.jumping == false && this.falling == false) {
 			this.reset();
@@ -81,6 +87,7 @@ export default class Player extends Animation {
 			this.isDown = true;
 		}
 	}
+	///animation quand on prends des dégats
 	damaged() {
 		soundSelect('hurt',true);
 		this.reset();
@@ -88,12 +95,14 @@ export default class Player extends Animation {
 		else this.animationNumber = 13;
 	}
 
+	///animation du blocage d'attaque
 	block() {
 		if (this.hit == false) {
 			this.reset();
 			this.animationNumber = 9;
 		}
 	}
+	///Cours vers la gauche
 	runLeft() {
 		if (this.hit == false && this.goLeft == true) {
 			this.reset();
@@ -102,6 +111,7 @@ export default class Player extends Animation {
 			else this.animationNumber = 11;
 		}
 	}
+	///Cours vers la droite
 	runRight() {
 		if (this.hit == false && this.goRight == true) {
 			this.reset();
@@ -110,6 +120,7 @@ export default class Player extends Animation {
 			else this.animationNumber = 10;
 		}
 	}
+	///Attaque coup de pied
 	kick() {
 		if (this.hit == false && this.attacking == false && this.falling == false) {
 			soundSelect('kick',true);
@@ -121,7 +132,7 @@ export default class Player extends Animation {
 			this.attacking = true;
 		}
 	}
-
+	///Attaque coup de poing avec combo
 	punch() {
 		if (this.hit == false && this.attacking == false && this.falling == false) {
 			soundSelect('attack',true);
@@ -152,6 +163,7 @@ export default class Player extends Animation {
 		}
 	}
 
+	///attaque distance hadoken
 	hadoken() {
 		if (
 			this.hit == false &&
@@ -172,6 +184,7 @@ export default class Player extends Animation {
 		}
 	}
 
+	///reset des animations et valeur de combat
 	reset() {
 		this.combo = 0;
 		this.animationNumber = 0;
@@ -184,6 +197,7 @@ export default class Player extends Animation {
 		this.resetAnimation();
 	}
 
+	///Verification de collision
 	collisionCheck(player) {
 		if (super.getRange() != 0) {
 			if (super.collisionRange(player) == true && player.blocking == false) {

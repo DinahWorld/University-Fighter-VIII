@@ -1,4 +1,5 @@
 export default class Animation {
+	///Constructeur de la classe
 	constructor(ctx, posXX, posYY, direction) {
 		this.sprites = [];
 		this.zoom = 3;
@@ -26,9 +27,11 @@ export default class Animation {
 		this.rangeAttack = [];
 	}
 
+	///ajoute une attaque distance a gérer
 	addRange(l) {
 		this.rangeAttack.push(l);
 	}
+	///récupère combien d'attaque distance il existe
 	getRange() {
 		return this.rangeAttack.length;
 	}
@@ -39,6 +42,8 @@ export default class Animation {
 			this.sprites[i].animestep = 1;
 		}
 	}
+
+	///la détection de collision des attaques distance
 	collisionRange(player) {
 		if (this.direction == true) {
 			for (let i = 0; i < this.rangeAttack.length; i++) {
@@ -77,10 +82,6 @@ export default class Animation {
 				let attackX = Math.abs(this.rangeAttack[i][0]);
 				let attackY = Math.abs(this.rangeAttack[i][1]);
 
-				/*if(attackX  < 0) {
-					this.rangeAttack.splice(i, 1);
-					continue;
-				}*/
 				if (
 					attackX - this.rangeAttack[i][2] < player.hitboxX + player.sizeW &&
 					attackX > player.hitboxX /*this.rangeAttack[i][0]*/ &&
@@ -98,6 +99,7 @@ export default class Animation {
 		}
 	}
 
+	///Collision d'une attaque contact
 	collision(player) {
 		///si on est le joueur a gauche alors on fait la valeur absolue du joueur a droite
 		///car il est sur une échelle négative
@@ -139,6 +141,7 @@ export default class Animation {
 		}
 	}
 
+	///dessine le personnage
 	draw(index) {
 		this.ctx.beginPath();
 
@@ -189,6 +192,7 @@ export default class Animation {
 		this.ctx.closePath();
 	}
 
+	///dessine et gère l'animations
 	drawPlayer(i) {
 		this.draw(i);
 		//On récupere la valeur du nombre d'images de l'animation

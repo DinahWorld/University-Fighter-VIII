@@ -20,6 +20,7 @@ sound[8].src = './assets/sound/battle/hurt.wav'
 sound[9].src = './assets/sound/battle/ko.mp3'
 sound[10].src = './assets/sound/battle/soundtrack.mp3'
 
+///selection des personnages
 function soundSelect(i,reset) {
 	if (sound[i].paused) 
 		sound[i].play()
@@ -27,10 +28,13 @@ function soundSelect(i,reset) {
 		sound[i].currentTime = 0
 	
 }
+
+///met en pause le son
 function makePause(i){
 	sound[i].pause();
 }
 
+///reset les sons au début
 function restartSound(i){
 	sound[i].currentTime = 0
 }

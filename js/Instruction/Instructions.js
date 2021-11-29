@@ -54,6 +54,7 @@ function gameInstructionMenu() {
 	}
 	return false;
 }
+///lance les instervals quand il faut du combat
 function gameFightInstructions() {
 	///si on peut commencer la partie alors les interval son lancer(le combats)
 	if (launchIntervals == false) return;
