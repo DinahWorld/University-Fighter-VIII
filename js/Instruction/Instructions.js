@@ -24,7 +24,7 @@ let selectTimer = false;
 let enterGameTimer = false;
 let selectInter = null;
 
-///variable utiliser pour les liste d'instructions
+///variables utiliser pour les instructions
 let playerInterval = null;
 let launchIntervals = true;
 let timerInterval = null;
@@ -60,13 +60,14 @@ function gameFightInstructions() {
 	
 	launchIntervals = false;
 	playerInterval = setInterval(function () {
-		instruList(players);
+		instruDo(players);
 	}, 500);
 	timerInterval = setInterval(function() {timerg.decreseTime(1)}, 1000);
 }
-///instru list est appeler par le setInteveral pour chaque joueur avec leur liste a faire
-function instruList(players) {
-	// On recupere la liste d'instruction
+
+///instruDo est appeler par le setInteveral pour chaque joueur avec l'instruction à réaliser
+function instruDo(players) {
+	// On recupere les instructions
 	let move1 = getInstru(players, players[0]);
 	let move2 = getInstru(players, players[1]);
 	instruExecute(players[0], move1);
@@ -74,7 +75,7 @@ function instruList(players) {
 
 }
 
-///execute l'instruction que est donner on doit faire cela car sinon le programme lis la liste d'un coup
+///execute l'instruction que est donner
 function instruExecute(player, movement) {
 	switch (movement) {
 		case 'walk-left':
@@ -129,6 +130,7 @@ function resetInstructions() {
 	timerg.resetTime();
 }
 
+///détermine l'état du combat et renvoie une instruction approprié (un bot)
 function getInstru(players, recevingPlayer) {
 	let choiceValue = randomValue(6,0);
 	if(recevingPlayer.direction == true) {
