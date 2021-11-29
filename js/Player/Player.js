@@ -170,7 +170,8 @@ export default class Player extends Animation {
 			this.hit == false &&
 			this.attacking == false &&
 			this.falling == false &&
-			this.jumping == false
+			this.jumping == false &&
+			this.attacked == false
 		) {
 			soundSelect('hadoken',true);
 			this.reset();

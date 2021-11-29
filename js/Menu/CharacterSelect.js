@@ -81,7 +81,7 @@ function selectedPath() {
 				selectedSprites.push('./assets/atlas/ryu.json');
 				lenSpr.push([
 					10, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 4, 5, 5, 18, 5, 8, 25, 8,
-					11,
+					11
 				]);
 				winLoop.push(false);
 				break;
@@ -89,7 +89,7 @@ function selectedPath() {
 				selectedSprites.push('./assets/atlas/ken.json');
 				lenSpr.push([
 					10, 4, 11, 11, 23, 9, 8, 9, 9, 9, 6, 6, 7, 8, 5, 5, 18, 5, 8, 25, 8,
-					11,
+					11
 				]);
 				winLoop.push(false);
 				break;
@@ -97,7 +97,7 @@ function selectedPath() {
 				selectedSprites.push('./assets/atlas/akuma.json');
 				lenSpr.push([
 					11, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 4, 5, 5, 18, 5, 8, 24, 8,
-					12,
+					12
 				]);
 				winLoop.push(true);
 				break;
@@ -105,7 +105,7 @@ function selectedPath() {
 				selectedSprites.push('./assets/atlas/chunli.json');
 				lenSpr.push([
 					10, 5, 18, 16, 23, 9, 8, 9, 9, 9, 6, 6, 11, 8, 5, 5, 18, 5, 9, 20, 8,
-					22,
+					22
 				]);
 				winLoop.push(false);
 				break;

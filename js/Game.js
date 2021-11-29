@@ -9,7 +9,7 @@ import {resetTransition} from './Menu/Map.js';
 import {resetCharacterSelect} from './Menu/CharacterSelect.js';
 import {imageNumber} from './Timer/TimerDef.js';
 import Timer from './Timer/TimerClass.js';
-import {checkWin,setReturnBackFalse} from './Ko/Ko.js'
+import {checkWin,resetKO} from './Ko/Ko.js'
 import { makePause ,restartSound} from './Visual/Sound.js';
 
 export {ctx, cnv, players,gradient,gradientSet,timerg,inGoBack};
@@ -85,7 +85,7 @@ function inGoBack() {
 	player2.resetCharacter(cnv.width, 0);
 	resetTransition();
 	resetInstructions();
-	setReturnBackFalse();
+	resetKO();
 	timerg.resetTime();
 }
 setInterval(update, 45);
