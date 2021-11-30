@@ -15,7 +15,7 @@ export default class Player extends Animation {
 		this.jumping = false;
 		this.falling = false;
 		this.hit = false;
-		this.jumpValue = 50;
+		this.velocity = 50;
 		this.acceleration = 3;
 		this.animationNumber = 20;
 		this.move = 0;
@@ -66,7 +66,7 @@ export default class Player extends Animation {
 			this.reset();
 			this.move = +20;
 			if(this.falling == true) return;
-			
+
 			if (this.direction == true) this.animationNumber = 3;
 			else {
 				this.animationNumber = 2;
@@ -238,20 +238,23 @@ export default class Player extends Animation {
 	//quand on a sauté on doit revenir au sol petit à petit
 	jumpingMove() {
 		if (this.jumping == true && this.falling == false) {
-			this.posYY -= this.jumpValue;
-			this.jumpValue -= this.acceleration;
-			if(this.jumpValue <= 0){
+			//La position en Y du personnage augmente en fonction
+			//de la vitesse qui baisse au fur et à mesure que la position
+			//Y change
+			this.posYY -= this.velocity;
+			this.velocity -= this.acceleration;
+			if(this.velocity <= 0){
 				this.falling = true;
 				this.jumping = false;
 			}
 		}else if(this.jumping == false && this.falling == true){
-			this.posYY += this.jumpValue;
-			this.jumpValue += this.acceleration;
+			this.posYY += this.velocity;
+			this.velocity += this.acceleration;
 			if(this.posYY >= 0){
 				this.posYY = 0;
 				this.falling = false;
 				this.jumping = false;
-				this.jumpValue = 50;
+				this.velocity = 50;
 			}
 		}
 	}
