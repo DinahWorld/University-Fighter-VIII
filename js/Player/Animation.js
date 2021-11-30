@@ -179,7 +179,10 @@ export default class Animation {
 		this.hitboxY = this.posYY + this.modifiedhY;
 		this.sizeW = (cnv_i.width - this.modifiedhsizeW) * this.zoom;
 		this.sizeH = (cnv_i.height - 140) * this.zoom;
-
+		
+		//this.ctx.strokeStyle = 'blue';
+		//this.ctx.strokeRect(this.hitboxX, this.hitboxY, this.sizeW, this.sizeH);
+		
 		// Animation de l'attaque à distance
 		if (this.rangeAttack.length >= 1) {
 			let step2_i = this.sprites[16].animestep;
@@ -243,9 +246,7 @@ export default class Animation {
 	//Methode pour remetre par défault nos variables
 	reset(posXX, posYY) {
 		this.hpBar = 500;
-		if (this.direction == true) this.posXX = posXX + 90;
-		else this.posXX = -posXX + 90;
-
+		this.posXX = posXX + 90;
 		this.posYY = posYY;
 	}
 }
