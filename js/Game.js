@@ -88,7 +88,7 @@ function inGoBack() {
 	onMenu = true;
 	resetCharacterSelect();
 	player1.resetCharacter(0, 0);
-	player2.resetCharacter(cnv.width, 0);
+	player2.resetCharacter(-cnv.width, 0);
 	resetTransition();
 	resetInstructions();
 	resetKO();
