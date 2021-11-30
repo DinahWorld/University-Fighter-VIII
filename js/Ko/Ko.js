@@ -9,9 +9,12 @@ let anim_id = 0;
 
 ///vérifie si le match est terminer et si oui stop la partie, clear les setInterval et retour au debut
 function checkWin() {
+	// Si le timer ou que que la vie de l'un des deux perso est à 0
+	// on dit que le combat est fini
 	if (players[0].hp == 0 || players[1].hp == 0 || timerg.getTime() == 0) {
 		clearPlayerInterval();
 		soundSelect('ko', false);
+		// On desinne l'animation du ko
 		ctx.drawImage(
 			allKoImg[anim_id],
 			160,

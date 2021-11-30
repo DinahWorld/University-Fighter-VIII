@@ -14,7 +14,7 @@ for (let i = 0; i < 5; i++) {
 	barHPChara[selectList[i]] = barHPChara[i];
 	barHPCharaHit[selectList[i]] = barHPCharaHit[i];
 }
-
+// On charge nos assets
 barHPChara['chunli'].src = './assets/hp_bar/chunli.png';
 barHPChara['akuma'].src = './assets/hp_bar/akuma.png';
 barHPChara['ken'].src = './assets/hp_bar/ken.png';
@@ -27,12 +27,14 @@ barHPCharaHit['ryu'].src = './assets/hp_bar/ryu_hit.png';
 
 barHP.src = './assets/hp_bar/hp_bar.png';
 
+/// Fonctions qui réduit la barre d'hp en fonction de la vie du joueur
 function reduceBarHp(player) {
 	if (player.hpBar == player.hp) return false;
 
 	player.hpBar -= 5;
 	return true;
 }
+
 ///dessine les hp des joueurs
 function drawHP(player) {
 	drawHPPlayer(player[0], 0);
@@ -45,9 +47,13 @@ function drawHP(player) {
 	ctx.restore();
 }
 
+// Fonction qui dessine la barre d'hp du joueur
 function drawHPPlayer(player, i) {
 	let hit = reduceBarHp(player);
 	let posxBarHp = 0;
+
+	//En fonction de la direction du joueur on change 
+	//Le dégradé de couleur dela barre de vie
 	if (player.direction == false) {
 		posxBarHp = -cnv.width;
 		gradientSet(-cnv.width + 50, -cnv.width + (player.hpBar + 63));
@@ -55,6 +61,7 @@ function drawHPPlayer(player, i) {
 		gradientSet(63, player.hpBar);
 	}
 
+	//La couleur de fond de la barre de vie
 	ctx.fillStyle = '#aaaaaa';
 	ctx.fillRect(posxBarHp + 63, 115, 500, 43);
 
@@ -69,5 +76,6 @@ function drawHPPlayer(player, i) {
 		ctx.drawImage(barHPCharaHit[selectedCharacter[i]], posxBarHp + 50, 0);
 	else ctx.drawImage(barHPChara[selectedCharacter[i]], posxBarHp + 50, 0);
 
+	// On desinne la barre d'hp
 	ctx.drawImage(barHP, posxBarHp + 50, 0);
 }

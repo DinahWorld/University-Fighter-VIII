@@ -175,14 +175,17 @@ export default class Player extends Animation {
 				this.falling = true;
 				this.jumping = false;
 			}
+			//Meme principe lorsqu'il tombe
 		} else if (this.jumping == false && this.falling == true) {
 			this.posYY += this.velocity;
 			this.velocity += this.acceleration;
+			//On change l'animation du personnage à la position Y = -30
 			if(this.posYY  == -30){
 				this.sprites[4].animestep = 1;
 				this.animationNumber = 0;
 			
 			}
+			// Une fois a
 			if (this.posYY >= 0) {
 				this.posYY = 0;
 				this.falling = false;

@@ -26,7 +26,7 @@ function transitionMap() {
 		ctx.fillStyle = 'rgba(0, 0, 0,' + opacity + ')';
 		ctx.fillRect(0, 0, cnv.width, cnv.height);
 		opacity += opacityValue;
-
+		// Si l'écran est noir on change le background
 		if (opacity > 0.99) {
 			opacityValue = -opacityValue;
 			transitionDone = true;

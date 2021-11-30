@@ -25,11 +25,11 @@ let select = false;
 let selectList = ['chunli', 'akuma', 'ken', 'ryu'];
 //id dans la selection
 let selectID = 0;
-//selected sont les perso choisie
-let selectedCharacter = [];
 //le chemin des sprites des perso choisie
-let selectedSprites = [];
+let selectedCharacter = [];
 //si on a choisi nos sprites
+let selectedSprites = [];
+//selected sont les perso choisie
 let selected = false;
 
 let lenSpr = [];
