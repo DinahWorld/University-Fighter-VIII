@@ -53,7 +53,7 @@ function onload_atlas(n,player) {
 		let context1 = canvas1.getContext('2d');
 		context1.drawImage(spritesheet, 0, 0, canvas1.width, canvas1.height);
 
-		for (let i = 0; i < 22; i++) {
+		for (let i = 0; i < 23; i++) {
 			player.sprites[i] = new SpriteAtlas(context1, json_datas[n]);
 		}
 		
@@ -79,6 +79,8 @@ function onload_atlas(n,player) {
 		player.sprites[19].add_anime('ko', 1, lenSpr[n][19]);
 		player.sprites[20].add_anime('pose', 1, lenSpr[n][20]);
 		player.sprites[21].add_anime('super-attack', 1, lenSpr[n][21]);
+		// Notre image de chute
+		player.sprites[22].add_anime('jump', 20, 21);
 		player.sprites[0].loop = true;
 		player.sprites[19].stop = true;
 		player.sprites[20].loop = winLoop[n];

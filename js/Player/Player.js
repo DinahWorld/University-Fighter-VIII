@@ -16,6 +16,7 @@ export default class Player extends Animation {
 		this.falling = false;
 		this.hit = false;
 		this.jumpValue = 50;
+		this.acceleration = 3;
 		this.animationNumber = 20;
 		this.move = 0;
 		this.count = 0;
@@ -50,6 +51,8 @@ export default class Player extends Animation {
 		if (this.hit == false && this.goLeft == true) {
 			this.reset();
 			this.move = -20;
+			if(this.falling == true) return;
+
 			if (this.direction == true) {
 				this.animationNumber = 2;
 				this.blocking = true;
@@ -62,6 +65,8 @@ export default class Player extends Animation {
 		if (this.hit == false && this.goRight == true) {
 			this.reset();
 			this.move = +20;
+			if(this.falling == true) return;
+			
 			if (this.direction == true) this.animationNumber = 3;
 			else {
 				this.animationNumber = 2;
@@ -98,8 +103,9 @@ export default class Player extends Animation {
 
 	///animation du blocage d'attaque
 	block() {
-		if (this.hit == false) {
+		if (this.hit == false && this.jumping == false && this.falling == false) {
 			this.reset();
+			this.blocking = true;
 			this.animationNumber = 9;
 		}
 	}
@@ -231,22 +237,24 @@ export default class Player extends Animation {
 
 	//quand on a sauté on doit revenir au sol petit à petit
 	jumpingMove() {
-		if (this.jumping == true) {
-			if (this.posYY != -this.jumpValue * 9) {
-				this.posYY -= this.jumpValue;
-			} else {
+		if (this.jumping == true && this.falling == false) {
+			this.posYY -= this.jumpValue;
+			this.jumpValue -= this.acceleration;
+			if(this.jumpValue <= 0){
+				this.falling = true;
 				this.jumping = false;
 			}
-		} else {
-			this.falling = true;
+		}else if(this.jumping == false && this.falling == true){
 			this.posYY += this.jumpValue;
-			if (this.posYY > 0) {
-				this.falling = false;
+			this.jumpValue += this.acceleration;
+			if(this.posYY >= 0){
 				this.posYY = 0;
+				this.falling = false;
+				this.jumping = false;
+				this.jumpValue = 50;
 			}
 		}
 	}
-
 	drawing(player) {
 		if (this.hp == 0) {
 			this.animationNumber = 19;
@@ -305,13 +313,12 @@ export default class Player extends Animation {
 		//hors cette animation est celle qui joué lorsqu'on ne fait, on considere cette
 		//animation comme notre état initial
 		if (finished == true) {
-			this.animationNumber = 0;
+			if(this.falling == true) this.animationNumber = 22;
+			else this.animationNumber = 0;
 			this.isDown = false;
 			this.move = 0;
 			this.attacking = false;
 			this.attacked = false;
-			this.jumping = false;
-			this.falling = false;
 			this.blocking = false;
 		}
 	}
@@ -353,10 +360,7 @@ export default class Player extends Animation {
 		this.isDown = false;
 		//a frappé
 		this.attacked = false;
-		this.jumping = false;
-		this.falling = false;
 		this.hit = false;
-		this.jumpValue = 50;
 		this.animationNumber = 20;
 		this.move = 0;
 		this.count = 0;
