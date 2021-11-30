@@ -1,6 +1,9 @@
-import {loadEverything} from '../Visual/LoadSprite.js';
-import {soundSelect} from '../Visual/Sound.js';
-import {selectInter, setTrueSelectTimer} from '../Instruction/Instructions.js';
+import { loadEverything } from '../Visual/LoadSprite.js';
+import { soundSelect } from '../Visual/Sound.js';
+import {
+	selectInter,
+	setTrueSelectTimer,
+} from '../Instruction/Instructions.js';
 export {
 	resetCharacterSelect,
 	select,
@@ -13,7 +16,7 @@ export {
 	selectList,
 	lenSpr,
 	selectedSprites,
-	winLoop
+	winLoop,
 };
 
 //select pour si on est rentré dans la selection
@@ -47,14 +50,14 @@ function inSelect() {
 		selected = true;
 		selectedPath();
 		loadEverything();
-		soundSelect('go',true);
+		soundSelect('go', true);
 		clearInterval(selectInter);
 	}
 }
 
 ///fonction rentrant dans le jeu
 function inGame() {
-	soundSelect('enter',true);
+	soundSelect('enter', true);
 	select = true;
 	setTrueSelectTimer();
 }
@@ -63,13 +66,13 @@ function inGame() {
 function moveInSelect(choice) {
 	if (selectID == choice) {
 		selectedCharacter.push(selectList[selectID]);
-		soundSelect('enter',true);
+		soundSelect('enter', true);
 	} else if (choice >= selectID) {
 		selectID += 1;
-		soundSelect('select',true);
+		soundSelect('select', true);
 	} else {
 		selectID -= 1;
-		soundSelect('select',true);
+		soundSelect('select', true);
 	}
 }
 
@@ -81,7 +84,7 @@ function selectedPath() {
 				selectedSprites.push('./assets/atlas/ryu.json');
 				lenSpr.push([
 					10, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 4, 5, 5, 18, 5, 8, 25, 8,
-					11
+					11,
 				]);
 				winLoop.push(false);
 				break;
@@ -89,7 +92,7 @@ function selectedPath() {
 				selectedSprites.push('./assets/atlas/ken.json');
 				lenSpr.push([
 					10, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 8, 5, 5, 18, 5, 8, 25, 8,
-					11
+					11,
 				]);
 				winLoop.push(false);
 				break;
@@ -97,7 +100,7 @@ function selectedPath() {
 				selectedSprites.push('./assets/atlas/akuma.json');
 				lenSpr.push([
 					11, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 4, 5, 5, 18, 5, 8, 24, 8,
-					12
+					12,
 				]);
 				winLoop.push(true);
 				break;
@@ -105,7 +108,7 @@ function selectedPath() {
 				selectedSprites.push('./assets/atlas/chunli.json');
 				lenSpr.push([
 					10, 5, 18, 16, 20, 9, 8, 9, 9, 9, 6, 6, 11, 8, 5, 5, 18, 5, 9, 20, 8,
-					22
+					22,
 				]);
 				winLoop.push(false);
 				break;
