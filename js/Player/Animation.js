@@ -50,7 +50,7 @@ export default class Animation {
 	collisionRange(player) {
 		if (this.direction == true) {
 			for (let i = 0; i < this.rangeAttack.length; i++) {
-				if (this.rangeAttack[i][0] + this.rangeAttack[i][2] > 1920) {
+				if (this.rangeAttack[i][0] + this.rangeAttack[i][2] > 1600) {
 					this.rangeAttack.splice(i, 1);
 					continue;
 				}
@@ -64,19 +64,38 @@ export default class Animation {
 				//console.log(playerY);
 				if (
 					this.rangeAttack[i][0] + this.rangeAttack[i][2] >
-						playerX - player.sizeW &&
+						playerX - (player.sizeW/2) &&
 					this.rangeAttack[i][0] < playerX &&
 					this.rangeAttack[i][1] + this.rangeAttack[i][3] > playerY &&
 					this.rangeAttack[i][1] < playerY + player.sizeH
 				) {
-					///contact donc on renvoit true
-					this.rangeAttack.splice(i, 1);
-					return true;
-				} else {
-					return false;
+						///contact donc on renvoit true
+						this.rangeAttack.splice(i, 1);
+						return true;
+				} 
+				else{
+					for(let y = 0;y < player.rangeAttack.length;y++){
+						let attackX = Math.abs(player.rangeAttack[y][0]);
+						let attackY = Math.abs(player.rangeAttack[y][1]);
+					
+						if(this.rangeAttack[i][0] + this.rangeAttack[i][2] >
+							attackX - (player.rangeAttack[y][2] / 2.5) &&
+							this.rangeAttack[i][0] < attackX &&
+							this.rangeAttack[i][1] + this.rangeAttack[i][3] > attackY &&
+							this.rangeAttack[i][1] < attackY + player.rangeAttack[y][3]
+						){
+							///contact donc on renvoit true
+							this.rangeAttack.splice(i, 1);
+							player.rangeAttack.splice(y, 1);
+							return false;
+						}
+					}
 				}
-			}
-		} else {
+				
+			}		
+				return false;			
+		}
+		 else {
 			for (let i = 0; i < this.rangeAttack.length; i++) {
 				if (this.rangeAttack[i][0] > 0) {
 					this.rangeAttack.splice(i, 1);
@@ -86,7 +105,7 @@ export default class Animation {
 				let attackY = Math.abs(this.rangeAttack[i][1]);
 
 				if (
-					attackX - this.rangeAttack[i][2] < player.hitboxX + player.sizeW &&
+					attackX - this.rangeAttack[i][2] < player.hitboxX + (player.sizeW/2) &&
 					attackX > player.hitboxX &&
 					attackY + this.rangeAttack[i][3] > player.hitboxY &&
 					attackY < player.hitboxY + player.sizeH

@@ -134,7 +134,7 @@ function resetInstructions() {
 
 ///détermine l'état du combat et renvoie une instruction approprié (un bot)
 function getInstru(players, recevingPlayer) {
-	let choiceValue = randomValue(6, 0);
+	let choiceValue = 4;
 	///vérifie dans quel direction effectuer les mouvements
 	if (recevingPlayer.direction == true) {
 		///si l'espace est trop grand on va chercher à faire des mouvements cohérent

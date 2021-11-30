@@ -16,6 +16,7 @@ let bg = [
 	'url(assets/background/bg_6.gif)',
 	'url(assets/background/bg_7.gif)',
 	'url(assets/background/bg_8.gif)',
+	'url(assets/background/bg_9.gif)',
 ];
 
 /// Fonction qui va crée une transition entre le menu et le jeu
