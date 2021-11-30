@@ -5,23 +5,24 @@ export default class Animation {
 		this.zoom = 3;
 		this.direction = direction;
 		this.ctx = ctx;
-
-		if (direction == true) this.posXX = posXX + 90;
-		else this.posXX = -posXX + 90;
-
+		// On rajoute + 90 à la position du personnage 
+		// pour qu'il soit visible dans le canvas
+		this.posXX = posXX + 90;
 		this.hpBar = 500;
 
 		this.posYY = posYY;
 		this.posHYY = posYY;
-
+		//La taille de la hitbox
 		this.hitboxX = 0;
 		this.hitboxY = 0;
 		this.sizeW = 0;
 		this.sizeH = 0;
 
+		// impacte la taille de la hitbox
 		this.modifiedhY = 0;
 		this.modifiedhsizeW = 0;
 
+		//Notre attaque à distance
 		this.rangehitboxX = this.hitboxX;
 		this.rangehitboxY = this.hitboxY;
 		this.rangeAttack = [];
@@ -49,12 +50,14 @@ export default class Animation {
 	///la détection de collision des attaques distance
 	collisionRange(player) {
 		if (this.direction == true) {
+			//On vérifie si l'attaque à distance est en dehors de l'écran
 			for (let i = 0; i < this.rangeAttack.length; i++) {
 				if (this.rangeAttack[i][0] + this.rangeAttack[i][2] > 1600) {
 					this.rangeAttack.splice(i, 1);
 					continue;
 				}
 
+				// les coordonnées du joueur en face sont en valeur négative 
 				let playerX = Math.abs(player.hitboxX);
 				let playerY = Math.abs(player.hitboxY);
 
@@ -74,6 +77,7 @@ export default class Animation {
 						return true;
 				} 
 				else{
+					// On vérifie si il y a une collision entre deux attaque à distance
 					for(let y = 0;y < player.rangeAttack.length;y++){
 						let attackX = Math.abs(player.rangeAttack[y][0]);
 						let attackY = Math.abs(player.rangeAttack[y][1]);
@@ -84,9 +88,11 @@ export default class Animation {
 							this.rangeAttack[i][1] + this.rangeAttack[i][3] > attackY &&
 							this.rangeAttack[i][1] < attackY + player.rangeAttack[y][3]
 						){
-							///contact donc on renvoit true
+							///contact donc on les enleve
 							this.rangeAttack.splice(i, 1);
 							player.rangeAttack.splice(y, 1);
+							// Etant donné que ce n'est pas un contact entre joueur 
+							// on renvoie false
 							return false;
 						}
 					}
@@ -168,15 +174,13 @@ export default class Animation {
 
 		let step_i = this.sprites[index].animestep;
 		let cnv_i = this.sprites[index].animeseq[step_i];
+		//Notre hitbox
 		this.hitboxX = this.posXX - 60;
 		this.hitboxY = this.posYY + this.modifiedhY;
 		this.sizeW = (cnv_i.width - this.modifiedhsizeW) * this.zoom;
 		this.sizeH = (cnv_i.height - 140) * this.zoom;
 
-		//Notre hitbox
-		//this.ctx.strokeRect(this.hitboxX, this.hitboxY, this.sizeW, this.sizeH);
-		//On regarde les collisions
-
+		// Animation de l'attaque à distance
 		if (this.rangeAttack.length >= 1) {
 			let step2_i = this.sprites[16].animestep;
 			let cnv2_i = this.sprites[16].animeseq[step2_i];
@@ -188,16 +192,12 @@ export default class Animation {
 					this.rangeAttack[i][1],
 					this.rangeAttack[i][2],
 					this.rangeAttack[i][3]
-					//(cnv_i.width - 80) * this.zoom,
-					//(cnv_i.height - 40) * this.zoom
 				);
 				this.rangeAttack[i][0] += 30;
 			}
 			this.sprites[16].to_draw = 0;
 			this.sprites[16].next_step();
 		}
-
-		this.ctx.stroke();
 
 		//On dessine notre sprite
 		this.ctx.drawImage(

@@ -20,20 +20,21 @@ let ctx = cnv.getContext('2d');
 let gradient = null;
 
 ctx.imageSmoothingEnabled = false;
-
+// Variable qui nous indiquera si on est sur le menu
 let onMenu = true;
-
+// Nos joueurs
 let player1 = new Player(0, 0, ctx, true);
-let player2 = new Player(cnv.width, 0, ctx, false);
-
+let player2 = new Player(-cnv.width, 0, ctx, false);
 let players = [player1, player2];
+// Notre timer
 let timerg = new Timer(99, ctx, imageNumber, (cnv.width/2)-62);
 
 // Fonction Principale
 function update() {
 	ctx.beginPath();
 	ctx.clearRect(0, 0, cnv.width, cnv.height);
-
+	//On verifie si l'instruction donné par la fonction
+	//nous ramene dans le combat
 	onMenu = gameInstructionMenu();
 	if (onMenu == true) {
 		game();
@@ -45,14 +46,19 @@ function update() {
 ///execute le combat
 function game() {
 	ctx.beginPath();
+	//On verifie s'il y a un changement de direction sur l'un des deux perso
 	player1.changeDirection(player2);
 	player2.changeDirection(player1);
 
+	//On dessinne nos personnages 
 	drawCharacter(player1, player2);
 	drawCharacter(player2, player1);
+	//On dessine la barre d'hp
 	drawHP(players);
 
+	//On dessine le timer
 	timerg.displayTime();
+	//On vérifie s'il l'un des deux personnage est mort
 	checkWin();
 	ctx.closePath();
 
@@ -90,6 +96,8 @@ function inGoBack() {
 }
 setInterval(update, 45);
 
+// Fonction qui nous servira à faire le dégradé de couleur de la barre 
+// d'hp
 function gradientSet(posX,width){
 	gradient = ctx.createLinearGradient(posX, 0, width, 0);
 
