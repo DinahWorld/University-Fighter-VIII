@@ -39,7 +39,10 @@ export default class Animation {
 	//On revient à la premiere image du tableau/animation
 	resetAnimation() {
 		for (let i = 0; i < this.sprites.length; i++) {
-			this.sprites[i].animestep = 1;
+			//On ne reset pas l'animation de jump
+			if (i != 4) {
+				this.sprites[i].animestep = 1;
+			}
 		}
 	}
 

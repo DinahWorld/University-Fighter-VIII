@@ -88,7 +88,7 @@ function selectedPath() {
 			case 'ken':
 				selectedSprites.push('./assets/atlas/ken.json');
 				lenSpr.push([
-					10, 4, 11, 11, 23, 9, 8, 9, 9, 9, 6, 6, 7, 8, 5, 5, 18, 5, 8, 25, 8,
+					10, 4, 11, 11, 21, 9, 8, 9, 9, 9, 6, 6, 7, 8, 5, 5, 18, 5, 8, 25, 8,
 					11
 				]);
 				winLoop.push(false);
@@ -104,7 +104,7 @@ function selectedPath() {
 			case 'chunli':
 				selectedSprites.push('./assets/atlas/chunli.json');
 				lenSpr.push([
-					10, 5, 18, 16, 23, 9, 8, 9, 9, 9, 6, 6, 11, 8, 5, 5, 18, 5, 9, 20, 8,
+					10, 5, 18, 16, 20, 9, 8, 9, 9, 9, 6, 6, 11, 8, 5, 5, 18, 5, 9, 20, 8,
 					22
 				]);
 				winLoop.push(false);

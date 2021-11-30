@@ -1,15 +1,15 @@
-import {ctx, cnv,gradient, gradientSet} from '../Game.js';
-import {selectedCharacter,selectList} from '../Menu/CharacterSelect.js';
-export {drawHP};
+import { ctx, cnv, gradient, gradientSet } from '../Game.js';
+import { selectedCharacter, selectList } from '../Menu/CharacterSelect.js';
+export { drawHP };
 
 let barHPChara = new Array(5);
 let barHPCharaHit = new Array(5);
 let barHP = new Image();
 
-for(let i = 0;i < 5;i++){
+for (let i = 0; i < 5; i++) {
 	barHPChara[i] = new Image();
 	barHPCharaHit[i] = new Image();
-	if(i == 4) break;
+	if (i == 4) break;
 	//On pourra directement faire barHPChara['chunli'] par exemple
 	barHPChara[selectList[i]] = barHPChara[i];
 	barHPCharaHit[selectList[i]] = barHPCharaHit[i];
@@ -25,37 +25,34 @@ barHPCharaHit['akuma'].src = './assets/hp_bar/akuma_hit.png';
 barHPCharaHit['ken'].src = './assets/hp_bar/ken_hit.png';
 barHPCharaHit['ryu'].src = './assets/hp_bar/ryu_hit.png';
 
-barHP.src = './assets/hp_bar/hp_bar.png'
-
+barHP.src = './assets/hp_bar/hp_bar.png';
 
 function reduceBarHp(player) {
 	if (player.hpBar == player.hp) return false;
-	
+
 	player.hpBar -= 5;
 	return true;
 }
 ///dessine les hp des joueurs
 function drawHP(player) {
-	drawHPPlayer(player[0],0)
+	drawHPPlayer(player[0], 0);
 	// On inverse la barre d'hp
 	ctx.save();
 	ctx.scale(-1, 1);
-	
-	drawHPPlayer(player[1],1)
-	
+
+	drawHPPlayer(player[1], 1);
+
 	ctx.restore();
 }
 
-function drawHPPlayer(player,i){
+function drawHPPlayer(player, i) {
 	let hit = reduceBarHp(player);
 	let posxBarHp = 0;
-	if(player.direction == false){
+	if (player.direction == false) {
 		posxBarHp = -cnv.width;
-		gradientSet(-cnv.width + 50,-cnv.width + (player.hpBar + 63));
-
-	}else{
-		gradientSet(63,player.hpBar);
-
+		gradientSet(-cnv.width + 50, -cnv.width + (player.hpBar + 63));
+	} else {
+		gradientSet(63, player.hpBar);
 	}
 
 	ctx.fillStyle = '#aaaaaa';
@@ -65,15 +62,12 @@ function drawHPPlayer(player,i){
 	gradient.addColorStop(0, '#fe634a');
 	gradient.addColorStop(1, '#fabe2c');
 	ctx.fillStyle = gradient;
-	ctx.fillRect(posxBarHp + 63, 115, player.hpBar, 43)
+	ctx.fillRect(posxBarHp + 63, 115, player.hpBar, 43);
 
 	// On dessine notre personnage sur la barre d'hp et la barre d'hp
-	if(hit == true)
-		ctx.drawImage(barHPCharaHit[selectedCharacter[i]],posxBarHp + 50,0);	
-	else
-		ctx.drawImage(barHPChara[selectedCharacter[i]],posxBarHp + 50,0);
-	
-	ctx.drawImage(barHP,posxBarHp + 50,0);
+	if (hit == true)
+		ctx.drawImage(barHPCharaHit[selectedCharacter[i]], posxBarHp + 50, 0);
+	else ctx.drawImage(barHPChara[selectedCharacter[i]], posxBarHp + 50, 0);
 
-	
+	ctx.drawImage(barHP, posxBarHp + 50, 0);
 }

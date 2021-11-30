@@ -4,13 +4,13 @@ import {
 	inGame,
 	selectID,
 	selected,
-	randomValue
+	randomValue,
 } from '../Menu/CharacterSelect.js';
-import {ctx, players, timerg} from '../Game.js';
-import {makePause,soundSelect} from '../Visual/Sound.js';
-import {characterSelect} from '../Visual/LoadSprite.js';
-import {transitionMap} from '../Menu/Map.js';
-import {clearIntervalTimer} from '../Timer/TimerDef.js';
+import { ctx, players, timerg } from '../Game.js';
+import { makePause, soundSelect } from '../Visual/Sound.js';
+import { characterSelect } from '../Visual/LoadSprite.js';
+import { transitionMap } from '../Menu/Map.js';
+import { clearIntervalTimer } from '../Timer/TimerDef.js';
 export {
 	clearPlayerInterval,
 	resetInstructions,
@@ -33,7 +33,7 @@ let timerInterval = null;
 function gameInstructionMenu() {
 	//Comme si on appuyait sur entrer pour rentrer dans le menu selection
 	if (enterGameTimer == false) {
-		soundSelect('menu',false);
+		soundSelect('menu', false);
 		enterGameTimer = true;
 		setTimeout(inGame, 2000);
 	}
@@ -58,12 +58,14 @@ function gameInstructionMenu() {
 function gameFightInstructions() {
 	///si on peut commencer la partie alors les interval son lancer(le combats)
 	if (launchIntervals == false) return;
-	
+
 	launchIntervals = false;
 	playerInterval = setInterval(function () {
 		instruDo(players);
 	}, 500);
-	timerInterval = setInterval(function() {timerg.decreseTime(1)}, 1000);
+	timerInterval = setInterval(function () {
+		timerg.decreseTime(1);
+	}, 1000);
 }
 
 ///instruDo est appeler par le setInteveral pour chaque joueur avec l'instruction à réaliser
@@ -73,7 +75,6 @@ function instruDo(players) {
 	let move2 = getInstru(players, players[1]);
 	instruExecute(players[0], move1);
 	instruExecute(players[1], move2);
-
 }
 
 ///execute l'instruction que est donner
@@ -133,73 +134,57 @@ function resetInstructions() {
 
 ///détermine l'état du combat et renvoie une instruction approprié (un bot)
 function getInstru(players, recevingPlayer) {
-	let choiceValue = randomValue(6,0);
+	let choiceValue = randomValue(6, 0);
 	///vérifie dans quel direction effectuer les mouvements
-	if(recevingPlayer.direction == true) {
+	if (recevingPlayer.direction == true) {
 		///si l'espace est trop grand on va chercher à faire des mouvements cohérent
-		if(players[0].spaceBTWplayers(players[1]) > players[0].sizeW) {
-			if(choiceValue < 2) {
-				return "walk-right";
-			}
-			else if(choiceValue == 2) {
-				return "jump";
-			}
-			else if(choiceValue == 3) {
-				return "run-right";
-			}
-			else if(choiceValue == 4) {
-				return "hadoken";
-			}
-			else {
-				return "walk-left";
+		if (players[0].spaceBTWplayers(players[1]) > players[0].sizeW) {
+			if (choiceValue < 2) {
+				return 'walk-right';
+			} else if (choiceValue == 2) {
+				return 'jump';
+			} else if (choiceValue == 3) {
+				return 'run-right';
+			} else if (choiceValue == 4) {
+				return 'hadoken';
+			} else {
+				return 'walk-left';
 			}
 		}
 		///et également si il est en rage d'attaque
 		else {
-			if(choiceValue < 2) {
-				return "punch";
-			}
-			else if(choiceValue == 2) {
-				return "kick";
-			}
-			else if(choiceValue == 3) {
-				return "block";
-			}
-			else {
-				return "run-left";
+			if (choiceValue < 2) {
+				return 'punch';
+			} else if (choiceValue == 2) {
+				return 'kick';
+			} else if (choiceValue == 3) {
+				return 'block';
+			}else {
+				return 'run-left';
 			}
 		}
-	}
-	else {
-		if(players[0].spaceBTWplayers(players[1]) > players[0].sizeW) {
-			if(choiceValue < 2) {
-				return "walk-left";
+	} else {
+		if (players[0].spaceBTWplayers(players[1]) > players[0].sizeW) {
+			if (choiceValue < 2) {
+				return 'walk-left';
+			} else if (choiceValue == 2) {
+				return 'jump';
+			} else if (choiceValue == 3) {
+				return 'run-left';
+			} else if (choiceValue == 4) {
+				return 'hadoken';
+			} else {
+				return 'walk-right';
 			}
-			else if(choiceValue == 2) {
-				return "jump";
-			}
-			else if(choiceValue == 3) {
-				return "run-left";
-			}
-			else if(choiceValue == 4) {
-				return "hadoken";
-			}
-			else {
-				return "walk-right";
-			}
-		}
-		else {
-			if(choiceValue < 2) {
-				return "punch";
-			}
-			else if(choiceValue == 2) {
-				return "kick";
-			}
-			else if(choiceValue == 3) {
-				return "block";
-			}
-			else {
-				return "run-right";
+		} else {
+			if (choiceValue < 2) {
+				return 'punch';
+			} else if (choiceValue == 2) {
+				return 'kick';
+			} else if (choiceValue == 3) {
+				return 'block';
+			} else {
+				return 'run-right';
 			}
 		}
 	}
