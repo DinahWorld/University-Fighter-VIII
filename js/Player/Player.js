@@ -178,15 +178,18 @@ export default class Player extends Animation {
 		} else if (this.jumping == false && this.falling == true) {
 			this.posYY += this.velocity;
 			this.velocity += this.acceleration;
+			if(this.posYY  == -30){
+				this.sprites[4].animestep = 1;
+				this.animationNumber = 0;
+			
+			}
 			if (this.posYY >= 0) {
 				this.posYY = 0;
 				this.falling = false;
 				this.jumping = false;
 				this.velocity = 50;
 				// On reset l'animation de saut
-				this.sprites[4].animestep = 1;
-				this.animationNumber = 0;
-			}
+				}
 		}
 	}
 
