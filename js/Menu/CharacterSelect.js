@@ -19,33 +19,58 @@ export {
 	winLoop,
 };
 
-//select pour si on est rentré dans la selection
+// Variable pour indiquer si nous sommes dans la sélection
 let select = false;
-//liste de tout les perso
+// Liste de tous les personnages
 let selectList = ['chunli', 'akuma', 'ken', 'ryu'];
-//id dans la selection
+// ID de la sélection actuelle
 let selectID = 0;
-//le chemin des sprites des perso choisie
+// Liste des personnages choisis
 let selectedCharacter = [];
-//si on a choisi nos sprites
+// Sprites des personnages sélectionnés
 let selectedSprites = [];
-//selected sont les perso choisie
+// Indique si les personnages ont été choisis
 let selected = false;
 
+// Variables pour la gestion des sprites et animations
 let lenSpr = [];
 let winLoop = [];
 
-///le choix du perso
-let p1Choice = randomValue(4, 0);
-let p2Choice = randomValue(4, 0);
+// Variables pour stocker les choix des joueurs
+let p1Choice = null;
+let p2Choice = null;
 
-///fonction executant la partie selection du jeu
+/// Gestion des entrées utilisateur pour la sélection des personnages
+document.addEventListener('keydown', function(event) {
+	if (selectedCharacter.length < 2) {
+		switch (event.key) {
+			case 'ArrowRight':
+				selectID = (selectID + 1) % selectList.length;
+				soundSelect('select', true);
+				break;
+			case 'ArrowLeft':
+				selectID = (selectID - 1 + selectList.length) % selectList.length;
+				soundSelect('select', true);
+				break;
+			case 'Enter':
+				if (selectedCharacter.length === 0) {
+					p1Choice = selectID;
+				} else {
+					p2Choice = selectID;
+				}
+				moveInSelect(selectID);
+				break;
+		}
+	}
+});
+
+/// Fonction exécutant la partie sélection du jeu
 function inSelect() {
-	if (selectedCharacter.length == 0) {
+	if (selectedCharacter.length == 0 && p1Choice !== null) {
 		moveInSelect(p1Choice);
-	} else if (selectedCharacter.length == 1) {
+	} else if (selectedCharacter.length == 1 && p2Choice !== null) {
 		moveInSelect(p2Choice);
-	} else {
+	} else if (selectedCharacter.length == 2) {
 		select = false;
 		selected = true;
 		selectedPath();
@@ -55,28 +80,25 @@ function inSelect() {
 	}
 }
 
-///fonction rentrant dans le jeu
+/// Fonction pour entrer dans le jeu
 function inGame() {
 	soundSelect('enter', true);
 	select = true;
 	setTrueSelectTimer();
 }
 
-///deplacement dans la selection selon le choix
+/// Déplacement dans la sélection selon le choix
 function moveInSelect(choice) {
-	if (selectID == choice) {
+	if (selectID === choice) {
 		selectedCharacter.push(selectList[selectID]);
 		soundSelect('enter', true);
-	} else if (choice >= selectID) {
-		selectID += 1;
-		soundSelect('select', true);
 	} else {
-		selectID -= 1;
+		selectID = choice;
 		soundSelect('select', true);
 	}
 }
 
-//utiliser pour donner les bon chemin selon les perso et leur nombre d'animations
+// Utilisé pour assigner les chemins des sprites en fonction des personnages sélectionnés
 function selectedPath() {
 	for (let i = 0; i < selectedCharacter.length; i++) {
 		switch (selectedCharacter[i]) {
@@ -115,19 +137,20 @@ function selectedPath() {
 		}
 	}
 }
-///fonction de random (a revoir)
+
+/// Fonction de random (à revoir si besoin)
 function randomValue(max) {
 	return Math.floor(Math.random() * max);
 }
 
-///fonction de reset pour le retour à la selections
+/// Fonction de réinitialisation pour le retour à la sélection
 function resetCharacterSelect() {
 	lenSpr = [];
 	winLoop = [];
 	selectedCharacter = [];
 	selected = false;
 	selectedSprites = [];
-	p1Choice = randomValue(4, 0);
-	p2Choice = randomValue(4, 0);
+	p1Choice = null;
+	p2Choice = null;
 	select = true;
 }

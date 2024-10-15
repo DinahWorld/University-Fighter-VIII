@@ -4,13 +4,12 @@ import {
 	inGame,
 	selectID,
 	selected,
-	randomValue
 } from '../Menu/CharacterSelect.js';
-import {ctx, players, timerg} from '../Game.js';
-import {makePause,soundSelect} from '../Visual/Sound.js';
-import {characterSelect} from '../Visual/LoadSprite.js';
-import {transitionMap} from '../Menu/Map.js';
-import {clearIntervalTimer} from '../Timer/TimerDef.js';
+import { ctx, players, timerg } from '../Game.js';
+import { makePause, soundSelect } from '../Visual/Sound.js';
+import { characterSelect } from '../Visual/LoadSprite.js';
+import { transitionMap } from '../Menu/Map.js';
+import { clearIntervalTimer } from '../Timer/TimerDef.js';
 export {
 	clearPlayerInterval,
 	resetInstructions,
@@ -24,16 +23,90 @@ let selectTimer = false;
 let enterGameTimer = false;
 let selectInter = null;
 
-///variables utiliser pour les instructions
+/// Variables pour les listes d'instructions
 let playerInterval = null;
 let launchIntervals = true;
 let timerInterval = null;
 
-///Gere l'état du jeu avant combat
+/// Variables pour stocker les mouvements choisis par l'utilisateur
+let player1Move = null;
+let player2Move = null;
+
+/// Gestion des mouvements utilisateurs
+///Gestion des mouvements utilisateurs
+document.addEventListener('keydown', function(event) {
+	switch (event.key) {
+		// Joueur 1 (AZERTY)
+		case 'q':
+			player1Move = 'walk-left';
+			break;
+		case 'd':
+			player1Move = 'walk-right';
+			break;
+		case 's':
+			player1Move = 'down';
+			break;
+		case 'z':
+			player1Move = 'jump';
+			break;
+		case 'a':
+			player1Move = 'punch';
+			break;
+		case 'e':
+			player1Move = 'kick';
+			break;
+		case 'w':
+			player1Move = 'hadoken';
+			break;
+		case 'c':
+			player1Move = 'block';
+			break;
+		case 'Shift':
+			player1Move = 'run-left';
+			break;
+		case 'Control':
+			player1Move = 'run-right';
+			break;
+
+		// Joueur 2 (Pavé numérique)
+		case 'ArrowLeft':
+			player2Move = 'walk-left';
+			break;
+		case 'ArrowRight':
+			player2Move = 'walk-right';
+			break;
+		case 'ArrowDown':
+			player2Move = 'down';
+			break;
+		case 'ArrowUp':
+			player2Move = 'jump';
+			break;
+		case '1': // Numpad1
+			player2Move = 'punch';
+			break;
+		case '2': // Numpad2
+			player2Move = 'kick';
+			break;
+		case '3': // Numpad3
+			player2Move = 'hadoken';
+			break;
+		case '0': // Numpad0
+			player2Move = 'block';
+			break;
+		case '4': // Numpad4
+			player2Move = 'run-left';
+			break;
+		case '6': // Numpad6
+			player2Move = 'run-right';
+			break;
+	}
+});
+
+
+/// Gère l'état du jeu avant combat
 function gameInstructionMenu() {
-	//Comme si on appuyait sur entrer pour rentrer dans le menu selection
 	if (enterGameTimer == false) {
-		soundSelect('menu',false);
+		soundSelect('menu', false);
 		enterGameTimer = true;
 		setTimeout(inGame, 2000);
 	}
@@ -54,30 +127,33 @@ function gameInstructionMenu() {
 	}
 	return false;
 }
-///lance les instervals quand il faut du combat
+
 function gameFightInstructions() {
-	///si on peut commencer la partie alors les interval son lancer(le combats)
 	if (launchIntervals == false) return;
-	
+
 	launchIntervals = false;
 	playerInterval = setInterval(function () {
-		instruDo(players);
-	}, 500);
-	timerInterval = setInterval(function() {timerg.decreseTime(1)}, 1000);
+		instruList(players);
+	}, 50);
+	timerInterval = setInterval(function () {
+		timerg.decreseTime(1);
+	}, 1000);
 }
 
-///instruDo est appeler par le setInteveral pour chaque joueur avec l'instruction à réaliser
-function instruDo(players) {
-	// On recupere les instructions
-	let move1 = getInstru(players, players[0]);
-	let move2 = getInstru(players, players[1]);
-	instruExecute(players[0], move1);
-	instruExecute(players[1], move2);
+function instruList(players) {
+	// Exécute les mouvements sélectionnés par les joueurs
+	instruExecute(players[0], player1Move);
+	// Pour le joueur 2, vous pouvez ajouter la logique ici si des contrôles sont définis pour lui
+	instruExecute(players[1], player2Move);
 
+	// Réinitialise les mouvements pour permettre une nouvelle entrée utilisateur
+	player1Move = null;
+	player2Move = null;
 }
 
-///execute l'instruction que est donner
 function instruExecute(player, movement) {
+	if (!movement) return; // Si aucun mouvement n'est défini, ne rien faire
+
 	switch (movement) {
 		case 'walk-left':
 			player.walkLeft();
@@ -116,91 +192,15 @@ function setTrueSelectTimer() {
 	return (selectTimer = true);
 }
 
-///clear les interval des joueurs
 function clearPlayerInterval() {
 	clearInterval(playerInterval);
 	clearIntervalTimer(timerInterval);
 }
 
-///reset des instruction et du timer
 function resetInstructions() {
 	selectTimer = true;
 	selectInter = null;
 	playerInterval = null;
 	launchIntervals = true;
 	timerg.resetTime();
-}
-
-///détermine l'état du combat et renvoie une instruction approprié (un bot)
-function getInstru(players, recevingPlayer) {
-	let choiceValue = randomValue(6,0);
-	///vérifie dans quel direction effectuer les mouvements
-	if(recevingPlayer.direction == true) {
-		///si l'espace est trop grand on va chercher à faire des mouvements cohérent
-		if(players[0].spaceBTWplayers(players[1]) > players[0].sizeW) {
-			if(choiceValue < 2) {
-				return "walk-right";
-			}
-			else if(choiceValue == 2) {
-				return "jump";
-			}
-			else if(choiceValue == 3) {
-				return "run-right";
-			}
-			else if(choiceValue == 4) {
-				return "hadoken";
-			}
-			else {
-				return "walk-left";
-			}
-		}
-		///et également si il est en rage d'attaque
-		else {
-			if(choiceValue < 2) {
-				return "punch";
-			}
-			else if(choiceValue == 2) {
-				return "kick";
-			}
-			else if(choiceValue == 3) {
-				return "block";
-			}
-			else {
-				return "run-left";
-			}
-		}
-	}
-	else {
-		if(players[0].spaceBTWplayers(players[1]) > players[0].sizeW) {
-			if(choiceValue < 2) {
-				return "walk-left";
-			}
-			else if(choiceValue == 2) {
-				return "jump";
-			}
-			else if(choiceValue == 3) {
-				return "run-left";
-			}
-			else if(choiceValue == 4) {
-				return "hadoken";
-			}
-			else {
-				return "walk-right";
-			}
-		}
-		else {
-			if(choiceValue < 2) {
-				return "punch";
-			}
-			else if(choiceValue == 2) {
-				return "kick";
-			}
-			else if(choiceValue == 3) {
-				return "block";
-			}
-			else {
-				return "run-right";
-			}
-		}
-	}
 }
